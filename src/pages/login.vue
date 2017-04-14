@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: 'hello',
+  name: 'login',
   data() {
     return {
       msg: 'Welcome to Your Vue.js App',
