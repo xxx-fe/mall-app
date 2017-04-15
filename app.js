@@ -8,6 +8,7 @@ const log4js      = require('log4js');
 const logger      = log4js.getLogger('app');
 const send        = require('koa-send');
 const koaBody     = require('koa-body');
+const session     = require('koa-generic-session');
 
 const setting     = require('./libs/setting');
 const routers     = require('./libs/routers');
@@ -22,9 +23,12 @@ log4js.configure({
     replaceConsole: true
 });
 
+//设置session用到的key 类似前缀
+app.keys = ['keys', 'keykeys'];
 
 app
 .use(koaBody({multipart: true}))//格式化请求  针对于post
+.use(session()) //session
 .use(async (ctx,next) => {
     //判断是否首页
     if (ctx.path === '/'){

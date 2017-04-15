@@ -4,5 +4,8 @@
 */
 
 module.exports = async function(ctx){
-    ctx.body = 'hello world';
+    var session = this.session;
+    session.count = session.count || 0;
+    session.count++;
+    ctx.body = `hello world ${session.count}`;
 };
