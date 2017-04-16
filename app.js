@@ -15,7 +15,7 @@ const routers     = require('./libs/routers');
 const middleware  = require('./libs/middleware');
 
 
-//配置  全局通用  只需要设置一次
+// 配置  全局通用  只需要设置一次
 log4js.configure({
     appenders: [
         { type: 'console',layout:{type:'basic'}}
@@ -23,15 +23,15 @@ log4js.configure({
     replaceConsole: true
 });
 
-//设置session用到的key 类似前缀
+// 设置session用到的key 类似前缀
 app.keys = ['keys', 'keykeys'];
 
 app
-.use(koaBody({multipart: true}))//格式化请求  针对于post
-.use(session()) //session
-.use(async (ctx,next) => {
-    //判断是否首页
-    if (ctx.path === '/'){
+.use(koaBody({ multipart: true })) // 格式化请求  针对于post
+.use(session()) // session
+.use(async (ctx, next) => {
+    // 判断是否首页
+    if (ctx.path === '/') {
         await next();
     }else{
         //允许隐藏文件
@@ -49,9 +49,9 @@ app
 .use(async (ctx,next) => {
     middleware(ctx);
 
-    await next();//往下执行
+    await next();// 往下执行
 })
-.use(routers.init())//初始化路由
-.listen(setting.server.port,() => {
-    logger.info('server listen on '+setting.server.port);
+.use(routers.init())// 初始化路由
+.listen(setting.server.port, () => {
+    logger.info('server listen on ' + setting.server.port);
 });
