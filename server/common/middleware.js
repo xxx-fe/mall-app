@@ -4,8 +4,7 @@
  */
 const log4js      = require('log4js');
 const logger      = log4js.getLogger('router');
-
-const tpl         = require('./tpl');
+const template    = require('./template');
 
 module.exports = (ctx) => {
     logger.info(ctx.request.url,ctx.headers['user-agent']);
@@ -14,5 +13,5 @@ module.exports = (ctx) => {
     ctx._data = {};
 
     //渲染模板方法
-    ctx.render = tpl.bind(ctx);
+    ctx.render = template.bind(ctx);
 };

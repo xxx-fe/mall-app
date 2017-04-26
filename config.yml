@@ -1,5 +1,5 @@
 path:
-    controller: 'controller' #控制器文件夹名称
+    controllers: 'controllers' #控制器文件夹名称
     views: 'views' #视图文件夹名称
 server:
     port: 3009 #服务器端口
