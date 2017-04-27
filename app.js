@@ -10,12 +10,13 @@ const send        = require('koa-send');
 const koaBody     = require('koa-body');
 const session     = require('koa-generic-session');
 
-const setting     = require('./libs/setting');
-const routers     = require('./libs/routers');
-const middleware  = require('./libs/middleware');
+const setting     = require('./server/common/setting');
+const middleware  = require('./server/common/middleware');
+const routers     = require('./server/router/router');
 
 
-// 配置  全局通用  只需要设置一次
+
+//配置全局通用只需要设置一次
 log4js.configure({
     appenders: [
         { type: 'console',layout:{type:'basic'}}
@@ -23,21 +24,21 @@ log4js.configure({
     replaceConsole: true
 });
 
-// 设置session用到的key 类似前缀
+//设置session用到的key 类似前缀
 app.keys = ['keys', 'keykeys'];
 
 app
-.use(koaBody({ multipart: true })) // 格式化请求  针对于post
+//格式化请求  针对于post
+.use(koaBody({ multipart: true }))
 .use(session()) // session
 .use(async (ctx, next) => {
-    // 判断是否首页
+    //判断是否首页
     if (ctx.path === '/') {
         await next();
     }else{
         //允许隐藏文件
-        const res = await send(ctx,ctx.path,{root: path.join(__dirname,'/statics'),hidden: true});
-
-        //判断是否有返回结果  有返回结果则表示找到该静态文件  如果没有则往下执行
+        const res = await send(ctx,ctx.path,{root: path.join(__dirname,'/dist/'),hidden: true});
+        //判断是否有返回结果,有返回结果则表示找到该静态文件,如果没有则往下执行
         if(res){
             return false;
         }else{
@@ -48,10 +49,11 @@ app
 })
 .use(async (ctx,next) => {
     middleware(ctx);
-
-    await next();// 往下执行
+    //往下执行
+    await next();
 })
-.use(routers.init())// 初始化路由
+//初始化路由
+.use(routers.init())
 .listen(setting.server.port, () => {
     logger.info('server listen on ' + setting.server.port);
 });
