@@ -1,4 +1,4 @@
-/*
+/**
  *@fileOverview 中间件
  *@auth subying
  */

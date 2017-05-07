@@ -9,8 +9,8 @@ const path      = require('path');
 const _         = require('lodash');
 const ejs       = require('ejs');
 
-const setting   = require('./setting');
-const viewsPath = '../'+setting.path.views;
+const config   = require('./config');
+const viewsPath = '../'+config.path.views;
 
 module.exports = function(data, tpl, status){
     const file = path.join(__dirname, viewsPath, tpl+'.html');
