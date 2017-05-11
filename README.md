@@ -2,20 +2,19 @@
 
 > mallapp
 
-## Build Setup
+## 运行
 
 ``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+npm run app
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## webpack.options.conf.js
+```JavaScript
+module.exports ={
+    entry: {
+        app: './src/pages/about/about.js'
+    }
+}
+```
+新建webpack.options.conf.js文件(不会上传到仓库),作为当前应用开发的入口.

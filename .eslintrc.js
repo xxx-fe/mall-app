@@ -72,6 +72,7 @@ module.exports = {
             'error',
             'always'
         ],
+        "no-new": 0,
         'no-console': 0, //不允许使用console  0表示关闭这个检测
         'no-alert': 0, //不允许使用alert  这里关闭检测
         'comma-dangle': 0, //var foo={a:1,} 要求或禁止末尾逗号   这里关闭验证

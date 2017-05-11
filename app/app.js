@@ -1,5 +1,6 @@
 import Koa from 'koa';
 import log4js from 'log4js';
+import bodyParser from 'koa-bodyparser';
 import session from 'koa-generic-session';
 import config from './common/config';
 import server from './common/server';
@@ -13,7 +14,7 @@ const logger = log4js.getLogger('app');
 //日志
 log4js.configure({
     appenders: [
-        { type: 'console', layout: { type: 'basic' } }
+        {type: 'console', layout: {type: 'basic'}}
     ],
     replaceConsole: true
 });
@@ -22,30 +23,33 @@ log4js.configure({
 app.keys = ['keys', 'keykeys'];
 app.use(session());
 
-//catchError
-app.use(middleware.catchError);
-
+app.use(bodyParser());
 
 server.init();
+
+//catchError
+app.use(middleware.catchError);
 
 //模板渲染
 app.use(views(__dirname + '/view', {
     extension: 'hbs',
-    map: { hbs: 'handlebars' }
+    map: {hbs: 'handlebars'}
 }));
-
-
-//热加载
-// var webpack = require("webpack");
-// var webpackConf = require("../build/webpack.dev.conf");
-// var compiler = webpack(webpackConf);
-// import koaWebpack from 'koa-webpack';
-// app.use(koaWebpack({
-//   compiler: compiler
-// }))
 
 //路由
 app.use(router.routes(), router.allowedMethods());
+
+//热加载
+const webpack = require("webpack");
+const webpackConf = require("../build/webpack.dev.conf");
+const compiler = webpack(webpackConf);
+import koaWebpack from 'koa-webpack';
+app.use(koaWebpack({
+    compiler: compiler,
+    hot :{
+        reload: true
+    }
+}));
 
 //监听
 app.listen(config.server.port, () => {
