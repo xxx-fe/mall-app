@@ -1,7 +1,3 @@
-/**
- * @fileOverview 设置模块
- * @auth subying
- */
 const yaml = require('js-yaml');
 const fs = require('fs');
 const path = require('path');

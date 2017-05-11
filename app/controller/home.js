@@ -6,16 +6,15 @@ const index = async (ctx, _next) => {
     session.count = session.count || 0;
     session.count++;
     ctx.body = `${locals.title}  session:${session.count}`;
-    //await ctx.render('home/index', locals);
+    await ctx.render('home', locals);
 }
-
 
 const about = async (ctx, _next) => {
     let locals ={
         title : '关于'
     };
     ctx.body = `${locals.title}`;
-    //await ctx.render('home/about', locals);
+    await ctx.render('about', locals);
 }
 
 export default {

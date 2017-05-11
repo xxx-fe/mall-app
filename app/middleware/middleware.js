@@ -1,8 +1,4 @@
 /**
- * @fileOverview 中间件
- */
-
-/**
  * 错误处理
  */
 async function catchError(ctx, next) {
@@ -23,7 +19,7 @@ async function catchError(ctx, next) {
         if (status === 500) {
             console.log('server error', err, ctx);
         }
-        await ctx.render('error/error', {});
+        await ctx.render('common/error', { error: err });
     }
 }
 
