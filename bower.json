@@ -1,0 +1,22 @@
+{
+  "name": "mallapp",
+  "description": "mallapp",
+  "main": "",
+  "authors": [
+    "xxx-fe"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/xxx-fe/mall-app",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./src/public/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "1",
+    "jquery_lazyload": "jquery.lazyload#^1.9.7"
+  }
+}

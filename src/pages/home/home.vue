@@ -1,5 +1,8 @@
 <template>
-    <div>HOME页面VUE组件渲染</div>
+    <div>
+        <p>HOME页面VUE组件渲染</p>
+        <p class="my-p">ppppppppppp</p>
+    </div>
 </template>
 
 <script>
@@ -17,4 +20,7 @@
         color: #2c3e50;
         margin-top: 60px;
     }
+</style>
+<style lang="scss">
+    @import '../style/common';
 </style>

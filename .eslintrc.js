@@ -86,7 +86,7 @@ module.exports = {
         'object-shorthand': 0, //要求对象字面量简写语法 这里关闭验证
         'new-cap': 0, //要求构造函数首字母大写 new jsLib.base.Swiper  这里关闭验证
         'no-else-return': 0, //禁止在 else 前有 return 这里关闭验证
-        'no-unused-expressions': 0, //禁止未使用过的表达式  这里关闭验证
+        // 'no-unused-expressions': 0, //禁止未使用过的表达式  这里关闭验证
         'no-nested-ternary': 0, //禁止使用嵌套的三元表达式 这里关闭验证
         'one-var': 0, //强制函数中的变量在一起声明或分开声明 这里关闭验证
         'space-before-function-paren': 0, //要求匿名函数的 function 关键字后面有一个空格 这里关闭验证
@@ -110,7 +110,7 @@ module.exports = {
         'max-len': 0, //检测每行最大长度  默认80  这里取消是因为jsx里面一行通常很长
 
         'no-cond-assign': 0, //禁止在条件语句中出现赋值操作符  这里取消验证
-        'no-unused-vars': 1, //不允许定义变量却未使用
+        'no-unused-vars': 0, //不允许定义变量却未使用
         'no-restricted-syntax': 0, //禁止使用特定的语法 这里取消验证
         'import/newline-after-import': 0, //引入模块后需要新一行（空的）  这里取消验证
         'dot-notation': 0, //要求使用点号，对象的属性使用中要 obj.a 而不是obj['a'] 这里取消验证
