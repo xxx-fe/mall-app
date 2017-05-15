@@ -2,8 +2,9 @@
 
 > 一个前端开发脚手架
 
+
 ## 技术栈
-vue2 + koa2 + webpack2 + ES6/7 + handlebars  
+vue2 + koa2 + webpack2 + ES6/7 + handlebars + bower
 
 **运行环境中Nodejs的版本至少是7**
 
@@ -16,15 +17,50 @@ vue2 + koa2 + webpack2 + ES6/7 + handlebars
 ## 运行
 ``` bash
 npm install  //安装
-npm run app  //启动开发模式
+npm run dev  //启动开发模式
 ```
 
+## default.hbs
+* ```/app/view/layout/default.hbs``` 布局默认模板
+```html
+<!doctype html>
+<html>
+<head>
+    <script type="text/javascript" src="/header.js"></script>
+    {{#block "head"}}
+        <title>{{title}}</title>
+    {{/block}}
+</head>
+<body>
+    {{#block "body"}}
+        模板body
+    {{/block}}
+    <div id="app"></div>
+    <script type="text/javascript" src="/app.js"></script>
+    {{#block "footer"}} 
+        模板footer
+    {{/block}}
+    <script type="text/javascript" src="/footer.js"></script>
+</body>
+</html>
+
+```
+
+## 热加载文件
+* ```/header.js``` 头部打包js
+* ```/app.js``` app打包js 或者叫业务打包js
+* ```/footer.js``` 底部打包js
+
+生产模式会根据实际情况替换为正确的js/css.保证开发时替换css/js都能立即看到结果.
+
 ## webpack.options.conf.js
-```JavaScript
+```javaScript
 module.exports ={
     entry: {
-        app: './src/pages/about/about.js'
+        header: './src/public/common/header.js',
+        app: './src/pages/home/home.js',
+        footer: './src/public/common/footer.js',
     }
 }
 ```
-新建一个webpack.options.conf.js文件(不上传到仓库),作为当前应用开发的入口.
+新建一个webpack.options.conf.js文件(不上传到仓库),作为当前app的入口.
