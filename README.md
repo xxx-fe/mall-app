@@ -37,7 +37,7 @@ npm run dev  //启动开发模式
     {{/block}}
     <div id="app"></div>
     <script type="text/javascript" src="/app.js"></script>
-    {{#block "footer"}} 
+    {{#block "footer"}}
         模板footer
     {{/block}}
     <script type="text/javascript" src="/footer.js"></script>
@@ -57,9 +57,9 @@ npm run dev  //启动开发模式
 ```javaScript
 module.exports ={
     entry: {
-        header: './src/public/common/header.js',
+        header: './public/common/header.js',
         app: './src/pages/home/home.js',
-        footer: './src/public/common/footer.js',
+        footer: './public/common/footer.js',
     }
 }
 ```
