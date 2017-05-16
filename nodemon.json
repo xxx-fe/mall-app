@@ -1,7 +1,14 @@
 {
-  "verbose": true,
-  "ignore": ["dist" , "src" , "static"],
-  "execMap": {
-    "js": "babel-node"
-  }
+    "verbose": true,
+    "ignore": [
+        "dist",
+        "src",
+        ".git",
+        "node_modules/**/node_modules"
+    ],
+    "execMap": {
+        "js": "babel-node"
+    },
+    "ext": "*.*",
+    "legacy-watch":false
 }

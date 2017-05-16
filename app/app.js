@@ -7,7 +7,7 @@ import server from './common/server';
 import router from './router/router';
 import middleware from './middleware/middleware';
 import views from 'koa-views';
-
+import koaWebpack from 'koa-webpack';
 const app = new Koa();
 const logger = log4js.getLogger('app');
 
@@ -27,7 +27,6 @@ app.use(bodyParser());
 
 server.init();
 
-//catchError
 app.use(middleware.catchError);
 
 //模板渲染
@@ -40,16 +39,18 @@ app.use(views(__dirname + '/view', {
 app.use(router.routes(), router.allowedMethods());
 
 //热加载
-const webpack = require("webpack");
-const webpackConf = require("../build/webpack.dev.conf");
-const compiler = webpack(webpackConf);
-import koaWebpack from 'koa-webpack';
-app.use(koaWebpack({
-    compiler: compiler,
-    hot :{
-        reload: true
-    }
-}));
+var argv = process.argv.splice(2);
+if(argv[0] !== 'production'){
+    const webpack = require("webpack");
+    const webpackConf = require("../build/webpack.dev.conf");
+    const compiler = webpack(webpackConf);
+    app.use(koaWebpack({
+        compiler: compiler,
+        hot :{
+            reload: true
+        }
+    }));
+}
 
 //监听
 app.listen(config.server.port, () => {

@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <script type="text/javascript" src="/header.js"></script>
+    {{{parseUrl '/header.js'}}}
     {{#block "head"}}
         <title>{{title}}</title>
     {{/block}}
@@ -11,10 +11,10 @@
         模板body
     {{/block}}
     <div id="app"></div>
-    <script type="text/javascript" src="/app.js"></script>
+    {{{parseUrl '/app.js'}}}
     {{#block "footer"}}
         模板footer
     {{/block}}
-    <script type="text/javascript" src="/footer.js"></script>
+    {{{parseUrl '/footer.js'}}}
 </body>
 </html>

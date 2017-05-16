@@ -1,6 +1,7 @@
 const index = async (ctx, _next) => {
-    let locals ={
-        title : '首页'
+    let locals = {
+        title: '首页',
+        userName: '阿萨德阿萨德'
     };
     var session = ctx.session;
     session.count = session.count || 0;
@@ -9,8 +10,8 @@ const index = async (ctx, _next) => {
 }
 
 const about = async (ctx, _next) => {
-    let locals ={
-        title : '关于'
+    let locals = {
+        title: '关于'
     };
     await ctx.render('about', locals);
 }
