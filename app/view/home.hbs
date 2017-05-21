@@ -1,5 +1,9 @@
 {{#extend "layoutDefault"}}
-    {{#content "body"}}
-        首页页面body内容2222
-    {{/content}}
+{{#content "head"}}
+    {{{parseUrl 'home.css'}}}
+{{/content}}
+{{#content "body"}}
+<div id="app"></div>
+{{{parseUrl 'home.js'}}}
+{{/content}}
 {{/extend}}

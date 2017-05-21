@@ -1,3 +1,4 @@
+import path from 'path';
 import Koa from 'koa';
 import log4js from 'log4js';
 import bodyParser from 'koa-bodyparser';
@@ -8,6 +9,7 @@ import router from './router/router';
 import middleware from './middleware/middleware';
 import views from 'koa-views';
 import koaWebpack from 'koa-webpack';
+import serve from 'koa-static';
 const app = new Koa();
 const logger = log4js.getLogger('app');
 
@@ -22,6 +24,10 @@ log4js.configure({
 //session
 app.keys = ['keys', 'keykeys'];
 app.use(session());
+
+//koa-static
+// app.use(convert(require('koa-static')(__dirname + '../')));
+app.use(serve(path.join(path.resolve('./'))));
 
 app.use(bodyParser());
 
@@ -39,17 +45,22 @@ app.use(views(__dirname + '/view', {
 app.use(router.routes(), router.allowedMethods());
 
 //热加载
+//如果是生产模式则不加载
 var argv = process.argv.splice(2);
-if(argv[0] !== 'production'){
+if (argv[0] !== 'production') {
     const webpack = require("webpack");
     const webpackConf = require("../build/webpack.dev.conf");
     const compiler = webpack(webpackConf);
     app.use(koaWebpack({
         compiler: compiler,
-        hot :{
+        hot: {
             reload: true
         }
     }));
+}
+else {
+    //定义当前环境为生产模式
+    process.env.NODE_ENV = require('../config/prod.env').NODE_ENV;
 }
 
 //监听

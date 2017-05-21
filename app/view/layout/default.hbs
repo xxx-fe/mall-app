@@ -1,20 +1,27 @@
 <!doctype html>
 <html>
 <head>
-    {{{parseUrl '/header.js'}}}
+    <title>{{title}}</title>
+    {{{parseUrl 'header.js'}}}
     {{#block "head"}}
-        <title>{{title}}</title>
     {{/block}}
 </head>
 <body>
-    {{#block "body"}}
-        模板body
-    {{/block}}
-    <div id="app"></div>
-    {{{parseUrl '/app.js'}}}
-    {{#block "footer"}}
-        模板footer
-    {{/block}}
-    {{{parseUrl '/footer.js'}}}
+<header class="header">
+    <div class="container">
+        <h1>
+            header
+        </h1>
+    </div>
+</header>
+    <div class="container">
+     {{#block "body"}}{{/block}}
+    </div>
+<footer class="footer">
+    <a href="https://github.com/xxx-fe/mall-app">
+        <strong>GitHub</strong>
+    </a>
+</footer>
+{{{parseUrl 'footer.js'}}}
 </body>
 </html>

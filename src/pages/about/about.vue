@@ -1,5 +1,24 @@
 <template>
-    <div>关于页面VUE组件渲染</div>
+    <div id="app">
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+        <p>关于页面</p>
+    </div>
 </template>
 
 <script>
@@ -7,14 +26,6 @@
         name: 'about',
     };
 </script>
-
-<style>
-    #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-        margin-top: 60px;
-    }
+<style lang="scss">
+    @import '../style/common';
 </style>

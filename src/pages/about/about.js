@@ -1,7 +1,11 @@
 import Vue from 'vue';
 import About from './about.vue';
-new Vue({
-    el: '#app',
-    template: '<About/>',
-    components: {About}
+import ElementUI from 'element-ui';
+$(document).ready(function(){
+    Vue.use(ElementUI);
+    new Vue({
+        el: '#app',
+        template: '<About/>',
+        components: {About}
+    });
 });

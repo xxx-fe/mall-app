@@ -4,7 +4,8 @@
         "dist",
         "src",
         ".git",
-        "node_modules/**/node_modules"
+        "node_modules/**/node_modules",
+        "public"
     ],
     "execMap": {
         "js": "babel-node"

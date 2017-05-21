@@ -1,1 +1,1 @@
-console.log('footer script');
+window.footer = 'mallapp-footer';
