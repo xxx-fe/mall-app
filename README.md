@@ -1,4 +1,4 @@
-# mallapp
+# mall-app
 
 > 一个前端开发脚手架
 
@@ -11,13 +11,22 @@ vue2 + koa2 + webpack2 + ES6/7 + handlebars + bower
 
 ## 目录结构
 ```text
-...
+.
+├── build                                       // webpack配置文件(vue-cli生成)
+├── config                                      // 项目打包路径(vue-cli生成)
+├── app                                         // koa前端服务器
+├── dist                                        // 生产目录
+├── public                                      // 公共资源目录
+├── src                                         // 源码目录
+
 ```
 
-## 运行
+## 命令
 ``` bash
-npm install  //安装
-npm run dev  //启动开发模式
+npm install    //安装
+npm run dev    //启动开发模式
+npm run build  //构建项目
+npm run prod   //启动生产模式
 ```
 
 ## default.hbs

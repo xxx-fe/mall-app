@@ -64,7 +64,7 @@ module.exports = {
                 }
             },
             {
-                test: require.resolve("../public/vendor/jquery/dist/jquery"),
+                test: path.resolve("../public/vendor/jquery/dist/jquery"),
                 loader: "expose-loader?$!expose-loader?jQuery"
             }
         ]
