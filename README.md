@@ -1,6 +1,6 @@
 # mall-app
 
-> 一个前端开发脚手架
+> 多页应用前端开发脚手架
 
 
 ## 技术栈
@@ -18,7 +18,6 @@ vue2 + koa2 + webpack2 + ES6/7 + handlebars + bower + jquery
 │    ├── common                                 //     通用等一系列方法
 │    ├── controller                             //     控制器
 │    ├── middleware                             //     中间件
-│    ├── controller                             //     控制器
 │    ├── router                                 //     路由
 │    ├── service                                //     数据(api)
 │    ├── view                                   //     视图
@@ -42,30 +41,40 @@ vue2 + koa2 + webpack2 + ES6/7 + handlebars + bower + jquery
 ## 命令
 ``` bash
 npm install    //安装
-npm run dev    //启动开发模式(包含热加载)
+npm run dev    //启动开发模式(读webpack.options.conf.js文件entry,并热加载)
 npm run build  //构建项目
-npm run prod   //启动生产模式
+npm run prod   //启动生产模式(读dist目录打包后的文件)
 ```
 
-## 基本开发流程例子
+## home页应用例子
 
-
-### 开发前的配置文件 
+### 应用配置文件 
 * ```/webpack.options.conf.js```
 
 ```javascript
 module.exports ={
     entry: {
-        header: './public/common/header.js',
-        home: './src/pages/home/home.js',
-        footer: './public/common/footer.js',
+        header: './public/common/header.js',//头部js:一般包括第三方插件,全局通用函数等.(所有应用共享)
+        home: './src/pages/home/home.js',   //应用js:当前应用js.
+        footer: './public/common/footer.js',//底部js:一般有统计脚本等.               (所有应用共享)
     }
 }
 ```
-新建一个webpack.options.conf.js文件(不上传到仓库),作为当前app的入口.
+新建一个webpack.options.conf.js(不上传到仓库).
+* ```/app/view/**/**.hbs```  会引用它们.
+
+**只要1个脚本的应用**
+```javascript
+module.exports ={
+    entry: {
+        home: './src/pages/home/home.js'
+    }
+}
+```
 
 
-### 1.新建路由
+
+### 1.新建应用路由
 * ```/app/router/home.js``` 
 ```javascript
 import Router from 'koa-router';
@@ -80,7 +89,7 @@ router.get('/', home.index);
 module.exports = router;
 ```
 
-### 2.新建控制器
+### 2.新建应用控制器
 * ```/app/controller/home.js``` 
 ```javascript
 const index = async (ctx, _next) => {
@@ -95,29 +104,29 @@ export default {
 };
 ```
 
-### 3.新建视图
+### 3.新建应用视图
 * ```/app/view/home.hbs``` 
 ```handlebars
 {{#extend "layoutDefault"}}   //使用默认布局
 {{#content "head"}}
-    {{{parseUrl 'home.css'}}} //当前业务的css,直接引用,不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
+    {{{parseUrl 'home.css'}}} //home应用的css,直接引用,不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
 {{/content}}
 {{#content "body"}}
 <div id="app"></div>
-{{{parseUrl 'home.js'}}}      //当前业务的js
+{{{parseUrl 'home.js'}}}      //home应用的js, webpack.options.conf.js  entry.home
 {{/content}}
 {{/extend}}
 ```
 [handlebars模板引擎](https://github.com/wycats/handlebars.js)
 
-####handlebars 自定义helpers
+#### handlebars自定义helpers
 
 `parseUrl`：**根据当前开发环境返回正确的url,每个应用这是必须用到的,否则无法正确返回路径.**
 
 
-### 4.新建页面
+### 4.新建应用页面
 * ```/src/pages/home.vue``` 
-```vue
+```javascript
 <template>
     <div id="app"></div>
 </template>
@@ -134,9 +143,9 @@ export default {
 </style>
 ```
 
-### 5.新建页面入口
+### 5.新建应用入口
 * ```/src/pages/home.js``` 
-```vue
+```javascript
 import Vue from 'vue';
 import Home from './home.vue';
 $(document).ready(function(){
@@ -149,9 +158,37 @@ $(document).ready(function(){
 ```
 **浏览: http://localhost:3333/**
 
-## 热加载文件
-* ```/header.js``` 头部打包js
-* ```/app.js``` app打包js 或者叫业务打包js
-* ```/footer.js``` 底部打包js
+### default.hbs
+* ```/app/view/layout/default.hbs```     
 
-生产模式会根据实际情况替换为正确的js/css.保证开发时替换css/js都能立即看到结果.
+默认模板,当然怎么改随意.应用入口对应起来就好.
+ 
+```html
+<!doctype html>
+<html>
+<head>
+    <title>{{title}}</title>
+    {{{parseUrl 'header.js'}}}         //webpack.options.conf.js  entry.header
+    {{#block "head"}}
+    {{/block}}
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <h1>
+            header
+        </h1>
+    </div>
+</header>
+    <div class="container">
+     {{#block "body"}}{{/block}}      
+    </div>
+<footer class="footer">
+    <a href="https://github.com/xxx-fe/mall-app">
+        <strong>GitHub</strong>
+    </a>
+</footer>
+{{{parseUrl 'footer.js'}}}            //webpack.options.conf.js  entry.footer
+</body>
+</html>
+```
