@@ -6,7 +6,6 @@ var vueLoaderConfig = require('./vue-loader.conf')
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
 }
-
 module.exports = {
     // 入口必须配置
     // entry: {
@@ -64,9 +63,10 @@ module.exports = {
                 }
             },
             {
-                test: path.resolve("../public/vendor/jquery/dist/jquery"),
+                test: resolve("/public/vendor/jquery/dist/jquery"),
                 loader: "expose-loader?$!expose-loader?jQuery"
             }
         ]
     }
 }
+
