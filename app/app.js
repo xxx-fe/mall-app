@@ -26,7 +26,6 @@ app.keys = ['keys', 'keykeys'];
 app.use(session());
 
 //koa-static
-// app.use(convert(require('koa-static')(__dirname + '../')));
 app.use(serve(path.join(path.resolve('./'))));
 
 app.use(bodyParser());

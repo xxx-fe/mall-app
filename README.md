@@ -33,8 +33,8 @@ vue2 + koa2 + webpack2 + ES6/7 + handlebars + bower + jquery
 │    └── common.js                              //     通用脚本
 │                    
 ├── src                                         // 源码
-│    ├── components                             //     组件
-│    └─  pages                                  //     页面(每个页面都是一个应用)
+│    ├── component                              //     组件
+│    └─  page                                   //     页面(每个页面都是一个应用)
 
 ```
 
@@ -42,7 +42,7 @@ vue2 + koa2 + webpack2 + ES6/7 + handlebars + bower + jquery
 ``` bash
 npm install    //安装
 npm run dev    //启动开发模式(读webpack.options.conf.js文件entry,并热加载)
-npm run build  //构建项目
+npm run build  //构建项目   (打包路径 /src/page/**/*.js)
 npm run prod   //启动生产模式(读dist目录打包后的文件)
 ```
 
@@ -55,7 +55,7 @@ npm run prod   //启动生产模式(读dist目录打包后的文件)
 module.exports ={
     entry: {
         header: './public/common/header.js',//头部js:一般包括第三方插件,全局通用函数等.(所有应用共享)
-        home: './src/pages/home/home.js',   //应用js:当前应用js.
+        home: './src/page/home/home.js',    //应用js:当前应用js.
         footer: './public/common/footer.js',//底部js:一般有统计脚本等.               (所有应用共享)
     }
 }

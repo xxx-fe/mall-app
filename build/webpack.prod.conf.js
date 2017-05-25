@@ -29,7 +29,7 @@ let travel = (dir, callback) => {
 //获取全部入口,打包全部
 let getAllEntry = () => {
     var files = {};
-    var jsPath = path.resolve('./src/pages');
+    var jsPath = path.resolve('./src/page');
     travel(jsPath, function (pathName) {
         if (/.js/.test(pathName)) {
             let fileName = pathName.split('\\');
@@ -38,10 +38,12 @@ let getAllEntry = () => {
             let travelpath = pathName.split('\/');
             //windows
             travelpath = (travelpath.length > 1) ? travelpath : pathName.split('\\');
-            let entrypath = '';
+            let entryName = '';
             if (travelpath.length > 1) {
-                entrypath = travelpath[travelpath.length - 2];
-                files[entrypath] = './src/pages/' + travelpath[travelpath.length - 2] + `/${fileName}`;
+                let entryPath = pathName.match(/page.+/)[0];
+                entryPath = entryPath.replace(/\\/ig ,'\/');
+                entryName = entryPath.replace(/\.js/, '').replace(/page\//, '');
+                files[entryName] = `./src/${entryPath}`;
             }
         }
     });
@@ -67,10 +69,10 @@ var webpackConfig = merge(baseWebpackConfig, {
             'process.env': env
         }),
         new webpack.optimize.UglifyJsPlugin({
-          compress: {
-            warnings: false
-          },
-          sourceMap: true
+            compress: {
+                warnings: false
+            },
+            sourceMap: true
         }),
         // extract css into its own file
         new ExtractTextPlugin({
