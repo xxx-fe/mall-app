@@ -50,7 +50,8 @@ npm run prod   //启动生产模式(读dist目录打包后的文件)
 
 ### 应用配置文件 
 * ```/webpack.options.conf.js```
-
+  
+**在开发模式,entry 作为热加载,在生产模式会忽略此文件.**
 ```javascript
 module.exports ={
     entry: {
