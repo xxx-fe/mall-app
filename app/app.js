@@ -10,14 +10,21 @@ import middleware from './middleware/middleware';
 import views from 'koa-views';
 import koaWebpack from 'koa-webpack';
 import serve from 'koa-static';
+
+var argv = process.argv.splice(2);
+process.env.NODE_ENV = argv[0] !== 'production' ? 'development' : 'production';
+
 const app = new Koa();
 const logger = log4js.getLogger('app');
 
 //日志
 log4js.configure({
-    appenders: [
-        {type: 'console', layout: {type: 'basic'}}
-    ],
+    appenders: [{
+        type: 'console',
+        layout: {
+            type: 'basic'
+        }
+    }],
     replaceConsole: true
 });
 
@@ -37,7 +44,9 @@ app.use(middleware.catchError);
 //模板渲染
 app.use(views(__dirname + '/view', {
     extension: 'hbs',
-    map: {hbs: 'handlebars'}
+    map: {
+        hbs: 'handlebars'
+    }
 }));
 
 //路由
@@ -45,8 +54,7 @@ app.use(router.routes(), router.allowedMethods());
 
 //热加载
 //如果是生产模式则不加载
-var argv = process.argv.splice(2);
-if (argv[0] !== 'production') {
+if (process.env.NODE_ENV == 'production') {
     const webpack = require("webpack");
     const webpackConf = require("../build/webpack.dev.conf");
     const compiler = webpack(webpackConf);
@@ -57,11 +65,6 @@ if (argv[0] !== 'production') {
         }
     }));
 }
-else {
-    //定义当前环境为生产模式
-    process.env.NODE_ENV = require('../config/prod.env').NODE_ENV;
-}
-
 //监听
 app.listen(config.server.port, () => {
     logger.info('server listen on ' + config.server.port);

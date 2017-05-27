@@ -38,12 +38,10 @@ let getAllEntry = () => {
             let travelpath = pathName.split('\/');
             //windows
             travelpath = (travelpath.length > 1) ? travelpath : pathName.split('\\');
-            let entryName = '';
+            let entrypath = '';
             if (travelpath.length > 1) {
-                let entryPath = pathName.match(/page.+/)[0];
-                entryPath = entryPath.replace(/\\/ig ,'\/');
-                entryName = entryPath.replace(/\.js/, '').replace(/page\//, '');
-                files[entryName] = `./src/${entryPath}`;
+                entrypath = travelpath[travelpath.length - 2];
+                files[entrypath] = './src/page/' + travelpath[travelpath.length - 2] + `/${fileName}`;
             }
         }
     });
