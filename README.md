@@ -4,7 +4,13 @@
 
 
 ## 技术栈
-vue2 + koa2 + webpack2 + ES6/7 + handlebars + bower + jquery
+* `脚本`: vue2,ES5+.
+* `样式`:less.
+* `前端服务器`:koa2.
+* `前端服务器-视图`:handlebars.
+* `打包`:webapck2.
+* `第三方包管理`:bower.
+* `全局引用(可配置,可忽略)`:jquery,lazyload.
 
 **运行环境中Nodejs的版本至少是7**
 
@@ -31,7 +37,7 @@ vue2 + koa2 + webpack2 + ES6/7 + handlebars + bower + jquery
 │    ├── style                                  //     样式
 │    ├── vendor                                 //     第三方插件(主要来自bower)
 │    └── common.js                              //     通用脚本
-│                    
+│
 ├── src                                         // 源码
 │    ├── component                              //     组件
 │    └─  page                                   //     页面(每个页面都是一个应用)
@@ -48,9 +54,9 @@ npm run prod   //启动生产模式(读dist目录打包后的文件)
 
 ## home页应用例子
 
-### 应用配置文件 
+### 应用配置文件
 * ```/webpack.options.conf.js```
-  
+
 **在开发模式,entry 作为热加载,在生产模式会忽略此文件.**
 ```javascript
 module.exports ={
@@ -76,7 +82,7 @@ module.exports ={
 
 
 ### 1.新建应用路由
-* ```/app/router/home.js``` 
+* ```/app/router/home.js```
 ```javascript
 import Router from 'koa-router';
 import home from '../controller/home';
@@ -91,7 +97,7 @@ module.exports = router;
 ```
 
 ### 2.新建应用控制器
-* ```/app/controller/home.js``` 
+* ```/app/controller/home.js```
 ```javascript
 const index = async (ctx, _next) => {
     let locals = {
@@ -106,7 +112,7 @@ export default {
 ```
 
 ### 3.新建应用视图
-* ```/app/view/home.hbs``` 
+* ```/app/view/home.hbs```
 ```handlebars
 {{#extend "layoutDefault"}}   //使用默认布局
 {{#content "head"}}
@@ -126,7 +132,7 @@ export default {
 
 
 ### 4.新建应用页面
-* ```/src/pages/home.vue``` 
+* ```/src/pages/home.vue```
 ```javascript
 <template>
     <div id="app"></div>
@@ -145,7 +151,7 @@ export default {
 ```
 
 ### 5.新建应用入口
-* ```/src/pages/home.js``` 
+* ```/src/pages/home.js```
 ```javascript
 import Vue from 'vue';
 import Home from './home.vue';
@@ -160,10 +166,10 @@ $(document).ready(function(){
 **浏览: http://localhost:3333/**
 
 ### default.hbs
-* ```/app/view/layout/default.hbs```     
+* ```/app/view/layout/default.hbs```
 
 默认模板,当然怎么改随意.应用入口对应起来就好.
- 
+
 ```html
 <!doctype html>
 <html>
@@ -182,7 +188,7 @@ $(document).ready(function(){
     </div>
 </header>
     <div class="container">
-     {{#block "body"}}{{/block}}      
+     {{#block "body"}}{{/block}}
     </div>
 <footer class="footer">
     <a href="https://github.com/xxx-fe/mall-app">
