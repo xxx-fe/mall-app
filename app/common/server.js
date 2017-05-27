@@ -8,10 +8,20 @@ const server = {
         var handlebars = require('handlebars');
         var layouts = require('handlebars-layouts');
         layouts.register(handlebars);
-        //默认布局
-        handlebars.registerPartial(
-            'layoutDefault',
-            fs.readFileSync(path.join(__dirname, '../view/layout/default.hbs'), 'utf8'));
+
+        //解析布局
+        let laytoutPath = path.join(__dirname, '../view/layout/');
+        fs
+        .readdirSync(laytoutPath)
+        .filter(function (file) {
+            return (file.indexOf('.') !== 0) && (file.slice(-4) === '.hbs');
+        })
+        .forEach(function (file) {
+            let hbsPath = path.join(laytoutPath, file);
+            let hbsName = path.basename(hbsPath, '.hbs');
+            handlebars.registerPartial(hbsName,fs.readFileSync(hbsPath, 'utf8'));
+        });
+
 
         //解析url
         handlebars.registerHelper('parseUrl', function (url) {

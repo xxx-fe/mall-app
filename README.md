@@ -6,11 +6,10 @@
 ## 技术栈
 * `脚本`: vue2,ES5+.
 * `样式`:less.
+* `前端库管理`:bower.
 * `前端服务器`:koa2.
 * `前端服务器-视图`:handlebars.
-* `打包`:webapck2.
-* `第三方包管理`:bower.
-* `全局引用(可配置,可忽略)`:jquery,lazyload.
+* `打包`:webapck2
 
 **运行环境中Nodejs的版本至少是7**
 
@@ -34,13 +33,14 @@
 ├── public                                      // 公共资源
 │    ├── common                                 //     通用等一系列方法
 │    ├── image                                  //     图片
-│    ├── style                                  //     样式
+│    ├── style                                  //     样式(全局前端样式)
 │    ├── vendor                                 //     第三方插件(主要来自bower)
 │    └── common.js                              //     通用脚本
 │
 ├── src                                         // 源码
 │    ├── component                              //     组件
-│    └─  page                                   //     页面(每个页面都是一个应用)
+│    ├── page                                   //     页面(每个页面都是一个应用)
+│    └─  style                                  //     样式(应用样式)
 
 ```
 
@@ -61,9 +61,9 @@ npm run prod   //启动生产模式(读dist目录打包后的文件)
 ```javascript
 module.exports ={
     entry: {
-        header: './public/common/header.js',//头部js:一般包括第三方插件,全局通用函数等.(所有应用共享)
-        home: './src/page/home/home.js',    //应用js:当前应用js.
-        footer: './public/common/footer.js',//底部js:一般有统计脚本等.               (所有应用共享)
+        header: './public/common/header.js',//公共资源头部js:一般包括第三方插件,全局通用函数等.(所有应用共享)
+        home: './src/page/home/home.js',    //源代码应用js  :当前应用js.
+        footer: './public/common/footer.js',//公共资源底部js:一般有统计脚本等.               (所有应用共享)
     }
 }
 ```
@@ -74,7 +74,7 @@ module.exports ={
 ```javascript
 module.exports ={
     entry: {
-        home: './src/pages/home/home.js'
+        home: './src/page/home/home.js'
     }
 }
 ```
@@ -132,7 +132,7 @@ export default {
 
 
 ### 4.新建应用页面
-* ```/src/pages/home.vue```
+* ```/src/page/home.vue```
 ```javascript
 <template>
     <div id="app"></div>
@@ -151,7 +151,7 @@ export default {
 ```
 
 ### 5.新建应用入口
-* ```/src/pages/home.js```
+* ```/src/page/home.js```
 ```javascript
 import Vue from 'vue';
 import Home from './home.vue';

@@ -1,7 +1,7 @@
 import Router from 'koa-router';
-import exampleNews from '../controller/exampleNews';
+import exampleApp from '../controller/exampleApp';
 const router = Router({
     prefix: '/'
 });
-router.get('exampleNews', exampleNews.index);
+router.get('example-app', exampleApp.index);
 module.exports = router;

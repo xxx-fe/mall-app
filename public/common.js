@@ -1,4 +1,3 @@
-const common = {
-    version: 1.0
+window.mallApp = {
+    name: 'mall-app'
 };
-window.common = common;

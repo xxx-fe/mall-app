@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{title}}</title>
+    {{{parseUrl 'header.js'}}}
+    {{#block "head"}}
+    {{/block}}
+</head>
+<body>
+<div id="layout">
+    <div id="menu">
+        <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item">
+                <a href="/example-app" class="pure-menu-link">mall-app</a>
+            </li>
+        </ul>
+    </div>
+    <div id="main">
+    {{#block "body"}}{{/block}}
+    </div>
+    {{{parseUrl 'footer.js'}}}
+</div>
+</body>
+</html>

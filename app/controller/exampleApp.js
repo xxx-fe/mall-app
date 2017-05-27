@@ -1,8 +1,8 @@
 const index = async (ctx, _next) => {
     let locals = {
-        title: '新闻',
+        title: 'example-app',
     };
-    await ctx.render('exampleNews', locals);
+    await ctx.render('exampleApp', locals);
 }
 
 export default {

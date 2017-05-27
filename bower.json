@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "jquery": "1",
-    "jquery_lazyload": "jquery.lazyload#^1.9.7"
+    "jquery_lazyload": "jquery.lazyload#^1.9.7",
+    "pure": "^0.6.2"
   }
 }

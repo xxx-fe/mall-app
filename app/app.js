@@ -54,7 +54,7 @@ app.use(router.routes(), router.allowedMethods());
 
 //热加载
 //如果是生产模式则不加载
-if (process.env.NODE_ENV == 'production') {
+if (process.env.NODE_ENV == 'development') {
     const webpack = require("webpack");
     const webpackConf = require("../build/webpack.dev.conf");
     const compiler = webpack(webpackConf);
