@@ -1,7 +1,7 @@
 module.exports ={
     entry: {
         header: './public/common/header.js',
-        home: './src/page/home/home.js',
+        news: './src/page/exampleNews/exampleNews.js',
         footer: './public/common/footer.js',
     }
 }
