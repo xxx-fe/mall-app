@@ -6,7 +6,7 @@
 ## 技术栈
 * `脚本`:vue2,ES5+.
 * `样式`:scss.
-* `前端库管理`:bower.
+* `前端库管理`:bower(npm有的,bower不需要,但比如boostrap,npm方式比较麻烦,看情况).
 * `前端服务器`:koa2.
 * `前端服务器-视图`:handlebars.
 * `打包`:webapck2
@@ -34,7 +34,7 @@
 │    ├── common                                 //     通用等一系列方法
 │    ├── image                                  //     图片
 │    ├── style                                  //     样式(全局前端样式)
-│    ├── vendor                                 //     第三方插件(主要来自bower)
+│    ├── vendor                                 //     第三方插件
 │    └── common.js                              //     通用脚本
 │
 ├── src                                         // 源码
