@@ -52,7 +52,7 @@ npm run build  //构建项目   (打包路径 /src/page/**/*.js)
 npm run prod   //启动生产模式(读dist目录打包后的文件)
 ```
 
-## home页应用例子
+## exampleApp应用例子
 
 ### 应用配置文件
 * ```/webpack.options.conf.js```
@@ -62,7 +62,7 @@ npm run prod   //启动生产模式(读dist目录打包后的文件)
 module.exports ={
     entry: {
         header: './public/common/header.js',//公共资源头部js:一般包括第三方插件,全局通用函数等.(所有应用共享)
-        home: './src/page/home/home.js',    //源代码应用js  :当前应用js.
+        exampleApp: './src/page/exampleApp/exampleApp.js',    //源代码应用js  :当前应用js.
         footer: './public/common/footer.js',//公共资源底部js:一般有统计脚本等.               (所有应用共享)
     }
 }
@@ -74,7 +74,7 @@ module.exports ={
 ```javascript
 module.exports ={
     entry: {
-        home: './src/page/home/home.js'
+        exampleApp: './src/page/exampleApp/exampleApp.js'
     }
 }
 ```
@@ -82,45 +82,54 @@ module.exports ={
 
 
 ### 1.新建应用路由
-* ```/app/router/home.js```
+* ```/app/router/exampleApp.js```
 ```javascript
 import Router from 'koa-router';
-import home from '../controller/home';
-
+import exampleApp from '../controller/exampleApp';
 const router = Router({
     prefix: '/'
 });
-
-router.get('/', home.index);
-
+router.get('example-app', exampleApp.index);
+router.post('exampleList', exampleApp.exampleList);
 module.exports = router;
 ```
 
 ### 2.新建应用控制器
-* ```/app/controller/home.js```
+* ```/app/controller/exampleApp.js```
 ```javascript
+import exampleService from '../service/exampleApp';
 const index = async (ctx, _next) => {
     let locals = {
-        title: '首页',
+        title: 'example-app'
     };
-    await ctx.render('home', locals);
+    await ctx.render('exampleApp', locals);
+}
+
+const exampleList = async (ctx, _next) => {
+    const service = new exampleService(ctx);
+    let locals = {
+        list: service.getList()
+    };
+    ctx.body = locals;
 }
 
 export default {
-    index
+    index,
+    exampleList
 };
+
 ```
 
 ### 3.新建应用视图
-* ```/app/view/home.hbs```
+* ```/app/view/exampleApp.hbs```
 ```handlebars
 {{#extend "layoutDefault"}}   //使用默认布局
 {{#content "head"}}
-    {{{parseUrl 'home.css'}}} //home应用的css,直接引用,不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
+    {{{parseUrl 'exampleApp.css'}}} //exampleApp应用的css,直接引用,不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
 {{/content}}
 {{#content "body"}}
 <div id="app"></div>
-{{{parseUrl 'home.js'}}}      //home应用的js, webpack.options.conf.js  entry.home
+{{{parseUrl 'exampleApp.js'}}}      //exampleApp应用的js, webpack.options.conf.js  entry.home
 {{/content}}
 {{/extend}}
 ```
@@ -132,70 +141,44 @@ export default {
 
 
 ### 4.新建应用页面
-* ```/src/page/home.vue```
+* ```/src/page/exampleApp/exampleApp.vue```
 ```javascript
-<template>
-    <div id="app"></div>
-</template>
+...
 <script>
     export default {
-        name: 'home'
+        data () {
+            return {
+                list: ''
+            }
+        },
+        mounted(){
+            this.$http.post('/exampleList').then(response => {
+                console.log(response);
+                this.list = response.data.list
+            }, response => {
+                console.log(response);
+            })
+        }
     }
 </script>
-
-<style scoped>
-</style>
-<style lang="scss">
-    @import '../style/common';
-</style>
+...
 ```
 
 ### 5.新建应用入口
-* ```/src/page/home.js```
+* ```/src/page/exampleApp/exampleApp.js```
 ```javascript
 import Vue from 'vue';
-import Home from './home.vue';
+import axios from 'axios';
+Vue.prototype.$http = axios;
+import exampleApp from './exampleApp.vue';
+//公共资源样式
+import '../../../public/style/common.scss';
 $(document).ready(function(){
     new Vue({
         el: '#app',
-        template: '<Home/>',
-        components: {Home}
+        template: '<exampleApp/>',
+        components: {exampleApp}
     });
 });
 ```
-**浏览: http://localhost:3333/**
-
-### default.hbs
-* ```/app/view/layout/default.hbs```
-
-默认模板,当然怎么改随意.应用入口对应起来就好.
-
-```html
-<!doctype html>
-<html>
-<head>
-    <title>{{title}}</title>
-    {{{parseUrl 'header.js'}}}         //webpack.options.conf.js  entry.header
-    {{#block "head"}}
-    {{/block}}
-</head>
-<body>
-<header class="header">
-    <div class="container">
-        <h1>
-            header
-        </h1>
-    </div>
-</header>
-    <div class="container">
-     {{#block "body"}}{{/block}}
-    </div>
-<footer class="footer">
-    <a href="https://github.com/xxx-fe/mall-app">
-        <strong>GitHub</strong>
-    </a>
-</footer>
-{{{parseUrl 'footer.js'}}}            //webpack.options.conf.js  entry.footer
-</body>
-</html>
-```
+**浏览: http://localhost:3333/example-app**
