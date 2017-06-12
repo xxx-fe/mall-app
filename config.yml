@@ -1,5 +1,1 @@
-path:
-    controllers: 'controllers' #控制器文件夹名称
-    views: 'views' #视图文件夹名称
-server:
-    port: 3333 #服务器端口
+port: 3333 #服务器端口

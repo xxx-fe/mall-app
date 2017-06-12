@@ -66,6 +66,6 @@ if (process.env.NODE_ENV == 'development') {
     }));
 }
 //监听
-app.listen(config.server.port, () => {
-    logger.info('server listen on ' + config.server.port);
+app.listen(config.port, () => {
+    logger.info('server listen on ' + config.port);
 });
