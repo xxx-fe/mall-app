@@ -22,8 +22,18 @@ const server = {
 
         //解析url
         handlebars.registerHelper('parseUrl', function (url) {
-            //webpack.options.conf 存在url || 生产模式 则读取dist地址
-            if (process.env.NODE_ENV == 'production' || !webpackOptions.entry[url]) {
+            var entryName = url.replace(/\.js/, '');
+            //是否应该插入chunks
+            var isAppendChunks = (process.env.NODE_ENV == 'development' && !webpackOptions.entry[entryName]);
+            //开发模式 读取热加载地址
+            if (process.env.NODE_ENV == 'development' && webpackOptions.entry[entryName]) {
+                if (url.indexOf('.js') > -1) {
+                    return `<script src="${url}"></script>`;
+                }
+            }
+            //生产模式 读取dist地址
+            else if (process.env.NODE_ENV == 'production' || isAppendChunks) {
+                console.log(url + '      '+ webpackOptions.entry[entryName])
                 let html = [];
                 const manifest = require('../../dist/manifest.json');
                 //判断是否存在生产模式的css
@@ -39,7 +49,7 @@ const server = {
                     var existsJs = fs.existsSync(path.join(__dirname, '../../' + jsUrl));
                     if (existsJs) {
                         //头部插入通用chunks
-                        if (url === 'header.js') {
+                        if (url === 'header.js' || isAppendChunks) {
                             {
                                 html.push(`<script src="${manifest['manifest.js']}"></script>`);
                                 html.push(`<script src="${manifest['vendor.js']}"></script>`);
@@ -49,12 +59,6 @@ const server = {
                     }
                 }
                 return html.join('');
-            }
-            //开发模式 读取热加载地址
-            else {
-                if (url.indexOf('.js') > -1) {
-                    return `<script src="${url}"></script>`;
-                }
             }
         });
     },
