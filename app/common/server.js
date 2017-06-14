@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import common from './common';
+import webpackOptions from '../../webpack.options.conf';
 const server = {
     /**
      *  模板布局
@@ -21,15 +22,8 @@ const server = {
 
         //解析url
         handlebars.registerHelper('parseUrl', function (url) {
-            //开发模式返回的URL
-            if (process.env.NODE_ENV == 'development') {
-                //开发模式只加载js,js模块加载各scss,js已经能解决这类问题,无需再加载css,避免出错.
-                if (url.indexOf('.js') > -1) {
-                    return `<script src="${url}"></script>`;
-                }
-            }
-            //生产模式返回的URL
-            else {
+            //webpack.options.conf 存在url || 生产模式 则读取dist地址
+            if (process.env.NODE_ENV == 'production' || !webpackOptions.entry[url]) {
                 let html = [];
                 const manifest = require('../../dist/manifest.json');
                 //判断是否存在生产模式的css
@@ -55,6 +49,12 @@ const server = {
                     }
                 }
                 return html.join('');
+            }
+            //开发模式 读取热加载地址
+            else {
+                if (url.indexOf('.js') > -1) {
+                    return `<script src="${url}"></script>`;
+                }
             }
         });
     },
