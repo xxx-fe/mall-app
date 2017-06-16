@@ -1,9 +1,9 @@
-import exampleService from '../service/exampleApp';
+import exampleService from '../service/example-app';
 const index = async (ctx, _next) => {
     let locals = {
         title: 'example-app'
     };
-    await ctx.render('exampleApp', locals);
+    await ctx.render('example-app', locals);
 }
 
 const exampleList = async (ctx, _next) => {
