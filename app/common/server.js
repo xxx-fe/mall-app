@@ -25,6 +25,7 @@ const server = {
             var entryName = url.replace(/\.js/, '');
             //是否应该插入chunks
             var isAppendChunks = (process.env.NODE_ENV == 'development' && !webpackOptions.entry[entryName]);
+
             //开发模式 读取热加载地址
             if (process.env.NODE_ENV == 'development' && webpackOptions.entry[entryName]) {
                 if (url.indexOf('.js') > -1) {
@@ -32,7 +33,7 @@ const server = {
                 }
             }
             //生产模式 读取dist地址
-            else if (process.env.NODE_ENV == 'production' || isAppendChunks) {
+            else if ((process.env.NODE_ENV == 'production' || isAppendChunks) && fs.existsSync(path.join(__dirname,'../../dist/manifest.json'))) {
                 console.log(url + '      '+ webpackOptions.entry[entryName])
                 let html = [];
                 const manifest = require('../../dist/manifest.json');
