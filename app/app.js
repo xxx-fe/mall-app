@@ -4,29 +4,16 @@ import log4js from 'log4js';
 import bodyParser from 'koa-bodyparser';
 import session from 'koa-generic-session';
 import config from './common/config';
-import server from './common/server';
 import router from './router/router';
 import middleware from './middleware/middleware';
 import views from 'koa-views';
 import koaWebpack from 'koa-webpack';
 import serve from 'koa-static';
-
 var argv = process.argv.splice(2);
 process.env.NODE_ENV = argv[0] !== 'production' ? 'development' : 'production';
 
 const app = new Koa();
 const logger = log4js.getLogger('app');
-
-//日志
-log4js.configure({
-    appenders: [{
-        type: 'console',
-        layout: {
-            type: 'basic'
-        }
-    }],
-    replaceConsole: true
-});
 
 //session
 app.keys = ['keys', 'keykeys'];
@@ -37,7 +24,7 @@ app.use(serve(path.join(path.resolve('./'))));
 
 app.use(bodyParser());
 
-server.init();
+app.use(middleware.handlebarsLayouts);
 
 app.use(middleware.catchError);
 
@@ -65,6 +52,18 @@ if (process.env.NODE_ENV == 'development') {
         }
     }));
 }
+
+//日志
+log4js.configure({
+    appenders: [{
+        type: 'console',
+        layout: {
+            type: 'basic'
+        }
+    }],
+    replaceConsole: true
+});
+
 //监听
 app.listen(config.port, () => {
     logger.info('server listen on ' + config.port);

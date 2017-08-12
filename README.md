@@ -102,6 +102,8 @@ const index = async (ctx, _next) => {
     let locals = {
         title: 'example-app'
     };
+    //appName开发模式下不会加载生产后的css
+    ctx.state.appName = 'example-app';
     await ctx.render('example-app', locals);
 }
 
