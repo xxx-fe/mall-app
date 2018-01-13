@@ -9,6 +9,8 @@ import middleware from './middleware/middleware';
 import views from 'koa-views';
 import koaWebpack from 'koa-webpack';
 import serve from 'koa-static';
+import convert from 'koa-convert';
+
 var argv = process.argv.splice(2);
 process.env.NODE_ENV = argv[0] !== 'production' ? 'development' : 'production';
 
@@ -17,7 +19,7 @@ const logger = log4js.getLogger('app');
 
 //session
 app.keys = ['keys', 'keykeys'];
-app.use(session());
+app.use(convert(session));
 
 //koa-static
 app.use(serve(path.join(path.resolve('./'))));
