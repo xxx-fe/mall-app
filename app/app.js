@@ -2,14 +2,13 @@ import path from 'path';
 import Koa from 'koa';
 import log4js from 'log4js';
 import bodyParser from 'koa-bodyparser';
-import session from 'koa-generic-session';
+import session from 'koa-session';
 import config from './common/config';
 import router from './router/router';
 import middleware from './middleware/middleware';
 import views from 'koa-views';
 import koaWebpack from 'koa-webpack';
 import serve from 'koa-static';
-import convert from 'koa-convert';
 
 var argv = process.argv.splice(2);
 process.env.NODE_ENV = argv[0] !== 'production' ? 'development' : 'production';
@@ -19,7 +18,17 @@ const logger = log4js.getLogger('app');
 
 //session
 app.keys = ['keys', 'keykeys'];
-app.use(convert(session));
+
+const CONFIG = {
+    key: 'koa:sess',
+    maxAge: 86400000,
+    overwrite: true,
+    httpOnly: true,
+    signed: true,
+    rolling: false
+};
+
+app.use(session(CONFIG, app));
 
 //koa-static
 app.use(serve(path.join(path.resolve('./'))));
