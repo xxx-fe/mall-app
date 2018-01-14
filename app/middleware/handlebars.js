@@ -2,37 +2,12 @@ import path from 'path';
 import fs from 'fs';
 import common from '../common/common';
 
-/**
- * 错误处理
- */
-async function catchError(ctx, next) {
-    try {
-        await next();
-        if (ctx.status === 404) ctx.throw(404);
-    } catch (err) {
-        let status = err.status || 500;
-        if (status < 0) {
-            status = 500;
-        }
-        ctx.status = status;
-        ctx.state = {
-            status: status,
-            // helpers: helpers,
-            currentUser: null,
-        };
-        if (status === 500) {
-            console.log('server error', err, ctx);
-        }
-        await ctx.render('common/error', {error: err});
-    }
-}
-
+const handlebars = require('handlebars');
 /**
  * handlebars布局
  * 主要解析.hbs文件,返回请求文件
  */
-async function handlebarsLayouts(ctx, next) {
-    let handlebars = require('handlebars');
+export const layouts = async (ctx, next) => {
     let layouts = require('handlebars-layouts');
     layouts.register(handlebars);
     //解析view(.hbs)模板
@@ -100,9 +75,16 @@ async function handlebarsLayouts(ctx, next) {
         }
     });
     await next();
-}
+};
 
-export default {
-    catchError,
-    handlebarsLayouts
-}
+
+/**
+ * handlebarsHelper
+ * 输出raw内容
+ */
+export const rawHelper = async (ctx, next) => {
+    handlebars.registerHelper('raw', function (options) {
+        return options.fn(this);
+    });
+    await next();
+};

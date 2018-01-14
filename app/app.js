@@ -5,7 +5,7 @@ import bodyParser from 'koa-bodyparser';
 import session from 'koa-session';
 import config from './common/config';
 import router from './router/router';
-import middleware from './middleware/middleware';
+import middleware from './middleware/index';
 import views from 'koa-views';
 import koaWebpack from 'koa-webpack';
 import serve from 'koa-static';
@@ -35,7 +35,9 @@ app.use(serve(path.join(path.resolve('./'))));
 
 app.use(bodyParser());
 
-app.use(middleware.handlebarsLayouts);
+app.use(middleware.handlebars.layouts);
+
+app.use(middleware.handlebars.rawHelper);
 
 app.use(middleware.catchError);
 
