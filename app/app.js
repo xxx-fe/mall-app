@@ -60,6 +60,14 @@ if (process.env.NODE_ENV == 'development') {
         compiler: compiler,
         hot: {
             reload: true
+        },
+        //https://github.com/webpack/webpack-dev-middleware
+        dev: {
+            lazy: false,
+            watchOptions: {
+                aggregateTimeout: 2000,
+                poll: true
+            }
         }
     }));
 }
