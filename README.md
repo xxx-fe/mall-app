@@ -20,14 +20,15 @@
 ├── build                                       // webpack配置文件(vue-cli生成)
 ├── config                                      // 项目打包路径(vue-cli生成)
 ├── app                                         // koa前端服务器
-│    ├── common                                 //     通用等一系列方法
+│    ├── common                                 //     通用系列方法
+│    ├── config                                 //     配置
 │    ├── controller                             //     控制器
 │    ├── middleware                             //     中间件
 │    ├── router                                 //     路由
 │    ├── service                                //     数据(api)
 │    ├── view                                   //     视图
 │    │    ├── common                            //         通用视图
-│    │    └── layout                            //         布局
+│    │    └── layout                            //         布局视图
 │    ├── app.js                                 // koa前端服务器启动入口
 ├── dist                                        // 生产目录
 ├── public                                      // 公共资源
@@ -35,7 +36,7 @@
 │    ├── image                                  //     图片
 │    ├── style                                  //     样式(全局前端样式)
 │    └── vendor                                 //     第三方插件
-│    
+│
 ├── src                                         // 源码
 │    ├── component                              //     组件
 │    ├── page                                   //     页面(每个页面都是一个应用)
@@ -115,7 +116,7 @@ const exampleList = async (ctx, _next) => {
     ctx.body = locals;
 }
 
-export default {
+module.exports = {
     index,
     exampleList
 };

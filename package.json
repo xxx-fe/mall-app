@@ -5,7 +5,7 @@
   "author": "xxx-fe",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./app/app.js  --watch",
+    "dev": "nodemon ./app/app.js --delay 2.5 --watch",
     "prod": "nodemon ./app/app.js production --watch",
     "build": "node build/build.js"
   },
@@ -17,8 +17,8 @@
     "jquery-lazyload": "^1.9.7",
     "js-yaml": "^3.8.3",
     "koa": "^2.2.0",
-    "koa-generic-session": "^1.11.5",
     "koa-router": "^7.1.1",
+    "koa-session": "^5.7.1",
     "koa-views": "^6.0.2",
     "lodash": "^4.17.4",
     "log4js": "^1.1.1",

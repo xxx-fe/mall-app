@@ -1,7 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import common from '../common/common';
-
+import * as common from '../common/index';
 const handlebars = require('handlebars');
 /**
  * handlebars布局

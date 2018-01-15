@@ -1,7 +1,7 @@
 /**
  * 捕获错误
  */
-export default async (ctx, next) => {
+export const catchError = async (ctx, next) => {
     try {
         await next();
         if (ctx.status === 404) ctx.throw(404);
@@ -21,4 +21,4 @@ export default async (ctx, next) => {
         }
         await ctx.render('common/error', {error: err});
     }
-}
+};

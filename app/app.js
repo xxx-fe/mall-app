@@ -3,7 +3,7 @@ import Koa from 'koa';
 import log4js from 'log4js';
 import bodyParser from 'koa-bodyparser';
 import session from 'koa-session';
-import config from './common/config';
+import config from './config/index';
 import router from './router/router';
 import middleware from './middleware/index';
 import views from 'koa-views';

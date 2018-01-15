@@ -16,7 +16,7 @@ const exampleList = async (ctx, _next) => {
     ctx.body = locals;
 };
 
-export default {
+module.exports = {
     index,
     exampleList
 };

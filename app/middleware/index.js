@@ -1,7 +1,6 @@
-import catchError from './catch-error';
+import {catchError} from './catch-error';
 import * as handlebars from './handlebars';
-
-export default {
+module.exports = {
     catchError,
     handlebars
 };
