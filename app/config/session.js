@@ -13,7 +13,7 @@ export const session = (app) => {
         signed: true,
         rolling: false
     };
-    let redisStore = yamlConfig.redisStore;
+    let redisStore = yamlConfig[process.env.NODE_ENV].redisStore;
     if (redisStore) {
         const koaRedis = require('koa-redis');
         CONFIG.store = koaRedis(redisStore);

@@ -11,7 +11,7 @@ import koaWebpack from 'koa-webpack';
 import serve from 'koa-static';
 
 let argv = process.argv.splice(2);
-process.env.NODE_ENV = argv[0] !== 'production' ? 'development' : 'production';
+let env =  process.env.NODE_ENV = argv[0] !== 'production' ? 'development' : 'production';
 
 const app = new Koa();
 const logger = log4js.getLogger('app');
@@ -42,7 +42,7 @@ app.use(router.routes(), router.allowedMethods());
 
 //热加载
 //如果是生产模式则不加载
-if (process.env.NODE_ENV === 'development') {
+if (env === 'development') {
     const webpack = require("webpack");
     const webpackConf = require("../build/webpack.dev.conf");
     const compiler = webpack(webpackConf);
@@ -74,6 +74,6 @@ log4js.configure({
 });
 
 //监听
-app.listen(yamlConfig.port, () => {
-    logger.info('server listen on ' + yamlConfig.port);
+app.listen(yamlConfig[env].port, () => {
+    logger.info('server listen on ' + yamlConfig[env].port);
 });

@@ -1,4 +1,10 @@
-port: 3333 #服务器端口 ，
-#redisStore :
-#   "host": '127.0.0.1'
-#   "port": '6379'
+development:
+    port: 3333 #服务器端口
+    #redisStore :
+    #   "host": '127.0.0.1'
+    #   "port": '6379'
+production:
+    port: 3333 #服务器端口
+    #redisStore :
+    #   "host": '127.0.0.1'
+    #   "port": '6379'
