@@ -1,11 +1,11 @@
 # mall-app
----
+
 
 > vue koa 前后分离多页应用脚手架
 
 
 ## Architecture
----
+
 * `脚本`:vue2,ES5+.
 * `样式`:scss.
 * `库管理`:bower(npm有的,bower不需要,但比如boostrap,npm方式比较麻烦,看情况).
@@ -16,7 +16,7 @@
 **运行环境中Nodejs的版本至少是7**
 
 ## 目录结构
----
+
 ```text
 .
 ├── build                                       // webpack配置文件(vue-cli生成)
@@ -47,7 +47,7 @@
 ```
 
 ## 命令
----
+
 ``` bash
 npm install    //安装
 npm run dev    //启动开发模式(读webpack.options.conf.js文件entry,并热加载)
@@ -56,7 +56,6 @@ npm run prod   //启动生产模式(读dist目录打包后的文件)
 ```
 
 ## example
----
 
 ### 应用配置文件
 * ```/webpack.options.conf.js```
@@ -75,7 +74,7 @@ module.exports ={
 * ```/app/view/**/**.hbs```  引用它们.
 
 ### 1.新建应用路由
----
+
 * ```/app/router/example/index.js```
 ```javascript
 import Router from 'koa-router';
@@ -91,7 +90,7 @@ module.exports = router;
 ```
 
 ### 2.新建应用控制器
----
+
 * ```/app/controller/example/index.js```
 ```javascript
 import exampleService from '../../service/example/index';
@@ -121,7 +120,7 @@ module.exports = {
 ```
 
 ### 3.新建应用视图
----
+
 - ```/app/view/page/example.hbs```
 ```handlebars
 {{#extend "layout-example"}}     //使用layout-example布局
@@ -148,13 +147,13 @@ module.exports = {
 解析url, handlebars自定义helpers.根据当前开发环境返回正确的url.
 
 ```javascript
-{{{parseUrl 'example.css' 'example.js'}}} 
+{{{parseUrl 'example.css' 'example.js'}}}
 ```
-结果:    
+结果:
 ```html
 //dev
 <link href="/dist/static/css/example.9fc8b78479ef23e9a0d4f8c53d4b6021.css" type="text/css" rel="stylesheet">  //如果build过,则加载
-<script src="example.js"></script> 
+<script src="example.js"></script>
 //prod
 <link href="/dist/static/css/example.9fc8b78479ef23e9a0d4f8c53d4b6021.css" type="text/css" rel="stylesheet">
 <script src="/dist/static/js/example.1f2853d77850501cb503.js"></script>
@@ -163,7 +162,7 @@ module.exports = {
 
 
 ### 4.新建应用页面
----
+
 * ```/src/page/example/index.vue```
 ```javascript
 ...
@@ -187,7 +186,7 @@ module.exports = {
 ...
 ```
 ### 5.新建应用入口
----
+
 * ```/src/page/example/index.js```
 ```javascript
 import Vue from 'vue';
