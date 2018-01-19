@@ -1,4 +1,4 @@
-class exampleAppService {
+class exampleService {
     constructor(ctx) {
         this.ctx = ctx;
     }
@@ -50,4 +50,4 @@ class exampleAppService {
         ];
     }
 }
-export default exampleAppService;
+export default exampleService;

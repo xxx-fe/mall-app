@@ -1,15 +1,16 @@
-import fs from 'fs';
+/**
+ * 路由
+ */
 import path from 'path';
 import Router from 'koa-router';
+import {readDirSync} from '../common/read-dirsync';
 const basename = path.basename(module.filename);
 const router = Router();
-fs
-    .readdirSync(__dirname)
-    .filter(function (file) {
-        return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-    })
-    .forEach(function (file) {
-        let route = require(path.join(__dirname, file));
+readDirSync(path.join(__dirname, '../router/'), function (fileName, isDirectory, dirPath) {
+    var isJsFile = (dirPath.indexOf('.') !== 0) && (fileName !== basename) && (dirPath.slice(-3) === '.js');
+    if (!isDirectory && isJsFile) {
+        var route = require(dirPath);
         router.use(route.routes(), route.allowedMethods());
-    });
+    }
+});
 export default router;

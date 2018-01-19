@@ -1,14 +1,15 @@
-import exampleService from '../service/example-app';
+import exampleService from '../../service/example/index';
+
 const index = async (ctx, _next) => {
     let locals = {
-        title: 'example-app'
+        title: 'example'
     };
     //appName开发模式下不会加载生产后的css
-    ctx.state.appName = 'example-app';
-    await ctx.render('example-app', locals);
+    ctx.state.appName = 'example';
+    await ctx.render('page/example', locals);
 };
 
-const exampleList = async (ctx, _next) => {
+const list = async (ctx, _next) => {
     const service = new exampleService(ctx);
     let locals = {
         list: service.getList()
@@ -18,5 +19,5 @@ const exampleList = async (ctx, _next) => {
 
 module.exports = {
     index,
-    exampleList
+    list
 };

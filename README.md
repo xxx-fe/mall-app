@@ -52,7 +52,7 @@ npm run build  //构建项目   (打包路径 /src/page/**/*.js)
 npm run prod   //启动生产模式(读dist目录打包后的文件)
 ```
 
-## example-app 应用例子
+## example 应用例子
 
 ### 应用配置文件
 * ```/webpack.options.conf.js```
@@ -62,7 +62,7 @@ npm run prod   //启动生产模式(读dist目录打包后的文件)
 module.exports ={
     entry: {
         header: './public/common/header.js',//公共资源头部js:一般包括第三方插件,全局通用函数等.(所有应用共享)
-        ['example-app']: './src/page/example-app/example-app.js',           //源代码应用js  :当前应用js.
+        example: './src/page/example/index.js',//源代码应用js  :当前应用js.
         footer: './public/common/footer.js',//公共资源底部js:一般有统计脚本等.               (所有应用共享)
     }
 }
@@ -74,7 +74,7 @@ module.exports ={
 ```javascript
 module.exports ={
     entry: {
-        ['example-app']: './src/page/example-app/example-app.js'
+        example: './src/page/example/index.js'
     }
 }
 ```
@@ -82,57 +82,59 @@ module.exports ={
 
 
 ### 1.新建应用路由
-* ```/app/router/example-app.js```
+* ```/app/router/example/index.js```
 ```javascript
 import Router from 'koa-router';
-import exampleApp from '../controller/example-app';
+import exampleCtrl from '../../controller/example/index';
+
 const router = Router({
     prefix: '/'
 });
-router.get('', exampleApp.index);
-router.get('example-app', exampleApp.index);
-router.post('exampleList', exampleApp.exampleList);
+router.get('', exampleCtrl.index);
+router.get('example', exampleCtrl.index);
+router.post('example/list', exampleCtrl.list);
 module.exports = router;
 ```
 
 ### 2.新建应用控制器
-* ```/app/controller/example-app.js```
+* ```/app/controller/example/index.js```
 ```javascript
-import exampleService from '../service/example-app';
+import exampleService from '../../service/example/index';
+
 const index = async (ctx, _next) => {
     let locals = {
-        title: 'example-app'
+        title: 'example'
     };
     //appName开发模式下不会加载生产后的css
-    ctx.state.appName = 'example-app';
-    await ctx.render('example-app', locals);
-}
+    ctx.state.appName = 'example';
+    await ctx.render('page/example', locals);
+};
 
-const exampleList = async (ctx, _next) => {
+const list = async (ctx, _next) => {
     const service = new exampleService(ctx);
     let locals = {
         list: service.getList()
     };
     ctx.body = locals;
-}
+};
 
 module.exports = {
     index,
-    exampleList
+    list
 };
 
 ```
 
 ### 3.新建应用视图
-* ```/app/view/example-app.hbs```
+* ```/app/view/example.hbs```
 ```handlebars
 {{#extend "layout-example"}}         //使用layout-example布局
 {{#content "head"}}
-    {{{parseUrl 'example-app.css'}}} //example-app应用的css,直接引用
+    {{{parseUrl 'example.css'}}} //example-app应用的css,直接引用
 {{/content}}                         //不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
 {{#content "body"}}
 <div id="app"></div>
-{{{parseUrl 'example-app.js'}}}      //example-app应用的js
+{{{parseUrl 'example.js'}}}      //example-app应用的js
 {{/content}}                         //webpack.options.conf.js  entry.home
 {{/extend}}
 ```
@@ -154,7 +156,7 @@ module.exports = {
 
 
 ### 4.新建应用页面
-* ```/src/page/example-app/example-app.vue```
+* ```/src/page/example/index.vue```
 ```javascript
 ...
 <script>
@@ -178,12 +180,12 @@ module.exports = {
 ```
 
 ### 5.新建应用入口
-* ```/src/page/example-app/example-app.js```
+* ```/src/page/example/index.js```
 ```javascript
 import Vue from 'vue';
 import axios from 'axios';
 Vue.prototype.$http = axios;
-import exampleApp from './example-app.vue';
+import exampleApp from './index.vue';
 //公共资源样式
 import '../../../public/style/common.scss';
 $(document).ready(function(){

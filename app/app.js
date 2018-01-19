@@ -11,7 +11,7 @@ import koaWebpack from 'koa-webpack';
 import serve from 'koa-static';
 
 let argv = process.argv.splice(2);
-let env =  process.env.NODE_ENV = argv[0] !== 'production' ? 'development' : 'production';
+let env = process.env.NODE_ENV = argv[0] !== 'production' ? 'development' : 'production';
 
 const app = new Koa();
 const logger = log4js.getLogger('app');
@@ -36,6 +36,22 @@ app.use(views(__dirname + '/view', {
         hbs: 'handlebars'
     }
 }));
+
+//代理
+// import proxy from 'koa-proxy';
+//
+// app.use(proxy({
+//     match: /^\/img|\/dist\/static\/img/,
+//     host: `http://localhost:${yamlConfig[env].port}/`,
+//     map: function (path) {
+//         if (/\/dist\/static/.test(path)) {
+//             return path.replace(/\/dist\/static/ig, '/public');
+//         }
+//         else {
+//             return 'public' + path;
+//         }
+//     }
+// }));
 
 //路由
 app.use(router.routes(), router.allowedMethods());

@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import * as common from '../common/index';
+
 const handlebars = require('handlebars');
 /**
  * handlebars布局
@@ -26,14 +27,10 @@ export const layouts = async (ctx, next) => {
     }
 
     //解析url
-    handlebars.registerHelper('parseUrl', function (url) {
+    handlebars.registerHelper('parseUrl', function (url , options) {
         let NODE_ENV = process.env.NODE_ENV;
         let appName = ctx.state.appName + '.css';
         let fileName = url.replace(/\.js/, '');
-        // && webpackOptions.entry[fileName]
-        //是否应该插入chunks/css
-        // console.log(`appName: ${appName} fileName: ${fileName} NODE_ENV: ${NODE_ENV} isAppendChunks ${isAppendChunks}`);
-        //开发模式读取热加载地址
         if (NODE_ENV === 'development') {
             if (url.indexOf('.js') > -1) {
                 return `<script src="${url}"></script>`;
@@ -41,7 +38,9 @@ export const layouts = async (ctx, next) => {
             //dist可能存在css,但当前app的css就不加载了,避免冲突
             else if (url.indexOf('.css') > -1 && appName !== fileName && manifest) {
                 let cssUrl = manifest[url];
-                return `<link href="${cssUrl}" type="text/css" rel="stylesheet"/>`
+                if (cssUrl) {
+                    return `<link href="${cssUrl}" type="text/css" rel="stylesheet"/>`
+                }
             }
         }
         //生产模式读取dist地址
@@ -50,22 +49,20 @@ export const layouts = async (ctx, next) => {
             if (url.indexOf('.css') > -1) {
                 let cssUrl = manifest[url];
                 //判断是否存在生产模式的css
-                let existsCss = fs.existsSync(path.join(__dirname, '../../' + cssUrl));
-                if (existsCss) {
+                let existsCSS = fs.existsSync(path.join(__dirname, '../../' + cssUrl));
+                if (existsCSS) {
                     html.push(`<link href="${cssUrl}" type="text/css" rel="stylesheet"/>`);
                 }
             }
             else if (url.indexOf('.js') > -1) {
                 let jsUrl = manifest[url];
                 //判断是否存在生产模式的js
-                let existsJs = fs.existsSync(path.join(__dirname, '../../' + jsUrl));
-                if (existsJs) {
+                let existsJS = fs.existsSync(path.join(__dirname, '../../' + jsUrl));
+                if (existsJS) {
                     //头部插入通用chunks
                     if (url === 'header.js') {
-                        {
-                            html.push(`<script src="${manifest['manifest.js']}"></script>`);
-                            html.push(`<script src="${manifest['vendor.js']}"></script>`);
-                        }
+                        html.push(`<script src="${manifest['manifest.js']}"></script>`);
+                        html.push(`<script src="${manifest['vendor.js']}"></script>`);
                     }
                     html.push(`<script src="${jsUrl}"></script>`);
                 }

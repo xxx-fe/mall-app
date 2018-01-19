@@ -42,7 +42,7 @@
             }
         },
         mounted(){
-            this.$http.post('/exampleList').then(response => {
+            this.$http.post('/example/list').then(response => {
                 console.log(response);
                 this.list = response.data.list
             }, response => {
