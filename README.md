@@ -1,20 +1,22 @@
 # mall-app
+---
 
 > vue koa 前后分离多页应用脚手架
 
 
-## 技术栈
+## Architecture
+---
 * `脚本`:vue2,ES5+.
 * `样式`:scss.
-* `前端库管理`:bower(npm有的,bower不需要,但比如boostrap,npm方式比较麻烦,看情况).
-* `前端服务器`:koa2.
-* `前端服务器-视图`:handlebars.
+* `库管理`:bower(npm有的,bower不需要,但比如boostrap,npm方式比较麻烦,看情况).
+* `服务器`:koa2.
+* `模板引擎`:handlebars.
 * `打包`:webapck2
 
 **运行环境中Nodejs的版本至少是7**
 
-
 ## 目录结构
+---
 ```text
 .
 ├── build                                       // webpack配置文件(vue-cli生成)
@@ -29,12 +31,12 @@
 │    ├── view                                   //     视图
 │    │    ├── common                            //         通用视图
 │    │    └── layout                            //         布局视图
-│    ├── app.js                                 // koa前端服务器启动入口
+│    ├── app.js                                 //     koa启动入口
 ├── dist                                        // 生产目录
 ├── public                                      // 公共资源
 │    ├── script                                 //     脚本
 │    ├── image                                  //     图片
-│    ├── style                                  //     样式(全局前端样式)
+│    ├── style                                  //     样式(全局样式)
 │    └── vendor                                 //     第三方插件
 │
 ├── src                                         // 源码
@@ -45,6 +47,7 @@
 ```
 
 ## 命令
+---
 ``` bash
 npm install    //安装
 npm run dev    //启动开发模式(读webpack.options.conf.js文件entry,并热加载)
@@ -52,7 +55,8 @@ npm run build  //构建项目   (打包路径 /src/page/**/*.js)
 npm run prod   //启动生产模式(读dist目录打包后的文件)
 ```
 
-## example 应用例子
+## example
+---
 
 ### 应用配置文件
 * ```/webpack.options.conf.js```
@@ -70,18 +74,8 @@ module.exports ={
 新建一个webpack.options.conf.js(不上传到仓库).
 * ```/app/view/**/**.hbs```  引用它们.
 
-**只要1个脚本的应用**
-```javascript
-module.exports ={
-    entry: {
-        example: './src/page/example/index.js'
-    }
-}
-```
-
-
-
 ### 1.新建应用路由
+---
 * ```/app/router/example/index.js```
 ```javascript
 import Router from 'koa-router';
@@ -97,6 +91,7 @@ module.exports = router;
 ```
 
 ### 2.新建应用控制器
+---
 * ```/app/controller/example/index.js```
 ```javascript
 import exampleService from '../../service/example/index';
@@ -126,36 +121,49 @@ module.exports = {
 ```
 
 ### 3.新建应用视图
-* ```/app/view/example.hbs```
+---
+- ```/app/view/page/example.hbs```
 ```handlebars
 {{#extend "layout-example"}}     //使用layout-example布局
 {{#content "head"}}
     {{{parseUrl 'example.css'}}} //exmaple应用的css,直接引用
-{{/content}}                         //不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
+{{/content}}                     //不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
 {{#content "body"}}
 <div id="app"></div>
 {{{parseUrl 'example.js'}}}      //exmaple应用的js
-{{/content}}                         //webpack.options.conf.js  entry.home
+{{/content}}                     //webpack.options.conf.js  entry.home
 {{/extend}}
 ```
-以上代码基于
 
-[handlebars(模板引擎)](https://github.com/wycats/handlebars.js)
+`/app/view/**/**.hbs` 以文件名注册为`handlebars partial`.
 
-[handlebars-layouts(模板引擎布局helpers)](https://github.com/shannonmoeller/handlebars-layouts)
+#### 引用:
 
+* [handlebars(模板引擎)](https://github.com/wycats/handlebars.js)
 
+* [handlebars-layouts(模板引擎布局helpers)](https://github.com/shannonmoeller/handlebars-layouts)
 
-#### handlebars自定义helpers
+#### parseUrl
 
-`parseUrl`：**根据当前开发环境返回正确的url,每个应用这是必须用到的,否则无法正确返回路径.**
+解析url, handlebars自定义helpers.根据当前开发环境返回正确的url.
 
-
-#### handlebars.registerPartial
-`/app/view/**/**.hbs` **以文件名注册为handlebars partial.**
+```javascript
+{{{parseUrl 'example.css' 'example.js'}}} 
+```
+结果:    
+```html
+//dev
+<link href="/dist/static/css/example.9fc8b78479ef23e9a0d4f8c53d4b6021.css" type="text/css" rel="stylesheet">  //如果build过,则加载
+<script src="example.js"></script> 
+//prod
+<link href="/dist/static/css/example.9fc8b78479ef23e9a0d4f8c53d4b6021.css" type="text/css" rel="stylesheet">
+<script src="/dist/static/js/example.1f2853d77850501cb503.js"></script>
+```
+如果没有build过,dev模式不会加载example.css,一般情况只加载example.js.即使加载build过的css也不影响dev模式下的样式应用.
 
 
 ### 4.新建应用页面
+---
 * ```/src/page/example/index.vue```
 ```javascript
 ...
@@ -167,7 +175,7 @@ module.exports = {
             }
         },
         mounted(){
-            this.$http.post('/exampleList').then(response => {
+            this.$http.post('/example/list').then(response => {
                 console.log(response);
                 this.list = response.data.list
             }, response => {
@@ -178,8 +186,8 @@ module.exports = {
 </script>
 ...
 ```
-
 ### 5.新建应用入口
+---
 * ```/src/page/example/index.js```
 ```javascript
 import Vue from 'vue';
@@ -196,5 +204,5 @@ $(document).ready(function(){
     });
 });
 ```
-**浏览: http://localhost:3333/exmaple**
+**浏览: http://localhost:3333/example**
 
