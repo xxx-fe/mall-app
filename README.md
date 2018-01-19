@@ -152,7 +152,7 @@ module.exports = {
 结果:
 ```html
 //dev
-<link href="/dist/static/css/example.[chunkhash].css" type="text/css" rel="stylesheet">  //如果build过,则加载
+<link href="/dist/static/css/example.[chunkhash].css" type="text/css" rel="stylesheet">//如果build过,则加载
 <script src="example.js"></script>
 //prod
 <link href="/dist/static/css/example.[chunkhash].css" type="text/css" rel="stylesheet">
