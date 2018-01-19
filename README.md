@@ -21,7 +21,7 @@
 .
 ├── build                                       // webpack配置文件(vue-cli生成)
 ├── config                                      // 项目打包路径(vue-cli生成)
-├── app                                         // koa前端服务器
+├── app                                         // app应用
 │    ├── common                                 //     通用系列方法
 │    ├── config                                 //     配置
 │    ├── controller                             //     控制器
@@ -31,7 +31,7 @@
 │    ├── view                                   //     视图
 │    │    ├── common                            //         通用视图
 │    │    └── layout                            //         布局视图
-│    ├── app.js                                 //     koa启动入口
+│    ├── app.js                                 //     应用入口
 ├── dist                                        // 生产目录
 ├── public                                      // 公共资源
 │    ├── script                                 //     脚本
