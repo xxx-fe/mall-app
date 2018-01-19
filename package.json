@@ -5,7 +5,7 @@
   "author": "xxx-fe",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./app/app.js --delay 2.0 --watch",
+    "dev": "nodemon ./app/app.js --delay 1.5 --watch",
     "prod": "nodemon ./app/app.js production --watch",
     "build": "node build/build.js"
   },

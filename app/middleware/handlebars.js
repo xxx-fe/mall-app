@@ -3,34 +3,24 @@ import fs from 'fs';
 import * as common from '../common/index';
 
 const handlebars = require('handlebars');
+
+
+let manifest = '';
+let existsManifest = fs.existsSync(path.join(__dirname, '../../dist/manifest.json'));
+if (existsManifest) {
+    manifest = require('../../dist/manifest.json');
+}
+
+
 /**
- * handlebars布局
- * 主要解析.hbs文件,返回请求文件
+ * 解析url
  */
-export const layouts = async (ctx, next) => {
-    let layouts = require('handlebars-layouts');
-    layouts.register(handlebars);
-    //解析view(.hbs)模板
-    common.readDirSync(path.join(__dirname, '../view/'), function (fileName, isDirectory, dirPath) {
-        let isHbsFile = (dirPath.indexOf('.') !== 0) && (dirPath.slice(-4) === '.hbs');
-        if (!isDirectory && isHbsFile) {
-            let hbsName = path.basename(dirPath, '.hbs');
-            handlebars.registerPartial(hbsName, fs.readFileSync(dirPath, 'utf8'));
-        }
-    });
-
-
-    let manifest = '';
-    let existsManifest = fs.existsSync(path.join(__dirname, '../../dist/manifest.json'));
-    if (existsManifest) {
-        manifest = require('../../dist/manifest.json');
-    }
-
-    //解析url
-    handlebars.registerHelper('parseUrl', function (url , options) {
+const parseUrl = (url, ctx) => {
+    if (url || typeof url !== 'number') {
         let NODE_ENV = process.env.NODE_ENV;
         let appName = ctx.state.appName + '.css';
         let fileName = url.replace(/\.js/, '');
+
         if (NODE_ENV === 'development') {
             if (url.indexOf('.js') > -1) {
                 return `<script src="${url}"></script>`;
@@ -68,6 +58,38 @@ export const layouts = async (ctx, next) => {
                 }
             }
             return html.join('');
+        }
+    }
+};
+
+
+/**
+ * handlebars布局
+ * 主要解析.hbs文件,返回请求文件
+ */
+export const layouts = async (ctx, next) => {
+    let layouts = require('handlebars-layouts');
+    layouts.register(handlebars);
+    //解析view(.hbs)模板
+    common.readDirSync(path.join(__dirname, '../view/'), function (fileName, isDirectory, dirPath) {
+        let isHbsFile = (dirPath.indexOf('.') !== 0) && (dirPath.slice(-4) === '.hbs');
+        if (!isDirectory && isHbsFile) {
+            let hbsName = path.basename(dirPath, '.hbs');
+            handlebars.registerPartial(hbsName, fs.readFileSync(dirPath, 'utf8'));
+        }
+    });
+
+    //解析url
+    handlebars.registerHelper('parseUrl', function (urls) {
+        let url = [];
+        for (let i = 0; i < arguments.length - 1; i++) {
+            let item = parseUrl(arguments[i], ctx);
+            if (item) {
+                url.push(item);
+            }
+        }
+        if (url.length > 0) {
+            return url.join('');
         }
     });
     await next();
