@@ -152,11 +152,11 @@ module.exports = {
 结果:
 ```html
 //dev
-<link href="/dist/static/css/example.9fc8b78479ef23e9a0d4f8c53d4b6021.css" type="text/css" rel="stylesheet">  //如果build过,则加载
+<link href="/dist/static/css/example.[chunkhash].css" type="text/css" rel="stylesheet">  //如果build过,则加载
 <script src="example.js"></script>
 //prod
-<link href="/dist/static/css/example.9fc8b78479ef23e9a0d4f8c53d4b6021.css" type="text/css" rel="stylesheet">
-<script src="/dist/static/js/example.1f2853d77850501cb503.js"></script>
+<link href="/dist/static/css/example.[chunkhash].css" type="text/css" rel="stylesheet">
+<script src="/dist/static/js/example.[chunkhash].js"></script>
 ```
 如果没有build过,dev模式不会加载example.css,一般情况只加载example.js.即使加载build过的css也不影响dev模式下的样式应用.
 
