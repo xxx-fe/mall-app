@@ -64,7 +64,7 @@ npm run prod   //启动生产模式(读dist目录打包后的文件)
 module.exports ={
     entry: {
         header: './public/common/header.js',//公共资源头部js:一般包括第三方插件,全局通用函数等.(所有应用共享)
-        example: './src/page/example/index.js',//源代码应用js  :当前应用js.
+        example: './src/page/example/index.js',//源代码应用js                              (当前应用js)
         footer: './public/common/footer.js',//公共资源底部js:一般有统计脚本等.               (所有应用共享)
     }
 }
