@@ -55,6 +55,9 @@
     .page-header{
         margin:80px 0 20px;
     }
+    .mall-app{
+        color:blue;
+    }
 </style>
 <style lang="scss">
 </style>
