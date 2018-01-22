@@ -2,6 +2,7 @@ import Router from 'koa-router';
 import {render404} from './render-404';
 
 let allRouter = [];
+let hasRootRouter = false;
 
 /**
  * 保存全部路由
@@ -9,27 +10,44 @@ let allRouter = [];
 function saveAllRouter(router) {
     router.stack.map(function (item) {
         let path = item.path;
-        if (path) {
-            if (!allRouter.includes(path) && path !== '/(.*)') {
-                allRouter.push(path);
-            }
+        if (!path) {
+            path = '/';
+        }
+        if (!allRouter.includes(path) && path !== '/(.*)') {
+            allRouter.push(path);
         }
     });
+    if (allRouter.includes('/')) {
+        hasRootRouter = true;
+    }
 }
 
 /**
  * 是否正确路由
  */
 const isValidUrl = (url) => {
-    let isCollectUrl = false;
+    let urlCorrectSum = 0;
     for (let i = 0; i < allRouter.length; i++) {
         let item = allRouter[i];
+        console.log(item)
         if (url.indexOf(item) === 0) {
-            isCollectUrl = true;
-            break;
+            urlCorrectSum += 1;
+            if (hasRootRouter && urlCorrectSum > 1) {
+                break;
+            }
+            else if (!hasRootRouter && urlCorrectSum > 0) {
+                break;
+            }
         }
     }
-    return isCollectUrl;
+    //根目录'/'路由怎样都匹配成功1次(除非没配置根目录'/'路由)
+    //所以非根目录'/'至少要匹配成功1-2次
+    if (!hasRootRouter) {
+        return (url && url !== '/') ? urlCorrectSum === 1 : urlCorrectSum > 0;
+    }
+    else {
+        return (url && url !== '/') ? urlCorrectSum > 1 : urlCorrectSum > 0;
+    }
 };
 
 /**
@@ -46,8 +64,6 @@ const checkUrl = async (ctx, next) => {
         if (urlLangPrefix.includes(splitUrl)) {
             //删除正确的多语言url,还原为真实的url,并验证这个真实的url
             let replaceUrl = url.replace(ctx.urlLangRegExp, '').replace(/\/$/, '');
-            console.log(replaceUrl);
-            console.log(isValidUrl(replaceUrl));
             if (isValidUrl(replaceUrl)) {
                 await next();
             }
