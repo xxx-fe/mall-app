@@ -6,6 +6,8 @@ import {context} from './context';
 import {webpack} from './webpack';
 import {listen} from './listen';
 import {view} from './view';
+import {staticServe} from './static-serve';
+import {bodyParser} from './body-parser';
 module.exports.default = module.exports = {
     session,
     middleware,
@@ -14,5 +16,7 @@ module.exports.default = module.exports = {
     context,
     webpack,
     listen,
-    view
+    view,
+    staticServe,
+    bodyParser
 };

@@ -29,7 +29,6 @@ const isValidUrl = (url) => {
     let urlCorrectSum = 0;
     for (let i = 0; i < allRouter.length; i++) {
         let item = allRouter[i];
-        console.log(item)
         if (url.indexOf(item) === 0) {
             urlCorrectSum += 1;
             if (hasRootRouter && urlCorrectSum > 1) {
