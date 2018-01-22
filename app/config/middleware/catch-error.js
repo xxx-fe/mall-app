@@ -19,6 +19,6 @@ export const catchError = async (ctx, next) => {
         if (status === 500) {
             console.log('server error', err, ctx);
         }
-        await ctx.render('common/error', {error: err});
+        await ctx.render('common/error-404', {error: err, title: 'error'});
     }
 };

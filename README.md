@@ -24,8 +24,8 @@
 ├── app                                         // app应用
 │    ├── common                                 //     通用系列方法
 │    ├── config                                 //     配置
+│    │     └── middleware                       //         中间件
 │    ├── controller                             //     控制器
-│    ├── middleware                             //     中间件
 │    ├── router                                 //     路由
 │    ├── service                                //     数据(api)
 │    ├── view                                   //     视图

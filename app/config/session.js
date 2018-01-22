@@ -1,5 +1,5 @@
 import koaSession from 'koa-session';
-import yamlConfig from '../config/yaml';
+
 /**
  * session
  */
@@ -13,7 +13,7 @@ export const session = (app) => {
         signed: true,
         rolling: false
     };
-    let redisStore = yamlConfig[process.env.NODE_ENV].redisStore;
+    let redisStore = app.context.getEnvConfigProp('redisStore');
     if (redisStore) {
         const koaRedis = require('koa-redis');
         CONFIG.store = koaRedis(redisStore);
