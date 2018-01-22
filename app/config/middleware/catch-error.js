@@ -16,9 +16,12 @@ export const catchError = async (ctx, next) => {
             // helpers: helpers,
             currentUser: null,
         };
+
         if (status === 500) {
             console.log('server error', err, ctx);
         }
-        await ctx.render('common/error-404', {error: err, title: 'error'});
+        console.log(`error:${err.message}`);
+        ctx.state.error = err;
+        await ctx.redirect('/error');
     }
 };

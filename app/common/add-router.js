@@ -1,5 +1,4 @@
 import Router from 'koa-router';
-import {render404} from './render-404';
 
 let allRouter = [];
 let hasRootRouter = false;
@@ -67,7 +66,7 @@ const checkUrl = async (ctx, next) => {
                 await next();
             }
             else {
-                await render404(ctx);
+                await ctx.redirect('/error');
             }
         }
         else {
@@ -75,7 +74,7 @@ const checkUrl = async (ctx, next) => {
                 await next();
             }
             else {
-                await render404(ctx);
+                await ctx.redirect('/error');
             }
         }
     }
@@ -85,7 +84,7 @@ const checkUrl = async (ctx, next) => {
             await next();
         }
         else {
-            await render404(ctx);
+            await ctx.redirect('/error');
         }
     }
 };
