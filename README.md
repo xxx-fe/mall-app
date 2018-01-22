@@ -76,15 +76,15 @@ module.exports ={
 
 * ```/app/router/example/index.js```
 ```javascript
-import Router from 'koa-router';
 import exampleCtrl from '../../controller/example/index';
+import {addRouter} from '../../common/add-router';
 
-const router = Router({
-    prefix: '/'
+let router = addRouter(function (router) {
+    router.get('', exampleCtrl.index);
+    router.get('example', exampleCtrl.index);
+    router.post('example/list', exampleCtrl.list);
 });
-router.get('', exampleCtrl.index);
-router.get('example', exampleCtrl.index);
-router.post('example/list', exampleCtrl.list);
+
 module.exports = router;
 ```
 
