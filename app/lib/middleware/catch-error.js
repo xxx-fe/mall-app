@@ -1,9 +1,6 @@
-const log4js = require('log4js');
-const logger = log4js.getLogger('app');
 /**
  * 捕获错误
  */
-
 export const catchError = async (app) => {
     app.use(async (ctx, next) => {
         try {
@@ -24,7 +21,7 @@ export const catchError = async (app) => {
             if (status === 500) {
                 console.log('server error', err, ctx);
             }
-            logger.error(`${err}`);
+            console.error(`url:${ctx.url} error:${err}`);
             ctx.state.error = err;
             await ctx.redirect('/error');
         }

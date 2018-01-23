@@ -17,6 +17,7 @@
     "jquery-lazyload": "^1.9.7",
     "js-yaml": "^3.8.3",
     "koa": "^2.2.0",
+    "koa-helmet": "^3.3.0",
     "koa-proxy": "^0.9.0",
     "koa-router": "^7.1.1",
     "koa-session": "^5.7.1",

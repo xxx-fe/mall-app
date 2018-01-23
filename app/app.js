@@ -6,6 +6,10 @@ const app = new Koa();
 
 setContext(app);
 
+middleware.helmet(app);
+
+middleware.logger(app);
+
 middleware.bodyParser(app);
 
 middleware.session(app);

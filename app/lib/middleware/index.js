@@ -8,6 +8,8 @@ import {listen} from './listen';
 import {view} from './view';
 import {staticServe} from './static-serve';
 import {bodyParser} from './body-parser';
+import {logger} from './logger';
+import {helmet} from './helmet';
 module.exports.default = module.exports = {
     session,
     catchError,
@@ -19,4 +21,6 @@ module.exports.default = module.exports = {
     view,
     staticServe,
     bodyParser,
+    logger,
+    helmet
 };

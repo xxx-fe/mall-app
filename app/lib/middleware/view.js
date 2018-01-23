@@ -10,4 +10,4 @@ export const view = async (app) => {
             hbs: 'handlebars'
         }
     }));
-}
+};
