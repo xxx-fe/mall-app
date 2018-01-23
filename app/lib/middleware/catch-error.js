@@ -11,19 +11,21 @@ export const catchError = async (app) => {
             if (status < 0) {
                 status = 500;
             }
-            ctx.status = status;
-            ctx.state = {
+
+            ctx.state.error = {
                 status: status,
-                // helpers: helpers,
-                currentUser: null,
+                error: err,
+                url: ctx.path
             };
 
-            if (status === 500) {
-                console.log('server error', err, ctx);
+            console.error(JSON.stringify(ctx.state.error));
+
+            if (ctx.header.referer && ctx.request.originalUrl.indexOf('.') > -1) {
+                ctx.throw(404);
             }
-            console.error(`url:${ctx.url} error:${err}`);
-            ctx.state.error = err;
-            await ctx.redirect('/error');
+            else if (status === 404) {
+                await ctx.redirect('/error');
+            }
         }
     })
 };

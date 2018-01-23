@@ -11,6 +11,7 @@
             <div class="text-center page-header">
                 <h1 class="mall-app">mall-app</h1>
                 <p>vue koa 前后分离多页应用脚手架</p>
+                <img src="/public/image/logo.gif" >
             </div>
             <div class="row">
                 <div v-for="item in list" class="col-sm-6 col-md-4 col-lg-3">
@@ -57,6 +58,7 @@
     }
     .mall-app{
         color:blue;
+        background:url('/test/public/image/test.jpg');
     }
 </style>
 <style lang="scss">

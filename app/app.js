@@ -20,11 +20,9 @@ middleware.catchError(app);
 
 middleware.view(app);
 
-middleware.router(app);
-
 middleware.staticServe(app);
 
-middleware.view(app);
+middleware.router(app);
 
 middleware.webpack(app);
 
