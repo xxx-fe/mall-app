@@ -11,6 +11,7 @@ export const proxy = async (app) => {
     let webpackEntryName = [];
     let webpackMatch = '';
     let env = app.context.env;
+
     //处理webpack.options.conf 所有EntryName
     for (let item in entry) {
         if (!webpackEntryName.includes(item)) {
@@ -18,17 +19,17 @@ export const proxy = async (app) => {
         }
     }
 
-    let port = app.context.getEnvConfigProp('port');
+    let port = app.context.port;
 
-    let urlLangPrefix = app.context.config.urlLangPrefix;
+    let lang = app.context.lang;
 
     //返回在多语言路由加载文件的正确性
-    if (env === 'development' && urlLangPrefix) {
+    if (env === 'development' && lang) {
         let urlMatch = '';
         let urlReplaceMatch = '';
-        let len = urlLangPrefix.length;
+        let len = lang.length;
         for (let i = 0; i < len; i++) {
-            let item = urlLangPrefix[i];
+            let item = lang[i];
             if (i == len - 1) {
                 urlMatch += `(${item}(.+)[.])`;
                 urlReplaceMatch += `(\/${item})`;
@@ -89,4 +90,6 @@ export const proxy = async (app) => {
             }
         })));
     }
+
+    console.log('proxy initialized')
 }

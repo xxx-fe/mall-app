@@ -10,6 +10,7 @@ import {staticServe} from './static-serve';
 import {bodyParser} from './body-parser';
 import {logger} from './logger';
 import {helmet} from './helmet';
+import {stateContext} from './state-context';
 module.exports.default = module.exports = {
     session,
     catchError,
@@ -22,5 +23,6 @@ module.exports.default = module.exports = {
     staticServe,
     bodyParser,
     logger,
-    helmet
+    helmet,
+    stateContext
 };

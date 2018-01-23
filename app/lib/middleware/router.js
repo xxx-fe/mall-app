@@ -16,5 +16,6 @@ export const router = (app) => {
         }
     });
     app.use(thatRouter.routes(), thatRouter.allowedMethods());
+    console.log('router initialized');
 };
 

@@ -13,11 +13,12 @@ export const session = (app) => {
         signed: true,
         rolling: false
     };
-    let redisStore = app.context.getEnvConfigProp('redisStore');
+    let redisStore = app.context.redisStore;
     if (redisStore) {
         const koaRedis = require('koa-redis');
         CONFIG.store = koaRedis(redisStore);
     }
     app.use(koaSession(CONFIG, app));
+
 };
 

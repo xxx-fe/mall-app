@@ -12,4 +12,5 @@ export const logger = async (app) => {
         }],
         replaceConsole: true
     });
+    console.log('logger initialized');
 };

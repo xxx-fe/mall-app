@@ -1,4 +1,4 @@
-urlLangPrefix: ['zh', 'en']
+lang: ['zh', 'en']
 development:
     port: 3333 #服务器端口
     #redisStore :

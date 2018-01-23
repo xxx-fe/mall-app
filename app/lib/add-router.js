@@ -54,12 +54,12 @@ const isValidUrl = (url) => {
 const checkUrl = async (ctx, next) => {
     let url = ctx.url;
     let split = url.split('/');
-    let urlLangPrefix = ctx.config.urlLangPrefix;
+    let lang = ctx.lang;
     //多语言url
-    if (urlLangPrefix && split.length > 2) {
+    if (lang && split.length > 2) {
         let splitUrl = split[1];
         //是否包含正确的多语言前缀url
-        if (urlLangPrefix.includes(splitUrl)) {
+        if (lang.includes(splitUrl)) {
             //删除正确的多语言url,还原为真实的url,并验证这个真实的url
             let replaceUrl = url.replace(ctx.urlLangRegExp, '').replace(/\/$/, '');
             if (isValidUrl(replaceUrl)) {

@@ -5,4 +5,5 @@ import serve from 'koa-static';
  */
 export const staticServe = async (app) => {
     app.use(serve(path.join(path.resolve('./'))));
+    console.log('static-serve initialized');
 };

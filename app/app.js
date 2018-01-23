@@ -4,11 +4,11 @@ import {setContext} from './lib/set-context';
 
 const app = new Koa();
 
+middleware.logger(app);
+
 setContext(app);
 
 middleware.helmet(app);
-
-middleware.logger(app);
 
 middleware.bodyParser(app);
 
@@ -21,6 +21,8 @@ middleware.catchError(app);
 middleware.view(app);
 
 middleware.staticServe(app);
+
+middleware.stateContext(app);
 
 middleware.router(app);
 

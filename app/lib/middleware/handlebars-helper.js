@@ -15,11 +15,10 @@ if (existsManifest) {
  */
 const parseUrl = (url, ctx) => {
     if (url || typeof url !== 'number') {
-        let NODE_ENV = process.env.NODE_ENV;
         let appName = ctx.state.appName + '.css';
         let fileName = url.replace(/\.js/, '');
         let basePath = '../../../';
-        if (NODE_ENV === 'development') {
+        if (ctx.env === 'development') {
             if (url.indexOf('.js') > -1) {
                 return `<script src="${url}"></script>`;
             }
@@ -32,7 +31,7 @@ const parseUrl = (url, ctx) => {
             }
         }
         //生产模式读取dist地址
-        else if (NODE_ENV === 'production' && manifest) {
+        else if (ctx.env === 'production' && manifest) {
             let html = [];
             if (url.indexOf('.css') > -1) {
                 let cssUrl = manifest[url];
@@ -112,4 +111,5 @@ const rawHelper = async (ctx, next) => {
 export const handlebarsHelper = async (app) => {
     app.use(layouts);
     app.use(rawHelper);
+    console.log('handlebars-helper initialized');
 };

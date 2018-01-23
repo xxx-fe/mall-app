@@ -6,4 +6,5 @@ import koaHelmet from 'koa-helmet'
  */
 export const helmet = async (app) => {
     app.use(koaHelmet());
+    console.log('helmet initialized');
 };

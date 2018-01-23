@@ -27,5 +27,6 @@ export const catchError = async (app) => {
                 await ctx.redirect('/error');
             }
         }
-    })
+    });
+    console.log('catch-error initialized');
 };

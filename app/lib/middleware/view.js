@@ -10,4 +10,5 @@ export const view = async (app) => {
             hbs: 'handlebars'
         }
     }));
+    console.log('view initialized');
 };

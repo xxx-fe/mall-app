@@ -58,7 +58,6 @@
     }
     .mall-app{
         color:blue;
-        background:url('/test/public/image/test.jpg');
     }
 </style>
 <style lang="scss">
