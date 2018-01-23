@@ -49,7 +49,7 @@ const isValidUrl = (url) => {
 };
 
 /**
- * 检查路由
+ * 检查路由中间件
  */
 const checkUrl = async (ctx, next) => {
     let url = ctx.url;
@@ -57,12 +57,14 @@ const checkUrl = async (ctx, next) => {
     let lang = ctx.lang;
     //多语言url
     if (lang && split.length > 2) {
+        //语言split
         let splitUrl = split[1];
         //是否包含正确的多语言前缀url
         if (lang.includes(splitUrl)) {
             //删除正确的多语言url,还原为真实的url,并验证这个真实的url
             let replaceUrl = url.replace(ctx.urlLangRegExp, '').replace(/\/$/, '');
             if (isValidUrl(replaceUrl)) {
+                ctx.session.user.lang = splitUrl;
                 await next();
             }
             else {
