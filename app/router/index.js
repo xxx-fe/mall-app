@@ -1,7 +1,7 @@
 /**
  * 路由
  */
-import {addRouter} from '../common/add-router';
+import {addRouter} from '../lib/add-router';
 import error from '../controller/common/error';
 
 let router = addRouter(function (router) {

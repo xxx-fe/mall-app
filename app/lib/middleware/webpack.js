@@ -1,4 +1,5 @@
 import koaWebpack from 'koa-webpack';
+import path from 'path';
 /**
  * webpack
  */
@@ -6,7 +7,7 @@ export const webpack = async (app) => {
     //如果是生产模式则不加载
     if (app.context.env === 'development') {
         const webpack = require("webpack");
-        const webpackConf = require("../../build/webpack.dev.conf");
+        const webpackConf = require(path.resolve('./build/webpack.dev.conf'));
         const compiler = webpack(webpackConf);
         app.use(koaWebpack({
             compiler: compiler,

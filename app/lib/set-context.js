@@ -1,14 +1,14 @@
 /**
- * 上下文
+ * 设置上下文
  */
 const yaml = require('js-yaml');
 const fs = require('fs');
 const path = require('path');
 const configYml = path.join(__dirname, '../../config.yml');
 const config = yaml.safeLoad(fs.readFileSync(configYml));
-import {isEmptyArray} from '../common/is-empty-array';
+import {isEmptyArray} from './utils/is-empty-array';
 
-export const context = async (app) => {
+export const setContext = async (app) => {
     let argv = process.argv.splice(2);
     let env = process.env.NODE_ENV = argv[0] !== 'production' ? 'development' : 'production';
     app.context.env = env;

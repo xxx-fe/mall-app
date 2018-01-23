@@ -1,6 +1,6 @@
 import path from 'path';
 import koaRouter from 'koa-router';
-import {readDirSync} from '../common/read-dirsync';
+import {readDirSync} from '../utils/read-dirsync';
 
 /**
  * 路由
@@ -8,7 +8,7 @@ import {readDirSync} from '../common/read-dirsync';
 export const router = (app) => {
     const basename = path.basename(module.filename);
     const thatRouter = koaRouter();
-    readDirSync(path.join(__dirname, '../router/'), function (fileName, isDirectory, dirPath) {
+    readDirSync(path.join(path.resolve('./app/router')), function (fileName, isDirectory, dirPath) {
         let isJsFile = (dirPath.indexOf('.') !== 0) && (fileName !== basename) && (dirPath.slice(-3) === '.js');
         if (!isDirectory && isJsFile) {
             let dirRoute = require(dirPath);

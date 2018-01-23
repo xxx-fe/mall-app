@@ -22,9 +22,7 @@
 ├── build                                       // webpack配置文件(vue-cli生成)
 ├── config                                      // 项目打包路径(vue-cli生成)
 ├── app                                         // app应用
-│    ├── common                                 //     通用系列方法
-│    ├── config                                 //     配置
-│    │     └── middleware                       //         中间件
+│    ├── lib                                    //     库
 │    ├── controller                             //     控制器
 │    ├── router                                 //     路由
 │    ├── service                                //     数据(api)
@@ -77,7 +75,7 @@ module.exports ={
 * ```/app/router/example/index.js```
 ```javascript
 import exampleCtrl from '../../controller/example/index';
-import {addRouter} from '../../common/add-router';
+import {addRouter} from '../../lib/add-router';
 
 let router = addRouter(function (router) {
     router.get('', exampleCtrl.index);

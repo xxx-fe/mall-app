@@ -1,27 +1,28 @@
 import Koa from 'koa';
-import appConfig from './config/index';
+import middleware from './lib/middleware/index';
+import {setContext} from './lib/set-context';
 
 const app = new Koa();
 
-appConfig.bodyParser(app);
+setContext(app);
 
-appConfig.context(app);
+middleware.bodyParser(app);
 
-appConfig.session(app);
+middleware.session(app);
 
-appConfig.middleware(app);
+middleware.handlebarsHelper(app);
 
-appConfig.view(app);
+middleware.view(app);
 
-appConfig.router(app);
+middleware.router(app);
 
-appConfig.staticServe(app);
+middleware.staticServe(app);
 
-appConfig.view(app);
+middleware.view(app);
 
-appConfig.webpack(app);
+middleware.webpack(app);
 
-appConfig.proxy(app);
+middleware.proxy(app);
 
-appConfig.listen(app);
+middleware.listen(app);
 

@@ -1,13 +1,13 @@
 import path from 'path';
 import fs from 'fs';
-import * as common from '../../common/index'
+import {readDirSync} from '../utils/read-dirsync';
 
 const handlebars = require('handlebars');
 
 let manifest = '';
-let existsManifest = fs.existsSync(path.join(__dirname, '../../../dist/manifest.json'));
+let existsManifest = fs.existsSync(path.resolve('./dist/manifest.json'));
 if (existsManifest) {
-    manifest = require('../../../dist/manifest.json');
+    manifest = require(path.resolve('./dist/manifest.json'));
 }
 
 /**
@@ -65,11 +65,11 @@ const parseUrl = (url, ctx) => {
  * handlebars布局
  * 主要解析.hbs文件,返回请求文件
  */
-export const layouts = async (ctx, next) => {
+const layouts = async (ctx, next) => {
     let layouts = require('handlebars-layouts');
     layouts.register(handlebars);
     //解析view(.hbs)模板
-    common.readDirSync(path.join(__dirname, '../../view/common'), function (fileName, isDirectory, dirPath) {
+    readDirSync(path.join(__dirname, '../../view/common'), function (fileName, isDirectory, dirPath) {
         let isHbsFile = (dirPath.indexOf('.') !== 0) && (dirPath.slice(-4) === '.hbs');
         if (!isDirectory && isHbsFile) {
             let hbsName = path.basename(dirPath, '.hbs');
@@ -98,9 +98,18 @@ export const layouts = async (ctx, next) => {
  * handlebarsHelper
  * 输出raw内容
  */
-export const rawHelper = async (ctx, next) => {
+const rawHelper = async (ctx, next) => {
     handlebars.registerHelper('raw', function (options) {
         return options.fn(this);
     });
     await next();
+};
+
+
+/**
+ * 捕获错误
+ */
+export const handlebarsHelper = async (app) => {
+    app.use(layouts);
+    app.use(rawHelper);
 };

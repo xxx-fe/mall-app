@@ -1,5 +1,5 @@
 import exampleCtrl from '../../controller/example/index';
-import {addRouter} from '../../common/add-router';
+import {addRouter} from '../../lib/add-router';
 
 let router = addRouter(function (router) {
     router.get('', exampleCtrl.index);

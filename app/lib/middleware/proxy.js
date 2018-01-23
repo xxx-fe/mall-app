@@ -6,7 +6,7 @@ import koaConvert from 'koa-convert';
  * 代理
  */
 export const proxy = async (app) => {
-    let webpackOptionConf = require('../../webpack.options.conf');
+    let webpackOptionConf = require(path.resolve('./webpack.options.conf'));
     let entry = webpackOptionConf.entry;
     let webpackEntryName = [];
     let webpackMatch = '';
