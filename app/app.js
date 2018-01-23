@@ -12,6 +12,8 @@ middleware.session(app);
 
 middleware.handlebarsHelper(app);
 
+middleware.catchError(app);
+
 middleware.view(app);
 
 middleware.router(app);
