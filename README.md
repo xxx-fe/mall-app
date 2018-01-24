@@ -3,6 +3,7 @@
 
 > vue koa 前后分离多页应用脚手架
 
+支持多语言
 
 ## Architecture
 
@@ -19,8 +20,8 @@
 
 ```text
 .
-├── build                                       // webpack配置文件(vue-cli生成)
-├── config                                      // 项目打包路径(vue-cli生成)
+├── build                                       // webpack配置文件(vue-cli生成,有修改)
+├── config                                      // 项目打包路径(vue-cli生成,有修改)
 ├── app                                         // app应用
 │    ├── lib                                    //     库
 │    ├── controller                             //     控制器
@@ -33,13 +34,15 @@
 ├── dist                                        // 生产目录
 ├── public                                      // 公共资源
 │    ├── script                                 //     脚本
+│    │      ├── common                          //        通用方法
+│    │      └── locale                          //        多语言文件
 │    ├── image                                  //     图片
 │    ├── style                                  //     样式(全局样式)
 │    └── vendor                                 //     第三方插件
 ├── src                                         // 源码
 │    ├── component                              //     组件
 │    ├── page                                   //     页面(每个页面都是一个应用)
-│    └─  style                                  //     样式(应用样式)
+│    └── style                                  //     样式(应用样式)
 
 ```
 
@@ -48,7 +51,7 @@
 ``` bash
 npm install    //安装
 npm run dev    //启动开发模式(读webpack.options.conf.js文件entry,并热加载)
-npm run build  //构建项目   (打包路径 /src/page/**/*.js)
+npm run build  //构建项目
 npm run prod   //启动生产模式(读dist目录打包后的文件)
 ```
 
@@ -201,4 +204,62 @@ $(document).ready(function(){
 });
 ```
 **浏览: http://localhost:3333/example**
+
+## 打包
+
+`npm run build` 从`/src/page/**/*.js`打包,如果设置了多语言也打包`/public/srcipt/locale/**/*.js`
+
+### 打包的命名生成
+
+`/public/srcipt/locale/zh/index.js` --> `/dist/static/js/zh[chunkhash].js`
+
+`/src/page/example/index.js` --> `/dist/static/js/example[chunkhash].js`
+
+生成到`/dist/static/js/`的文件名是由文件目录决定的.
+
+#### 为什么这么做
+
+一般情况每一个应用都建立在 `/src/page/**/index.js`,以`index.js`作为入口.
+`index.js`引用当前目录.js方便管理该应用.
+
+
+## 多语言(locales)
+
+### 1.配置locales参数
+* ```/config.yml```
+```yml
+locales: ['zh', 'en'[,.]]
+```
+
+路由则支持
+
+*  http://localhost:3333/example
+*  http://localhost:3333/zh/example
+*  http://localhost:3333/en/example
+
+**默认语言:en**
+
+### 2.创建多语言文件
+* `/public/srcipt/locale/zh/index.js`
+```javascript
+locale = {
+    'desc': 'vue koa 前后分离多页应用脚手架'
+};
+```
+* `/public/srcipt/locale/en/index.js`
+```javascript
+locale = {
+    'desc': 'vue koa scaffold'
+};
+```
+
+多语言文件会在`header.js`之前自动插入.文件一定是在目录下,以目录名为生产文件.
+和**打包的命名生成**规则是一样的.
+
+### 3.调用getLocale全局方法
+方法在`/public/srcipt/common/locale.js`
+```javascript
+getLocale('desc')
+```
+
 
