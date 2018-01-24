@@ -21,15 +21,15 @@ export const proxy = async (app) => {
 
     let port = app.context.port;
 
-    let lang = app.context.lang;
+    let locales = app.context.locales;
 
     //返回在多语言路由加载文件的正确性
-    if (env === 'development' && lang) {
+    if (env === 'development' && locales) {
         let urlMatch = '';
         let urlReplaceMatch = '';
-        let len = lang.length;
+        let len = locales.length;
         for (let i = 0; i < len; i++) {
-            let item = lang[i];
+            let item = locales[i];
             if (i == len - 1) {
                 urlMatch += `(${item}(.+)[.])`;
                 urlReplaceMatch += `(\/${item})`;

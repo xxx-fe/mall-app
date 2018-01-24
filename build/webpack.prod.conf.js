@@ -29,22 +29,26 @@ let travel = (dir, callback) => {
 //获取全部入口,打包全部
 let getAllEntry = () => {
     var files = {};
-    var jsPath = path.resolve('./src/page');
-    travel(jsPath, function (pathName) {
-        if (/.js/.test(pathName)) {
-            let fileName = pathName.split('\\');
-            fileName = fileName[fileName.length - 1];
-            //mac & linux
-            let travelpath = pathName.split('\/');
-            //windows
-            travelpath = (travelpath.length > 1) ? travelpath : pathName.split('\\');
-            let entrypath = '';
-            if (travelpath.length > 1) {
-                entrypath = travelpath[travelpath.length - 2];
-                files[entrypath] = './src/page/' + travelpath[travelpath.length - 2] + `/${fileName}`;
+    function travelFile(resolvePath, entryPath){
+        var jsPath = path.resolve(resolvePath);
+        travel(jsPath, function (pathName) {
+            if (/.js/.test(pathName)) {
+                let fileName = pathName.split('\\');
+                fileName = fileName[fileName.length - 1];
+                //mac & linux
+                let travelpath = pathName.split('\/');
+                //windows
+                travelpath = (travelpath.length > 1) ? travelpath : pathName.split('\\');
+                let entrypath = '';
+                if (travelpath.length > 1) {
+                    entrypath = travelpath[travelpath.length - 2];
+                    files[entrypath] = entryPath + travelpath[travelpath.length - 2] + `/${fileName}`;
+                }
             }
-        }
-    });
+        });
+    }
+    travelFile('./src/page', './src/page/');
+    travelFile('./public/script/locale', './public/script/locale/');
     return files;
 }
 var webpackConfig = merge(baseWebpackConfig, {

@@ -16,13 +16,13 @@ function appContextConfig(app) {
         config[env],
         {env: env}
     );
-    let lang = config.lang;
+    let locales = config.locales;
     //多语言前缀
-    if (!isEmptyArray(lang)) {
+    if (!isEmptyArray(locales)) {
         let regexp = '';
-        for (let i = 0; i < lang.length; i++) {
-            let item = lang[i];
-            if (i === lang.length - 1) {
+        for (let i = 0; i < locales.length; i++) {
+            let item = locales[i];
+            if (i === locales.length - 1) {
                 regexp += `\/(${item})`;
             }
             else {
@@ -31,7 +31,7 @@ function appContextConfig(app) {
         }
         if (regexp) {
             regexp = new RegExp(regexp);
-            appConfig.urlLangRegExp = regexp;
+            appConfig.urlLocalesRegExp = regexp;
         }
     }
     delete appConfig['development'];

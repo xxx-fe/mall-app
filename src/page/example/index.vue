@@ -3,15 +3,21 @@
         <header class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand hidden-sm" target="_blank" href="https://github.com/xxx-fe/mall-app">mall-app</a>
+                    <a class="navbar-brand hidden-sm" target="_blank"
+                       href="https://github.com/xxx-fe/mall-app">mall-app</a>
                 </div>
             </div>
         </header>
         <div class="container">
             <div class="text-center page-header">
                 <h1 class="mall-app">mall-app</h1>
-                <p>vue koa 前后分离多页应用脚手架</p>
-                <img src="/public/image/logo.gif" >
+                <p>中文: vue koa 前后分离多页应用脚手架</p>
+                <p class="lang">多语言: {{desc}}</p>
+                <div>
+                    <button class="btn btn-primary" v-on:click="changeLocale('zh')">中文</button>
+                    <button class="btn btn-primary" v-on:click="changeLocale('en')">英文</button>
+                </div>
+                <img src="/public/image/logo.gif">
             </div>
             <div class="row">
                 <div v-for="item in list" class="col-sm-6 col-md-4 col-lg-3">
@@ -37,12 +43,18 @@
 </template>
 <script>
     export default {
-        data () {
+        data() {
             return {
-                list: ''
+                list: '',
+                desc: getLocale('desc')
             }
         },
-        mounted(){
+        methods: {
+            changeLocale(code){
+                location.href = `/${code}/example`
+            }
+        },
+        mounted() {
             this.$http.post('/example/list').then(response => {
                 console.log(response);
                 this.list = response.data.list
@@ -53,11 +65,19 @@
     }
 </script>
 <style scoped>
-    .page-header{
-        margin:80px 0 20px;
+    .page-header {
+        margin: 80px 0 20px;
     }
-    .mall-app{
-        color:blue;
+
+    .mall-app {
+        font-size: 50px;
+        height: 76px;
+        line-height: 76px;
+        color: blue;
+    }
+
+    .lang {
+        font-size: 30px;
     }
 </style>
 <style lang="scss">

@@ -6,11 +6,11 @@ export const stateContext = async (app) => {
     app.use(async (ctx, next) => {
         if (!ctx.session.user) {
             ctx.session.user = {}
-            if (ctx.lang) {
-                ctx.session.user.lang = 'en';
-            }
+        }
+        if (!ctx.state.locale) {
+            ctx.state.locale = 'en';
         }
         await next();
-    })
+    });
     console.log('state-context initialized');
 };
