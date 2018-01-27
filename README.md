@@ -255,7 +255,7 @@ locale = {
 和**打包的命名生成**规则是一样的.
 
 ### 3.调用getLocale全局方法
-* `/public/srcipt/common/locale.js`
+* `/src/lib/utils/locale.js`
 ```javascript
 getLocale('desc')
 ```
