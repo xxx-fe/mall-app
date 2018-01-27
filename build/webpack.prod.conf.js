@@ -48,7 +48,7 @@ let getAllEntry = () => {
         });
     }
     travelFile('./src/page', './src/page/');
-    travelFile('./public/script/locale', './public/script/locale/');
+    travelFile('./src/lib', './src/lib/');
     return files;
 }
 var webpackConfig = merge(baseWebpackConfig, {

@@ -12,7 +12,7 @@
 * `库管理`:bower(npm有的,bower不需要,但比如boostrap,npm方式比较麻烦,看情况).
 * `服务器`:koa2.
 * `模板引擎`:handlebars.
-* `打包`:webapck2
+* `打包`:webapck3
 
 **运行环境中Nodejs的版本至少是7**
 
@@ -22,7 +22,7 @@
 .
 ├── build                                       // webpack配置文件(vue-cli生成,有修改)
 ├── config                                      // 项目打包路径(vue-cli生成,有修改)
-├── app                                         // app应用
+├── app                                         // app应用(nodejs)
 │    ├── lib                                    //     库
 │    ├── controller                             //     控制器
 │    ├── router                                 //     路由
@@ -33,14 +33,12 @@
 │    ├── app.js                                 //     应用入口
 ├── dist                                        // 生产目录
 ├── public                                      // 公共资源
-│    ├── script                                 //     脚本
-│    │      ├── common                          //        通用方法
-│    │      └── locale                          //        多语言文件
 │    ├── image                                  //     图片
-│    ├── style                                  //     样式(全局样式)
 │    └── vendor                                 //     第三方插件
-├── src                                         // 源码
+├── src                                         // 源码(前端)
 │    ├── component                              //     组件
+│    ├── lib                                    //     库
+│    ├── locale                                 //     多语言文件
 │    ├── page                                   //     页面(每个页面都是一个应用)
 │    └── style                                  //     样式(应用样式)
 
@@ -64,9 +62,9 @@ npm run prod   //启动生产模式(读dist目录打包后的文件)
 ```javascript
 module.exports ={
     entry: {
-        header: './public/common/header.js',//公共资源头部js:一般包括第三方插件,全局通用函数等.(所有应用共享)
+        header: './src/lib/header/index.js',//公共资源头部js:一般包括第三方插件,全局通用函数等.(所有应用共享)
         example: './src/page/example/index.js',//源代码应用js                              (当前应用js)
-        footer: './public/common/footer.js',//公共资源底部js:一般有统计脚本等.               (所有应用共享)
+        footer: './src/lib/footer/index.js',//公共资源底部js:一般有统计脚本等.               (所有应用共享)
     }
 }
 ```
@@ -207,11 +205,11 @@ $(document).ready(function(){
 
 ## 打包
 
-`npm run build` 从`/src/page/**/*.js`打包,如果设置了多语言也打包`/public/srcipt/locale/**/*.js`
+`npm run build` 从`/src/page/**/*.js`打包,如果设置了多语言也打包`/src/locale/**/*.js`
 
 ### 打包的命名生成
 
-`/public/srcipt/locale/zh/index.js` --> `/dist/static/js/zh[chunkhash].js`
+`/src/locale/zh/index.js` --> `/dist/static/js/zh[chunkhash].js`
 
 `/src/page/example/index.js` --> `/dist/static/js/example[chunkhash].js`
 
@@ -240,13 +238,13 @@ locales: ['zh', 'en'[,.]]
 **默认语言:en**
 
 ### 2.创建多语言文件
-* `/public/srcipt/locale/zh/index.js`
+* `/src/locale/zh/index.js`
 ```javascript
 locale = {
     'desc': 'vue koa 前后分离多页应用脚手架'
 };
 ```
-* `/public/srcipt/locale/en/index.js`
+* `/src/locale/en/index.js`
 ```javascript
 locale = {
     'desc': 'vue koa scaffold'

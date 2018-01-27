@@ -20,8 +20,8 @@ const appendFileForDev = (ctx, url) => {
         if (url === 'header.js') {
             let html = [];
             if (ctx.state.locale) {
-                let localeJS = `./public/script/locale/${ctx.state.locale}/index.js`;
-                let existsLocaleJS = fs.existsSync(path.resolve(`./public/script/locale/${ctx.state.locale}/index.js`));
+                let localeJS = `./src/locale/locale/${ctx.state.locale}/index.js`;
+                let existsLocaleJS = fs.existsSync(path.resolve(`./src/locale/locale/${ctx.state.locale}/index.js`));
                 if (existsLocaleJS) {
                     html.push(`<script src="${localeJS}"></script>`);
                 }
