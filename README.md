@@ -1,7 +1,7 @@
 # mall-app
 
 
-> vue koa 前后分离多页应用脚手架
+> vue koa 多页应用脚手架
 
 支持多语言
 
@@ -10,7 +10,7 @@
 * `脚本`:vue2,ES5+.
 * `样式`:scss.
 * `库管理`:bower(npm有的,bower不需要,但比如boostrap,npm方式比较麻烦,看情况).
-* `服务器`:koa2.
+* `框架`:koa2.
 * `模板引擎`:handlebars.
 * `打包`:webapck3
 
@@ -28,8 +28,6 @@
 │    ├── router                                 //     路由
 │    ├── service                                //     数据(api)
 │    ├── view                                   //     视图
-│    │    ├── common                            //         通用视图
-│    │    └── layout                            //         布局视图
 │    ├── app.js                                 //     应用入口
 ├── dist                                        // 生产目录
 ├── public                                      // 公共资源
@@ -69,11 +67,11 @@ module.exports ={
 }
 ```
 新建一个webpack.options.conf.js(不上传到仓库).
-* ```/app/view/**/**.hbs```  引用它们.
 
 ### 1.新建应用路由
 
 * ```/app/router/example/index.js```
+
 ```javascript
 import exampleCtrl from '../../controller/example/index';
 import {addRouter} from '../../lib/add-router';
@@ -90,6 +88,7 @@ module.exports = router;
 ### 2.新建应用控制器
 
 * ```/app/controller/example/index.js```
+
 ```javascript
 import exampleService from '../../service/example/index';
 
@@ -120,19 +119,20 @@ module.exports = {
 ### 3.新建应用视图
 
 - ```/app/view/page/example.hbs```
+
 ```handlebars
 {{#extend "layout-example"}}     //使用layout-example布局
-{{#content "head"}}
-    {{{parseUrl 'example.css'}}} //exmaple应用的css,直接引用
-{{/content}}                     //不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
-{{#content "body"}}
-<div id="app"></div>
-{{{parseUrl 'example.js'}}}      //exmaple应用的js
-{{/content}}                     //webpack.options.conf.js  entry.home
+    {{#content "head"}}
+        {{{parseUrl 'example.css'}}} //exmaple应用的css,直接引用
+    {{/content}}                     //不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
+    {{#content "body"}}
+        <div id="app"></div>
+        {{{parseUrl 'example.js'}}}  //exmaple应用的js,webpack.options.conf.js  entry.home
+    {{/content}}
 {{/extend}}
 ```
 
-`/app/view/**/**.hbs` 以文件名注册为`handlebars partial`.
+`/app/view/layout/**.hbs` 以文件名注册为`handlebars partial`.
 
 #### 引用:
 
@@ -162,6 +162,7 @@ module.exports = {
 ### 4.新建应用页面
 
 * ```/src/page/example/index.vue```
+
 ```javascript
 ...
 <script>
@@ -186,6 +187,7 @@ module.exports = {
 ### 5.新建应用入口
 
 * ```/src/page/example/index.js```
+
 ```javascript
 import Vue from 'vue';
 import axios from 'axios';
@@ -225,6 +227,7 @@ $(document).ready(function(){
 
 ### 1.配置locales参数
 * ```/config.yml```
+
 ```yml
 locales: ['zh', 'en'[,.]]
 ```
@@ -239,12 +242,15 @@ locales: ['zh', 'en'[,.]]
 
 ### 2.创建多语言文件
 * `/src/locale/zh/index.js`
+
 ```javascript
 locale = {
-    'desc': 'vue koa 前后分离多页应用脚手架'
+    'desc': 'vue koa 多页应用脚手架'
 };
 ```
+
 * `/src/locale/en/index.js`
+
 ```javascript
 locale = {
     'desc': 'vue koa scaffold'
@@ -256,6 +262,7 @@ locale = {
 
 ### 3.调用getLocale全局方法
 * `/src/lib/utils/locale.js`
+
 ```javascript
 getLocale('desc')
 ```

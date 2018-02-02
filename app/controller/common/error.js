@@ -8,7 +8,7 @@ const index = async (ctx, next) => {
     // console.log('error page')
     // console.error(JSON.stringify(ctx.context));
     ctx.state.appName = 'error';
-    await ctx.render('common/error', locals);
+    await ctx.render('error', locals);
 };
 
 export default {

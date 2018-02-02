@@ -14,7 +14,7 @@ middleware.bodyParser(app);
 
 middleware.session(app);
 
-middleware.handlebarsHelper(app);
+middleware.handlebars(app);
 
 middleware.catchError(app);
 

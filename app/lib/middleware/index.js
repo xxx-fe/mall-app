@@ -1,6 +1,6 @@
 import {session} from './session';
 import {catchError} from './catch-error';
-import {handlebarsHelper} from './handlebars-helper';
+import {handlebarsCustom as handlebars} from './handlebars';
 import {proxy} from './proxy';
 import {router} from './router';
 import {webpack} from './webpack';
@@ -14,7 +14,7 @@ import {stateContext} from './state-context';
 module.exports.default = module.exports = {
     session,
     catchError,
-    handlebarsHelper,
+    handlebars,
     proxy,
     router,
     webpack,

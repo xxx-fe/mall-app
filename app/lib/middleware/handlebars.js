@@ -1,3 +1,7 @@
+/**
+ * handlebars 中间件
+ * 主要注册 handlebars partial,helper
+ */
 import path from 'path';
 import fs from 'fs';
 import {readDirSync} from '../utils/read-dirsync';
@@ -92,7 +96,7 @@ const parseUrl = (url, ctx) => {
             }
         }
     } catch (err) {
-        console.warn('parseUrl exception');
+        console.warn('handlebars parseUrl exception');
         console.warn(err);
     }
 };
@@ -105,8 +109,9 @@ const parseUrl = (url, ctx) => {
 const layouts = async (ctx, next) => {
     let layouts = require('handlebars-layouts');
     layouts.register(handlebars);
-    //解析view(.hbs)模板
-    readDirSync(path.join(__dirname, '../../view/common'), function (fileName, isDirectory, dirPath) {
+
+    //解析view(.hbs)模板,注册partial
+    readDirSync(path.join(__dirname, '../../view/layout'), function (fileName, isDirectory, dirPath) {
         let isHbsFile = (dirPath.indexOf('.') !== 0) && (dirPath.slice(-4) === '.hbs');
         if (!isDirectory && isHbsFile) {
             let hbsName = path.basename(dirPath, '.hbs');
@@ -114,7 +119,7 @@ const layouts = async (ctx, next) => {
         }
     });
 
-    //解析url
+    //解析url,注册helper
     handlebars.registerHelper('parseUrl', function (urls) {
         let url = [];
         for (let i = 0; i < arguments.length - 1; i++) {
@@ -127,6 +132,7 @@ const layouts = async (ctx, next) => {
             return url.join('');
         }
     });
+
     await next();
 };
 
@@ -144,10 +150,10 @@ const rawHelper = async (ctx, next) => {
 
 
 /**
- * 捕获错误
+ * handlebarsPartial
  */
-export const handlebarsHelper = async (app) => {
+export const handlebarsCustom = async (app) => {
     app.use(layouts);
     app.use(rawHelper);
-    console.log('handlebars-helper initialized');
+    console.log('handlebars initialized');
 };
