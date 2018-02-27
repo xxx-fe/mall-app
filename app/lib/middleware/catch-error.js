@@ -20,9 +20,9 @@ module.exports.default = module.exports = async (app) => {
 
             console.error(JSON.stringify(ctx.state.error));
 
-            // if (status === 404) {
-            //     await ctx.redirect('/error');
-            // }
+            if (status === 404) {
+                await ctx.redirect('/error');
+            }
         }
     });
     console.log('catch-error initialized');
