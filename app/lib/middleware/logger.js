@@ -1,8 +1,8 @@
-import log4js from 'log4js'
+const log4js = require('log4js');
 /**
  * 日志
  */
-export const logger = async (app) => {
+module.exports.default = module.exports = async (app) => {
     log4js.configure({
         appenders: [{
             type: 'console',

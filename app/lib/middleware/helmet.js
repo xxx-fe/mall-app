@@ -1,10 +1,9 @@
-import koaHelmet from 'koa-helmet'
-
+const koaHelmet = require('koa-helmet');
 /**
  * 头盔
  * 安全性
  */
-export const helmet = async (app) => {
+module.exports.default = module.exports = async (app) => {
     app.use(koaHelmet());
     console.log('helmet initialized');
 };

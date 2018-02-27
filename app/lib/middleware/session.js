@@ -1,9 +1,8 @@
-import koaSession from 'koa-session';
-
+const koaSession = require('koa-session');
 /**
  * session
  */
-export const session = (app) => {
+module.exports.default = module.exports = (app) => {
     app.keys = ['keys'];
     const CONFIG = {
         key: 'koa:sess',

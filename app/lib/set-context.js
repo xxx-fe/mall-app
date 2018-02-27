@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const configYml = path.join(__dirname, '../../config.yml');
 const config = yaml.safeLoad(fs.readFileSync(configYml));
-import {isEmptyArray} from './utils/is-empty-array';
+const isEmptyArray = require('./utils/is-empty-array');
 
 /**
  * app上下文配置
@@ -14,7 +14,8 @@ function appContextConfig(app) {
     let appConfig = Object.assign({},
         config,
         config[env],
-        {env: env}
+        {env: env},
+        {urlLocalesRegExp: ''}
     );
     let locales = config.locales;
     //多语言前缀
@@ -23,15 +24,15 @@ function appContextConfig(app) {
         for (let i = 0; i < locales.length; i++) {
             let item = locales[i];
             if (i === locales.length - 1) {
-                regexp += `\/(${item})`;
+                regexp += `${item}`;
             }
             else {
-                regexp += `\/(${item})|`;
+                regexp += `${item}|`;
             }
         }
         if (regexp) {
-            regexp = new RegExp(regexp);
-            appConfig.urlLocalesRegExp = regexp;
+            //regexp = new RegExp(regexp);
+            appConfig.urlLocalesRegExp = `(${regexp})*/`;
         }
     }
     delete appConfig['development'];
@@ -40,13 +41,13 @@ function appContextConfig(app) {
     for (let item in appConfig) {
         app.context[item] = appConfig[item];
     }
+
 }
 
 /**
  * 设置上下文
  */
-export const setContext = async (app) => {
+module.exports.default = module.exports = async (app) => {
     appContextConfig(app);
-
     console.log('set-context initialized');
 };

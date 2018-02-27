@@ -17,7 +17,7 @@ const list = async (ctx, _next) => {
     ctx.body = locals;
 };
 
-module.exports = {
+module.exports.default = module.exports  = {
     index,
     list
 };

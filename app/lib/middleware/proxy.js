@@ -1,11 +1,10 @@
-import path from 'path';
-import koaProxy from 'koa-proxy';
-import koaConvert from 'koa-convert';
-
+const path = require('path');
+const koaProxy = require('koa-proxy');
+const koaConvert = require('koa-convert');
 /**
  * 代理
  */
-export const proxy = async (app) => {
+module.exports.default = module.exports = async (app) => {
     let webpackOptionConf = require(path.resolve('./webpack.options.conf'));
     let entry = webpackOptionConf.entry;
     let webpackEntryName = [];

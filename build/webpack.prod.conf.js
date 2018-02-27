@@ -9,7 +9,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 var ManifestPlugin = require('webpack-manifest-plugin');
-
+var readDirSync = require('../app/lib/utils/read-dirsync');
 var env = config.build.env;
 //自定义webpack配置(主要自定义入口)
 let webpackOptionConf = require('../webpack.options.conf');
@@ -29,26 +29,19 @@ let travel = (dir, callback) => {
 //获取全部入口,打包全部
 let getAllEntry = () => {
     var files = {};
-    function travelFile(resolvePath, entryPath){
-        var jsPath = path.resolve(resolvePath);
-        travel(jsPath, function (pathName) {
-            if (/.js/.test(pathName)) {
-                let fileName = pathName.split('\\');
-                fileName = fileName[fileName.length - 1];
-                //mac & linux
-                let travelpath = pathName.split('\/');
-                //windows
-                travelpath = (travelpath.length > 1) ? travelpath : pathName.split('\\');
-                let entrypath = '';
-                if (travelpath.length > 1) {
-                    entrypath = travelpath[travelpath.length - 2];
-                    files[entrypath] = entryPath + travelpath[travelpath.length - 2] + `/${fileName}`;
-                }
-            }
-        });
-    }
-    travelFile('./src/page', './src/page/');
-    travelFile('./src/locale', './src/locale/');
+    readDirSync(path.resolve('./src/page'), function (fileName, isDirectory, dirPath) {
+        if (/.js/.test(fileName) && fileName === 'index.js') {
+            var entryPath = path.basename(path.resolve(dirPath, '../'));
+            files[entryPath] = dirPath;
+        }
+    });
+
+    readDirSync(path.resolve('./src/locale'), function (fileName, isDirectory, dirPath) {
+        if (/.js/.test(fileName)) {
+            var entryPath = path.basename(dirPath ,'.js');
+            files[entryPath] = dirPath;
+        }
+    });
     return files;
 }
 var webpackConfig = merge(baseWebpackConfig, {

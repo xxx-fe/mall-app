@@ -2,10 +2,9 @@
  * handlebars 中间件
  * 主要注册 handlebars partial,helper
  */
-import path from 'path';
-import fs from 'fs';
-import {readDirSync} from '../utils/read-dirsync';
-
+const path = require('path');
+const fs = require('fs');
+const readDirSync = require('../utils/read-dirsync');
 const handlebars = require('handlebars');
 
 let manifest = '';
@@ -24,8 +23,8 @@ const appendFileForDev = (ctx, url) => {
         if (url === 'header.js') {
             let html = [];
             if (ctx.state.locale) {
-                let localeJS = `./src/locale/locale/${ctx.state.locale}/index.js`;
-                let existsLocaleJS = fs.existsSync(path.resolve(`./src/locale/locale/${ctx.state.locale}/index.js`));
+                let localeJS = `./src/locale/${ctx.state.locale}.js`;
+                let existsLocaleJS = fs.existsSync(path.resolve(`./src/locale/${ctx.state.locale}.js`));
                 if (existsLocaleJS) {
                     html.push(`<script src="${localeJS}"></script>`);
                 }
@@ -152,7 +151,7 @@ const rawHelper = async (ctx, next) => {
 /**
  * handlebarsPartial
  */
-export const handlebarsCustom = async (app) => {
+module.exports.default = module.exports =  async (app) => {
     app.use(layouts);
     app.use(rawHelper);
     console.log('handlebars initialized');

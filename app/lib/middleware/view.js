@@ -1,9 +1,9 @@
-import views from 'koa-views';
-import path from 'path';
+const views = require('koa-views');
+const path = require('path');
 /**
  * 模板引擎
  */
-export const view = async (app) => {
+module.exports.default = module.exports = async (app) => {
     app.use(views(path.join(path.resolve('./app/view')), {
         extension: 'hbs',
         map: {

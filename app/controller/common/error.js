@@ -5,12 +5,11 @@ const index = async (ctx, next) => {
     let locals = {
         title: 'error'
     };
-    // console.log('error page')
-    // console.error(JSON.stringify(ctx.context));
+    //appName开发模式下不会加载生产后的css
     ctx.state.appName = 'error';
     await ctx.render('error', locals);
 };
 
-export default {
+module.exports.default = module.exports  = {
     index
 };

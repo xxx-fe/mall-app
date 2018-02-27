@@ -1,21 +1,34 @@
-import path from 'path';
-import koaRouter from 'koa-router';
-import {readDirSync} from '../utils/read-dirsync';
-
+let path = require('path');
+let koaRouter = require('koa-router');
+let readDirSync = require('../utils/read-dirsync');
+let allPartRouter = [];
 /**
  * 路由
  */
-export const router = (app) => {
+module.exports.default = module.exports = async (app) => {
     const basename = path.basename(module.filename);
-    const thatRouter = koaRouter();
+    const router = koaRouter({
+        prefix: '/'
+    });
+
+    //遍历所有路由
     readDirSync(path.join(path.resolve('./app/router')), function (fileName, isDirectory, dirPath) {
         let isJsFile = (dirPath.indexOf('.') !== 0) && (fileName !== basename) && (dirPath.slice(-3) === '.js');
         if (!isDirectory && isJsFile) {
-            let dirRoute = require(dirPath);
-            thatRouter.use(dirRoute.routes(), dirRoute.allowedMethods());
+            let partRouter = require(dirPath);
+            allPartRouter = allPartRouter.concat(partRouter);
         }
     });
-    app.use(thatRouter.routes(), thatRouter.allowedMethods());
+
+    allPartRouter.forEach(function (item) {
+        var method = item.method || 'get';
+        router[item.method || 'get'](`${app.context.urlLocalesRegExp}${item.path}`, item.ctrl);
+    });
+
+    console.log(`app.context.urlLocalesRegExp: ${app.context.urlLocalesRegExp}`);
+
+    app.use(router.routes(), router.allowedMethods());
+
     console.log('router initialized');
 };
 

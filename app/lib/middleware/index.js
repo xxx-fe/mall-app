@@ -1,16 +1,16 @@
-import {session} from './session';
-import {catchError} from './catch-error';
-import {handlebarsCustom as handlebars} from './handlebars';
-import {proxy} from './proxy';
-import {router} from './router';
-import {webpack} from './webpack';
-import {listen} from './listen';
-import {view} from './view';
-import {staticServe} from './static-serve';
-import {bodyParser} from './body-parser';
-import {logger} from './logger';
-import {helmet} from './helmet';
-import {stateContext} from './state-context';
+const session = require('./session');
+const catchError = require('./catch-error');
+const handlebars = require('./handlebars');
+const proxy = require('./proxy');
+const router = require('./router');
+const webpack = require('./webpack');
+const listen = require('./listen');
+const view = require('./view');
+const staticServe = require('./static-serve');
+const bodyParser = require('./body-parser');
+const logger = require('./logger');
+const helmet = require('./helmet');
+const stateContext = require('./state-context');
 module.exports.default = module.exports = {
     session,
     catchError,

@@ -1,9 +1,8 @@
-import KoaBodyParser from 'koa-bodyparser';
-
+const KoaBodyParser  = require('koa-bodyparser');
 /**
  * bodyparser
  */
-export const bodyParser = async (app) => {
+module.exports.default = module.exports = async (app) => {
     app.use(KoaBodyParser());
     console.log('body-parser initialized');
 };

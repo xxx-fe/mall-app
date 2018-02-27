@@ -1,9 +1,9 @@
-import koaWebpack from 'koa-webpack';
-import path from 'path';
+const koaWebpack = require('koa-webpack');
+const path = require('path');
 /**
  * webpack
  */
-export const webpack = async (app) => {
+module.exports.default = module.exports = async (app) => {
     //如果是生产模式则不加载
     if (app.context.env === 'development') {
         const webpack = require("webpack");

@@ -1,7 +1,6 @@
-import Koa from 'koa';
-import middleware from './lib/middleware/index';
-import {setContext} from './lib/set-context';
-
+const Koa = require('koa');
+const middleware = require('./lib/middleware/index');
+const setContext = require('./lib/set-context');
 const app = new Koa();
 
 middleware.logger(app);

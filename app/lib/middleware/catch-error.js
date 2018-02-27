@@ -1,7 +1,7 @@
 /**
  * 捕获错误
  */
-export const catchError = async (app) => {
+module.exports.default = module.exports = async (app) => {
     app.use(async (ctx, next) => {
         try {
             await next();
@@ -20,12 +20,9 @@ export const catchError = async (app) => {
 
             console.error(JSON.stringify(ctx.state.error));
 
-            if (ctx.header.referer && ctx.request.originalUrl.indexOf('.') > -1) {
-                ctx.throw(404);
-            }
-            else if (status === 404) {
-                await ctx.redirect('/error');
-            }
+            // if (status === 404) {
+            //     await ctx.redirect('/error');
+            // }
         }
     });
     console.log('catch-error initialized');
