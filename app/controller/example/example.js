@@ -1,4 +1,4 @@
-import exampleService from '../../service/example/index';
+import exampleService from '../../service/example/example';
 
 const index = async (ctx, _next) => {
     let locals = {

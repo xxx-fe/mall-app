@@ -7,10 +7,9 @@
 
 ## Architecture
 
-* `脚本`:vue2,ES5+.
 * `样式`:scss.
 * `库管理`:bower(npm有的,bower不需要,但比如boostrap,npm方式比较麻烦,看情况).
-* `框架`:koa2.
+* `框架`:vue2,koa2.
 * `模板引擎`:handlebars.
 * `打包`:webapck3
 
@@ -31,7 +30,7 @@
 │    ├── app.js                                 //     应用入口
 ├── dist                                        // 生产目录
 ├── public                                      // 公共资源
-│    ├── image                                  //     图片
+│    ├── images                                 //     图片
 │    └── vendor                                 //     第三方插件
 ├── src                                         // 源码(前端)
 │    ├── component                              //     组件
@@ -60,9 +59,9 @@ npm run prod   //启动生产模式(读dist目录打包后的文件)
 ```javascript
 module.exports ={
     entry: {
-        header: './src/lib/header/index.js',//公共资源头部js:一般包括第三方插件,全局通用函数等.(所有应用共享)
-        example: './src/page/example/index.js',//源代码应用js                              (当前应用js)
-        footer: './src/lib/footer/index.js',//公共资源底部js:一般有统计脚本等.               (所有应用共享)
+        header: './src/lib/header/header.js',//公共资源头部js:一般包括第三方插件,全局通用函数等.(所有应用共享)
+        example: './src/page/example/example.js',//源代码应用js                              (当前应用js)
+        footer: './src/lib/footer/footer.js',//公共资源底部js:一般有统计脚本等.               (所有应用共享)
     }
 }
 ```
@@ -70,27 +69,24 @@ module.exports ={
 
 ### 1.新建应用路由
 
-* ```/app/router/example/index.js```
+* ```/app/router/example/example.js```
 
 ```javascript
-import exampleCtrl from '../../controller/example/index';
-import {addRouter} from '../../lib/add-router';
 
-let router = addRouter(function (router) {
-    router.get('', exampleCtrl.index);
-    router.get('example', exampleCtrl.index);
-    router.post('example/list', exampleCtrl.list);
-});
-
-module.exports = router;
+const exampleCtrl = require('../../controller/example/example');
+module.exports.default = module.exports = [
+    {path: '', ctrl: exampleCtrl.index},
+    {path: 'example', ctrl: exampleCtrl.index},
+    {path: 'example/list', ctrl: exampleCtrl.list, method: 'post'}
+];
 ```
 
 ### 2.新建应用控制器
 
-* ```/app/controller/example/index.js```
+* ```/app/controller/example/example.js```
 
 ```javascript
-import exampleService from '../../service/example/index';
+import exampleService from '../../service/example/example';
 
 const index = async (ctx, _next) => {
     let locals = {
@@ -186,13 +182,13 @@ module.exports = {
 ```
 ### 5.新建应用入口
 
-* ```/src/page/example/index.js```
+* ```/src/page/example/example.js```
 
 ```javascript
 import Vue from 'vue';
 import axios from 'axios';
 Vue.prototype.$http = axios;
-import exampleApp from './index.vue';
+import exampleApp from './example.vue';
 //公共资源样式
 import '../../../public/style/common.scss';
 $(document).ready(function(){
@@ -211,9 +207,9 @@ $(document).ready(function(){
 
 ### 打包的命名生成
 
-`/src/locale/zh/index.js` --> `/dist/static/js/zh[chunkhash].js`
+`/src/locale/zh.js` --> `/dist/static/js/zh[chunkhash].js`
 
-`/src/page/example/index.js` --> `/dist/static/js/example[chunkhash].js`
+`/src/page/example.js` --> `/dist/static/js/example[chunkhash].js`
 
 生成到`/dist/static/js/`的文件名是由文件目录决定的.
 
@@ -241,18 +237,18 @@ locales: ['zh', 'en'[,.]]
 **默认语言:en**
 
 ### 2.创建多语言文件
-* `/src/locale/zh/index.js`
+* `/src/locale/zh.js`
 
 ```javascript
-locale = {
+window.locale = {
     'desc': 'vue koa 多页应用脚手架'
 };
 ```
 
-* `/src/locale/en/index.js`
+* `/src/locale/en.js`
 
 ```javascript
-locale = {
+window.locale = {
     'desc': 'vue koa scaffold'
 };
 ```

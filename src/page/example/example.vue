@@ -17,7 +17,7 @@
                     <button class="btn btn-primary" v-on:click="changeLocale('zh')">中文</button>
                     <button class="btn btn-primary" v-on:click="changeLocale('en')">英文</button>
                 </div>
-                <img src="/public/image/logo.gif">
+                <img src="/public/images/logo.gif">
             </div>
             <div class="row">
                 <div v-for="item in list" class="col-sm-6 col-md-4 col-lg-3">
