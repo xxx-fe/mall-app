@@ -23,7 +23,6 @@ module.exports.default = module.exports = async (app) => {
     });
 
     allPartRouter.forEach(function (item) {
-        var method = item.method || 'get';
         router[item.method || 'get'](`${app.context.urlLocalesRegExp}${item.path}`, item.ctrl);
     });
 

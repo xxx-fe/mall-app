@@ -1,6 +1,7 @@
 const path = require('path');
 const koaProxy = require('koa-proxy');
 const koaConvert = require('koa-convert');
+const isEmptyArray = require('../utils/is-empty-array');
 /**
  * 代理
  */
@@ -23,7 +24,7 @@ module.exports.default = module.exports = async (app) => {
     let locales = app.context.locales;
 
     //返回在多语言路由加载文件的正确性
-    if (env === 'development' && locales) {
+    if (env === 'development' && !isEmptyArray(locales)) {
         let urlMatch = '';
         let urlReplaceMatch = '';
         let len = locales.length;
