@@ -22,7 +22,7 @@ module.exports.default = module.exports = async (app) => {
                     aggregateTimeout: 1200,
                     poll: true
                 },
-                noInfo: true
+                logLevel: 'silent'
             }
         }));
     }
