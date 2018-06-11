@@ -21,10 +21,10 @@
 .
 ├── build                                       // webpack配置文件(vue-cli生成,有修改)
 ├── config                                      // 项目打包路径(vue-cli生成,有修改)
-├── server                                      // 服务端(nodejs)
+├── server                                      // 服务端(koa,nodejs)
 │    ├── lib                                    //     库
 │    ├── controller                             //     控制器
-│    ├── router                                 //     路由
+│    ├── router                                 //     路由(koa-router,或者在前端用vue-router)
 │    ├── service                                //     数据(api)
 │    ├── view                                   //     视图
 │    ├── server.js                              //     服务器入口
