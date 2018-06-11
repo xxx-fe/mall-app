@@ -9,7 +9,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 var ManifestPlugin = require('webpack-manifest-plugin');
-var readDirSync = require('../app/lib/utils/read-dirsync');
+var readDirSync = require('../server/lib/utils/read-dirsync');
 var env = config.build.env;
 //自定义webpack配置(主要自定义入口)
 let webpackOptionConf = require('../webpack.options.conf');
@@ -29,14 +29,14 @@ let travel = (dir, callback) => {
 //获取全部入口,打包全部
 let getAllEntry = () => {
     var files = {};
-    readDirSync(path.resolve('./src/page'), function (fileName, isDirectory, dirPath) {
+    readDirSync(path.resolve('./web/page'), function (fileName, isDirectory, dirPath) {
         if (/.js/.test(fileName) && fileName === 'index.js') {
             var entryPath = path.basename(path.resolve(dirPath, '../'));
             files[entryPath] = dirPath;
         }
     });
 
-    readDirSync(path.resolve('./src/locale'), function (fileName, isDirectory, dirPath) {
+    readDirSync(path.resolve('./web/locale'), function (fileName, isDirectory, dirPath) {
         if (/.js/.test(fileName)) {
             var entryPath = path.basename(dirPath ,'.js');
             files[entryPath] = dirPath;
