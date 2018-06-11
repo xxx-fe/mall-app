@@ -27,7 +27,7 @@
 │    ├── router                                 //     路由
 │    ├── service                                //     数据(api)
 │    ├── view                                   //     视图
-│    ├── app.js                                 //     应用入口
+│    ├── server.js                              //     服务器入口
 ├── dist                                        // 生产目录
 ├── public                                      // 公共资源
 │    ├── images                                 //     图片
@@ -52,16 +52,16 @@ npm run prod   //启动生产模式(读dist目录打包后的文件)
 
 ## example
 
-### 应用配置文件
+#### 应用配置文件
 * ```/webpack.options.conf.js```
 
 **在开发模式,entry 作为热加载,在生产模式会忽略此文件.**
 ```javascript
 module.exports ={
     entry: {
-        header: './web/lib/header/header.js',//公共资源头部js:一般包括第三方插件,全局通用函数等.(所有应用共享)
-        example: './web/page/example/example.js',//源代码应用js                              (当前应用js)
-        footer: './web/lib/footer/footer.js',//公共资源底部js:一般有统计脚本等.               (所有应用共享)
+        header: './web/lib/header/header.js',//公共资源头部js:一般包括第三方插件,全局通用函数等.(可能是应用共享)
+        example: './web/page/example/example.js',//源代码应用js                              (当前应用)
+        footer: './web/lib/footer/footer.js',//公共资源底部js:一般有统计脚本等.               (可能是应用共享)
     }
 }
 ```
@@ -69,7 +69,7 @@ module.exports ={
 
 ### 1.新建应用路由
 
-* ```/app/router/example/example.js```
+* ```/server/router/example/example.js```
 
 ```javascript
 
@@ -83,7 +83,7 @@ module.exports.default = module.exports = [
 
 ### 2.新建应用控制器
 
-* ```/app/controller/example/example.js```
+* ```/server/controller/example/example.js```
 
 ```javascript
 import exampleService from '../../service/example/example';
@@ -114,7 +114,7 @@ module.exports = {
 
 ### 3.新建应用视图
 
-- ```/app/view/page/example.hbs```
+- ```/server/view/page/example.hbs```
 
 ```handlebars
 {{#extend "layout-example"}}     //使用layout-example布局
@@ -128,7 +128,7 @@ module.exports = {
 {{/extend}}
 ```
 
-`/app/view/layout/**.hbs` 以文件名注册为`handlebars partial`.
+`/server/view/layout/**.hbs` 以文件名注册为`handlebars partial`.
 
 #### 引用:
 
@@ -153,6 +153,7 @@ module.exports = {
 <script web="/dist/static/js/example.[chunkhash].js"></script>
 ```
 如果没有build过,dev模式不会加载example.css,一般情况只加载example.js.即使加载build过的css也不影响dev模式下的样式应用.
+
 
 
 ### 4.新建应用页面
@@ -201,24 +202,6 @@ $(document).ready(function(){
 ```
 **浏览: http://localhost:3333/example**
 
-## 打包
-
-`npm run build` 从`/web/page/**/*.js`打包,如果设置了多语言也打包`/web/locale/**/*.js`
-
-### 打包的命名生成
-
-`/web/locale/zh.js` --> `/dist/static/js/zh[chunkhash].js`
-
-`/web/page/example.js` --> `/dist/static/js/example[chunkhash].js`
-
-生成到`/dist/static/js/`的文件名是由文件目录决定的.
-
-#### 为什么这么做
-
-一般情况每一个应用都建立在 `/web/page/**/index.js`,以`index.js`作为入口.
-`index.js`引用当前目录.js方便管理该应用.
-
-
 ## 多语言(locales)
 
 ### 1.配置locales参数
@@ -262,5 +245,24 @@ window.locale = {
 ```javascript
 getLocale('desc')
 ```
+
+## 打包
+
+`npm run build` 从`/web/page/**/*.js`打包,如果设置了多语言也打包`/web/locale/**/*.js`
+
+### 打包的命名生成
+
+`/web/locale/zh.js` --> `/dist/static/js/zh[chunkhash].js`
+
+`/web/page/example.js` --> `/dist/static/js/example[chunkhash].js`
+
+生成到`/dist/static/js/`的文件名是由文件目录决定的.
+
+#### 为什么这么做
+
+一般情况每一个应用都建立在 `/web/page/**/index.js`,以`index.js`作为入口.
+`index.js`引用当前目录.js方便管理该应用.
+
+
 
 
