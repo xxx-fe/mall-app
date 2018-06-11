@@ -14,7 +14,7 @@ module.exports.default = module.exports = async (app) => {
     router.use(checkLocale);
 
     //遍历所有路由
-    readDirSync(path.join(path.resolve('./app/router')), function (fileName, isDirectory, dirPath) {
+    readDirSync(path.join(path.resolve('./server/router')), function (fileName, isDirectory, dirPath) {
         let isJsFile = (dirPath.indexOf('.') !== 0) && (fileName !== basename) && (dirPath.slice(-3) === '.js');
         if (!isDirectory && isJsFile) {
             let partRouter = require(dirPath);

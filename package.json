@@ -5,8 +5,8 @@
   "author": "xxx-fe",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./app/app.js --delay 1.5 --watch",
-    "prod": "nodemon ./app/app.js production --watch",
+    "dev": "nodemon ./server/server.js --delay 1.5 --watch",
+    "prod": "nodemon ./server/server.js production --watch",
     "build": "node build/build.js"
   },
   "dependencies": {

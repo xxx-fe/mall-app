@@ -21,7 +21,7 @@
 .
 ├── build                                       // webpack配置文件(vue-cli生成,有修改)
 ├── config                                      // 项目打包路径(vue-cli生成,有修改)
-├── app                                         // app应用(nodejs)
+├── server                                      // 服务端(nodejs)
 │    ├── lib                                    //     库
 │    ├── controller                             //     控制器
 │    ├── router                                 //     路由
@@ -32,7 +32,7 @@
 ├── public                                      // 公共资源
 │    ├── images                                 //     图片
 │    └── vendor                                 //     第三方插件
-├── src                                         // 源码(前端)
+├── web                                         // 前端(vue,js,css...)
 │    ├── component                              //     组件
 │    ├── lib                                    //     库
 │    ├── locale                                 //     多语言文件
@@ -59,9 +59,9 @@ npm run prod   //启动生产模式(读dist目录打包后的文件)
 ```javascript
 module.exports ={
     entry: {
-        header: './src/lib/header/header.js',//公共资源头部js:一般包括第三方插件,全局通用函数等.(所有应用共享)
-        example: './src/page/example/example.js',//源代码应用js                              (当前应用js)
-        footer: './src/lib/footer/footer.js',//公共资源底部js:一般有统计脚本等.               (所有应用共享)
+        header: './web/lib/header/header.js',//公共资源头部js:一般包括第三方插件,全局通用函数等.(所有应用共享)
+        example: './web/page/example/example.js',//源代码应用js                              (当前应用js)
+        footer: './web/lib/footer/footer.js',//公共资源底部js:一般有统计脚本等.               (所有应用共享)
     }
 }
 ```
@@ -147,17 +147,17 @@ module.exports = {
 ```html
 //dev
 <link href="/dist/static/css/example.[chunkhash].css" type="text/css" rel="stylesheet">//如果build过,则加载
-<script src="example.js"></script>
+<script web="example.js"></script>
 //prod
 <link href="/dist/static/css/example.[chunkhash].css" type="text/css" rel="stylesheet">
-<script src="/dist/static/js/example.[chunkhash].js"></script>
+<script web="/dist/static/js/example.[chunkhash].js"></script>
 ```
 如果没有build过,dev模式不会加载example.css,一般情况只加载example.js.即使加载build过的css也不影响dev模式下的样式应用.
 
 
 ### 4.新建应用页面
 
-* ```/src/page/example/index.vue```
+* ```/web/page/example/index.vue```
 
 ```javascript
 ...
@@ -182,7 +182,7 @@ module.exports = {
 ```
 ### 5.新建应用入口
 
-* ```/src/page/example/example.js```
+* ```/web/page/example/example.js```
 
 ```javascript
 import Vue from 'vue';
@@ -203,19 +203,19 @@ $(document).ready(function(){
 
 ## 打包
 
-`npm run build` 从`/src/page/**/*.js`打包,如果设置了多语言也打包`/src/locale/**/*.js`
+`npm run build` 从`/web/page/**/*.js`打包,如果设置了多语言也打包`/web/locale/**/*.js`
 
 ### 打包的命名生成
 
-`/src/locale/zh.js` --> `/dist/static/js/zh[chunkhash].js`
+`/web/locale/zh.js` --> `/dist/static/js/zh[chunkhash].js`
 
-`/src/page/example.js` --> `/dist/static/js/example[chunkhash].js`
+`/web/page/example.js` --> `/dist/static/js/example[chunkhash].js`
 
 生成到`/dist/static/js/`的文件名是由文件目录决定的.
 
 #### 为什么这么做
 
-一般情况每一个应用都建立在 `/src/page/**/index.js`,以`index.js`作为入口.
+一般情况每一个应用都建立在 `/web/page/**/index.js`,以`index.js`作为入口.
 `index.js`引用当前目录.js方便管理该应用.
 
 
@@ -237,7 +237,7 @@ locales: ['zh', 'en'[,.]]
 **默认语言:en**
 
 ### 2.创建多语言文件
-* `/src/locale/zh.js`
+* `/web/locale/zh.js`
 
 ```javascript
 window.locale = {
@@ -245,7 +245,7 @@ window.locale = {
 };
 ```
 
-* `/src/locale/en.js`
+* `/web/locale/en.js`
 
 ```javascript
 window.locale = {
@@ -257,7 +257,7 @@ window.locale = {
 和**打包的命名生成**规则是一样的.
 
 ### 3.调用getLocale全局方法
-* `/src/lib/utils/locale.js`
+* `/web/lib/utils/locale.js`
 
 ```javascript
 getLocale('desc')

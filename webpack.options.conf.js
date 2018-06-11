@@ -1,7 +1,7 @@
 module.exports ={
     entry: {
-        header: './src/lib/header/header.js',
-        example: './src/page/example/example.js',
-        footer: './src/lib/footer/footer.js',
+        header: './web/lib/header/header.js',
+        example: './web/page/example/example.js',
+        footer: './web/lib/footer/footer.js',
     }
 };
