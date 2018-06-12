@@ -47,9 +47,9 @@
 
 ``` bash
 npm install    //安装
-npm run dev    //启动开发模式(读webpack.options.conf.js文件entry,并热加载)
+npm run dev    //启动开发模式
 npm run build  //构建项目
-npm run prod   //启动生产模式(读dist目录打包后的文件)
+npm run prod   //启动生产模式
 ```
 
 ## example
