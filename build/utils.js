@@ -70,3 +70,12 @@ exports.styleLoaders = function (options) {
     }
     return output
 }
+
+var webpackEntryConf = require('../webapck.entry.conf');
+exports.mergeEntry = function(webpackConfig){
+    for(var item in webpackEntryConf){
+        if(!webpackConfig.entry[item]){
+            webpackConfig.entry[item] = webpackEntryConf[item];
+        }
+    }
+};

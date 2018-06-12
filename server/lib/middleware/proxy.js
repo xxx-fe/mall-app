@@ -6,8 +6,8 @@ const isEmptyArray = require('../utils/is-empty-array');
  * 代理
  */
 module.exports.default = module.exports = async (app) => {
-    let webpackOptionConf = require(path.resolve('./webpack.options.conf'));
-    let entry = webpackOptionConf.entry;
+    let webpackDevConf = require(path.resolve('./webpack.dev.conf'));
+    let entry = webpackDevConf.entry;
     let webpackEntryName = [];
     let webpackMatch = '';
     let env = app.context.env;
