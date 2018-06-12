@@ -15,7 +15,7 @@ module.exports = {
             compress: {
                 warnings: false
             },
-            sourceMap: true
+            sourceMap: false
         }),
         new ExtractTextPlugin({
             filename: utils.assetsPath('css/[name].[contenthash].css')

@@ -1,3 +1,4 @@
+#多语言路由前缀
 locales: []
 development:
     port: 3333 #服务器端口
@@ -9,3 +10,18 @@ production:
     #redisStore :
     #   "host": '127.0.0.1'
     #   "port": '6379'
+buildPath: #webpack构建路径
+    # name 路径
+    # isIndexEntry 是否使用index.js作为webpack.entry.
+    # isIndexEntry = true
+    # './web/page/example/index.js'  --> /dist/static/js/example[chunkhash].js
+    # 使用index.js上一级目录名作为打包文件名(example.js).
+
+    # isIndexEntry = false
+    # './web/locale/zh.js'           --> /dist/static/js/zh[chunkhash].js
+    # 使用当前文件作为打包文件名(zh.js).
+     -
+       name: './web/page'
+       isIndexEntry : 'ture'
+     -
+       name: './web/locale'

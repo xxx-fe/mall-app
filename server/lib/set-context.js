@@ -1,8 +1,7 @@
 const yaml = require('js-yaml');
 const fs = require('fs');
 const path = require('path');
-const configYml = path.join(__dirname, '../../config.yml');
-const config = yaml.safeLoad(fs.readFileSync(configYml));
+const config = yaml.safeLoad(fs.readFileSync(path.join(__dirname, '../../config.yml')));
 const isEmptyArray = require('./utils/is-empty-array');
 
 /**

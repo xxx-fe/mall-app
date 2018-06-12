@@ -36,11 +36,12 @@
 │    ├── component                              //     组件
 │    ├── lib                                    //     库
 │    ├── locale                                 //     多语言文件
-│    ├── page                                   //     页面(每个页面都是一个应用)
+│    ├── page                                   //     页面(目录下的每个文件夹都应是一个应用)
 │    ├── style                                  //     样式(应用样式)
 │    ├── webpack.entry.conf.js                  //     webpack入口配置文件
 │    ├── webpack.dev.conf.js                    //     webpack开发模式配置文件
 │    └── webpack.pord.conf.js                   //     webpack生产模式配置文件
+│   config.yml                                  //     通用配置文件
 ```
 
 ## 命令
@@ -145,7 +146,7 @@ module.exports = {
 
 ### 4.新建应用页面
 
-* ```/web/page/example/index.vue```
+* ```/web/page/example/example.vue```
 
 ```javascript
 ...
@@ -170,7 +171,7 @@ module.exports = {
 ```
 ### 5.新建应用入口
 
-* ```/web/page/example/example.js```
+* ```/web/page/example/index.js```
 
 ```javascript
 import Vue from 'vue';
@@ -197,14 +198,14 @@ $(document).ready(function(){
 **作为全局通用的入口文件,处在不同位置.在开发,生产模式webapck构建时自动合并引入webpack.entry.(不做其他属性合并).一般情况不作修改.**
 ```javascript
 module.exports ={
-    header: './web/lib/header/header.js', //全局头部通用文件
-    footer: './web/lib/footer/footer.js', //全局底部通用文件
+    header: './web/lib/header/index.js', //全局头部通用文件
+    footer: './web/lib/footer/index.js', //全局底部通用文件
 };
 ```
 
-`header.js`:不支持删除,在生产模式时,紧接着插入manifest.js,vendor.js.
+`header/index.js`:不支持删除,在生产模式时,紧接着插入manifest.js,vendor.js.
 
-`footer.js`:支持删除.
+`footer/index.js`:支持删除.
 
 * ```/webpack.dev.conf.js```
 
@@ -213,7 +214,7 @@ module.exports ={
 ```javascript
 module.exports ={
     entry: {
-        example: './web/page/example/example.js'
+        example: './web/page/example/index.js'
     },
     //devtool: '#cheap-module-eval-source-map'
 };
@@ -235,20 +236,26 @@ module.exports ={
 
 ## 多语言(locales)
 
-### 1.配置locales参数
+### 1.配置参数
 * ```/config.yml```
 
 ```yml
+...
+#多语言路由前缀
 locales: ['zh', 'en'[,.]]
+buildPath: #webpack构建路径
+     -
+       name: './web/locale'
+...
 ```
+
+缺一不可
 
 路由则支持
 
 *  http://localhost:3333/example
 *  http://localhost:3333/zh/example
 *  http://localhost:3333/en/example
-
-**默认语言:en**
 
 ### 2.创建多语言文件
 * `/web/locale/zh.js`
@@ -267,8 +274,7 @@ window.locale = {
 };
 ```
 
-多语言文件会在`header.js`之前自动插入.文件一定是在目录下,以目录名为生产文件.
-和**打包的命名生成**规则是一样的.
+多语言文件会在`header.js`之前插入.
 
 ### 3.调用getLocale全局方法
 * `/web/lib/utils/locale.js`
@@ -279,16 +285,30 @@ getLocale('desc')
 
 ## 打包
 
-`npm run build` 从`/web/page/**/*.js`打包,如果设置了多语言也打包`/web/locale/**/*.js`
+* ```/config.yml```
 
-### 打包的命名生成
+```yml
+...
+buildPath: #webpack构建路径
+    # name 路径
+    # isIndexEntry 是否使用index.js作为webpack.entry.
+    # isIndexEntry = true
+    # './web/page/example/index.js'  --> /dist/static/js/example[chunkhash].js
+    # 使用index.js上一级目录名作为打包文件名(example.js).
 
-`/web/locale/zh.js` --> `/dist/static/js/zh[chunkhash].js`
+    # isIndexEntry = false
+    # './web/locale/zh.js'           --> /dist/static/js/zh[chunkhash].js
+    # 使用当前文件作为打包文件名(zh.js).
+     -
+       name: './web/page'
+       isIndexEntry : 'ture'
+     -
+       name: './web/locale'
+...
+```
 
-`/web/page/example.js` --> `/dist/static/js/example[chunkhash].js`
+一般情况每一个应用都建立在 `/web/page/**/index.js`,以`index.js`作为打包入口.
 
-生成到`/dist/static/js/`的文件名是由文件目录决定的.
+否则,如果有`/web/page/example1/index.js`,`/web/page/example2/index.js`,`/web/page/example3/index.js`.就会最终构建出以排序最后的`index.js`.
 
-
-
-
+所以,`/web/page/**`,只要目录不重名,并且以`index.js`作为入口.就不会冲突.

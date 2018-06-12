@@ -2,31 +2,41 @@ var path = require('path');
 var utils = require('./utils');
 var config = require('../config');
 var merge = require('webpack-merge');
+var fs = require('fs');
 var readDirSync = require('../server/lib/utils/read-dirsync');
 var baseWebpackConfig = require('./webpack.base.conf');
 let webpackProdConf = require('../webpack.prod.conf');
 baseWebpackConfig = Object.assign({}, baseWebpackConfig, webpackProdConf);
-let getAllEntry = () => {
-    var files = {};
-    //所有应用入口
-    readDirSync(path.resolve('./web/page'), function (fileName, isDirectory, dirPath) {
-        if (/.js/.test(fileName)) {
-            var entryPath = path.basename(path.resolve(dirPath, './') , '.js');
-            files[entryPath] = dirPath;
-        }
-    });
-    //多语言入口
-    readDirSync(path.resolve('./web/locale'), function (fileName, isDirectory, dirPath) {
-        if (/.js/.test(fileName)) {
-            var entryPath = path.basename(dirPath, '.js');
-            files[entryPath] = dirPath;
-        }
-    });
-    return files;
-};
+
+const yaml = require('js-yaml');
+const configYml = yaml.safeLoad(fs.readFileSync(path.join(__dirname, '../config.yml')));
+
+var files = {};
+var buildPath = configYml.buildPath;
+if (buildPath) {
+    for (var i = 0; i < buildPath.length; i++) {
+        var buildPathItem = buildPath[i];
+        readDirSync(path.resolve(buildPathItem.name), function (fileName, isDirectory, dirPath) {
+            if (buildPathItem.isIndexEntry) {
+                if (/.js/.test(fileName) && fileName === 'index.js') {
+                    var entryPath = path.basename(path.join(dirPath, '../'));
+                    files[entryPath] = dirPath;
+                }
+            }
+            else {
+                if (/.js/.test(fileName)) {
+                    var entryPath = path.basename(dirPath, '.js');
+                    files[entryPath] = dirPath;
+                }
+            }
+        });
+    }
+}
+
+console.log(files);
 
 var webpackConfig = merge(baseWebpackConfig, {
-    entry: getAllEntry(),
+    entry: files,
     module: {
         rules: utils.styleLoaders({
             sourceMap: config.build.productionSourceMap,
