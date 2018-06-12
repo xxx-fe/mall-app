@@ -1,4 +1,4 @@
-locales: ['zh', 'en']
+locales: []
 development:
     port: 3333 #服务器端口
     #redisStore :
