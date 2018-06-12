@@ -37,8 +37,10 @@
 │    ├── lib                                    //     库
 │    ├── locale                                 //     多语言文件
 │    ├── page                                   //     页面(每个页面都是一个应用)
-│    └── style                                  //     样式(应用样式)
-
+│    ├── style                                  //     样式(应用样式)
+│    ├── webpack.entry.conf.js                  //     webpack入口配置文件
+│    ├── webpack.dev.conf.js                    //     webpack开发模式配置文件
+│    └── webpack.pord.conf.js                   //     webpack生产模式配置文件
 ```
 
 ## 命令
@@ -52,20 +54,50 @@ npm run prod   //启动生产模式(读dist目录打包后的文件)
 
 ## example
 
-#### 应用配置文件
-* ```/webpack.options.conf.js```
+#### 配置文件
+* ```/webpack.entry.conf.js```
 
-**在开发模式,entry 作为热加载,在生产模式会忽略此文件.**
+**任何模式都引用的配置文件**
+
+**作为全局通用的入口文件,处在不同位置.在开发,生产模式webapck构建时自动合并引入webpack.entry.(不做其他属性合并).一般情况不作修改.**
+```javascript
+module.exports ={
+    header: './web/lib/header/header.js', //全局头部通用文件
+    footer: './web/lib/footer/footer.js', //全局底部通用文件
+};
+```
+
+`header.js`:不支持删除,在生产模式时,紧接着插入manifest.js,vendor.js.
+
+`footer.js`:支持删除.
+
+* ```/webpack.dev.conf.js```
+
+**开发模式时所引用的配置文件,构建会合并所有属性.**
+
 ```javascript
 module.exports ={
     entry: {
-        header: './web/lib/header/header.js',//公共资源头部js:一般包括第三方插件,全局通用函数等.(可能是应用共享)
-        example: './web/page/example/example.js',//源代码应用js                              (当前应用)
-        footer: './web/lib/footer/footer.js',//公共资源底部js:一般有统计脚本等.               (可能是应用共享)
-    }
-}
+        example: './web/page/example/example.js'
+    },
+    //devtool: '#cheap-module-eval-source-map'
+};
 ```
-新建一个webpack.options.conf.js(不上传到仓库).
+
+* ```/webpack.prod.conf.js```
+
+**生产模式时所引用的配置文件,构建会合并所有属性.**
+
+```javascript
+module.exports ={
+    ...
+    new ManifestPlugin({
+        publicPath: 'http://localhost:3333/example'
+    })
+    ...
+};
+```
+
 
 ### 1.新建应用路由
 
@@ -257,11 +289,6 @@ getLocale('desc')
 `/web/page/example.js` --> `/dist/static/js/example[chunkhash].js`
 
 生成到`/dist/static/js/`的文件名是由文件目录决定的.
-
-#### 为什么这么做
-
-一般情况每一个应用都建立在 `/web/page/**/index.js`,以`index.js`作为入口.
-`index.js`引用当前目录.js方便管理该应用.
 
 
 
