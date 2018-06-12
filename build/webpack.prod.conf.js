@@ -33,8 +33,6 @@ if (buildPath) {
     }
 }
 
-console.log(files);
-
 var webpackConfig = merge(baseWebpackConfig, {
     entry: files,
     module: {
