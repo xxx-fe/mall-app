@@ -54,51 +54,6 @@ npm run prod   //启动生产模式
 
 ## example
 
-#### 配置文件
-* ```/webpack.entry.conf.js```
-
-**任何模式都引用的配置文件**
-
-**作为全局通用的入口文件,处在不同位置.在开发,生产模式webapck构建时自动合并引入webpack.entry.(不做其他属性合并).一般情况不作修改.**
-```javascript
-module.exports ={
-    header: './web/lib/header/header.js', //全局头部通用文件
-    footer: './web/lib/footer/footer.js', //全局底部通用文件
-};
-```
-
-`header.js`:不支持删除,在生产模式时,紧接着插入manifest.js,vendor.js.
-
-`footer.js`:支持删除.
-
-* ```/webpack.dev.conf.js```
-
-**开发模式时所引用的配置文件,构建会合并所有属性.**
-
-```javascript
-module.exports ={
-    entry: {
-        example: './web/page/example/example.js'
-    },
-    //devtool: '#cheap-module-eval-source-map'
-};
-```
-
-* ```/webpack.prod.conf.js```
-
-**生产模式时所引用的配置文件,构建会合并所有属性.**
-
-```javascript
-module.exports ={
-    ...
-    new ManifestPlugin({
-        publicPath: 'http://localhost:3333/example'
-    })
-    ...
-};
-```
-
-
 ### 1.新建应用路由
 
 * ```/server/router/example/example.js```
@@ -233,6 +188,50 @@ $(document).ready(function(){
 });
 ```
 **浏览: http://localhost:3333/example**
+
+## 配置文件
+* ```/webpack.entry.conf.js```
+
+**任何模式都引用的配置文件**
+
+**作为全局通用的入口文件,处在不同位置.在开发,生产模式webapck构建时自动合并引入webpack.entry.(不做其他属性合并).一般情况不作修改.**
+```javascript
+module.exports ={
+    header: './web/lib/header/header.js', //全局头部通用文件
+    footer: './web/lib/footer/footer.js', //全局底部通用文件
+};
+```
+
+`header.js`:不支持删除,在生产模式时,紧接着插入manifest.js,vendor.js.
+
+`footer.js`:支持删除.
+
+* ```/webpack.dev.conf.js```
+
+**开发模式时所引用的配置文件,构建会合并所有属性.**
+
+```javascript
+module.exports ={
+    entry: {
+        example: './web/page/example/example.js'
+    },
+    //devtool: '#cheap-module-eval-source-map'
+};
+```
+
+* ```/webpack.prod.conf.js```
+
+**生产模式时所引用的配置文件,构建会合并所有属性.**
+
+```javascript
+module.exports ={
+    ...
+    new ManifestPlugin({
+        publicPath: 'http://localhost:3333/example'
+    })
+    ...
+};
+```
 
 ## 多语言(locales)
 
