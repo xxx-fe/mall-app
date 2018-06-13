@@ -26,4 +26,4 @@ module.exports.default = module.exports = async (app) => {
             }
         }));
     }
-}
+};
