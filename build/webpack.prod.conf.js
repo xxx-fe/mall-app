@@ -18,13 +18,13 @@ if (buildPath) {
         var buildPathItem = buildPath[i];
         readDirSync(path.resolve(buildPathItem.name), function (fileName, isDirectory, dirPath) {
             if (buildPathItem.isIndexEntry) {
-                if (/.js/.test(fileName) && fileName === 'index.js') {
+                if (/\.js$/.test(fileName) && fileName === 'index.js') {
                     var entryPath = path.basename(path.join(dirPath, '../'));
                     files[entryPath] = dirPath;
                 }
             }
             else {
-                if (/.js/.test(fileName)) {
+                if (/\.js$/.test(fileName)) {
                     var entryPath = path.basename(dirPath, '.js');
                     files[entryPath] = dirPath;
                 }
