@@ -19,8 +19,8 @@
 
 ```text
 .
-├── build                                       // 使用 vue-cli 2.9.6(有修正)
-├── config                                      // 使用 vue-cli 2.9.6(有修正)
+├── build                                       // 使用 vue-cli 2.9.3(有修正)
+├── config                                      // 使用 vue-cli 2.9.3(有修正)
 ├── server                                      // 服务端(koa,nodejs)
 │    ├── lib                                    //     库
 │    ├── controller                             //     控制器
