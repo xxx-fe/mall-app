@@ -2,7 +2,7 @@
     "verbose": true,
     "ignore": [
         "dist",
-        "src",
+        "web",
         ".git",
         "node_modules/**/node_modules",
         "public"
