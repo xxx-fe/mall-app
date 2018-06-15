@@ -11,11 +11,9 @@ module.exports.default = module.exports = async (app) => {
         const compiler = webpack(webpackConf);
         app.use(koaWebpack({
             compiler: compiler,
-            //热加载
             hot: {
                 reload: true
             },
-            //https://github.com/webpack/webpack-dev-middleware
             dev: {
                 lazy: false,
                 watchOptions: {

@@ -8,10 +8,13 @@ let webpackDevConf = require('../webpack.dev.conf');
 var _ = require('lodash');
 baseWebpackConfig = Object.assign({}, baseWebpackConfig, webpackDevConf);
 utils.mergeEntry(baseWebpackConfig);
+
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
-    baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name])
+    baseWebpackConfig.entry[name] = [baseWebpackConfig.entry[name]];
 });
+
 module.exports = merge(baseWebpackConfig, {
+    mode: 'development',
     module: {
         rules: utils.styleLoaders({sourceMap: config.dev.cssSourceMap})
     },
