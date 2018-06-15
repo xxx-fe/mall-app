@@ -11,7 +11,7 @@
 * `库管理`:bower(npm有的,bower不需要,但比如boostrap,npm方式比较麻烦,看情况).
 * `框架`:vue2,koa2.
 * `模板引擎`:handlebars.
-* `打包`:webapck3
+* `打包`:webapck4
 
 **运行环境中Nodejs的版本至少是7**
 
