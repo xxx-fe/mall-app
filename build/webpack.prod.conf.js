@@ -37,7 +37,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     entry: files,
     module: {
         rules: utils.styleLoaders({
-            sourceMap: config.build.productionSourceMap,
+            sourceMap: config.dev.productionSourceMap,
             extract: true
         })
     },
@@ -47,6 +47,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
     }
 });
+
 
 if (config.build.productionGzip) {
     var CompressionWebpackPlugin = require('compression-webpack-plugin');
