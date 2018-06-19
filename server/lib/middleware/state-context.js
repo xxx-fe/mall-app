@@ -1,5 +1,5 @@
 /**
- * 状态上下文
+ * 状态上下文(动态)
  * 一般情况应该根据业务自定义
  */
 module.exports.default = module.exports = async (app) => {
@@ -8,7 +8,7 @@ module.exports.default = module.exports = async (app) => {
             ctx.session.user = {}
         }
         if (!ctx.state.locale) {
-            ctx.state.locale = 'en';
+            ctx.state.locale = 'zh';
         }
         await next();
     });

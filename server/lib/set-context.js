@@ -5,7 +5,7 @@ const config = yaml.safeLoad(fs.readFileSync(path.join(__dirname, '../../config.
 const isEmptyArray = require('./utils/is-empty-array');
 
 /**
- * app上下文配置
+ * 基础上下文配置(静态)
  */
 function appContextConfig(app) {
     let argv = process.argv.splice(2);
