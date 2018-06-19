@@ -105,13 +105,13 @@ module.exports = {
 - ```/server/view/page/example.hbs```
 
 ```handlebars
-{{#extend "layout-example"}}     //使用layout-example布局
+{{#extend "layout-example"}}         //使用layout-example布局
     {{#content "head"}}
         {{{parseUrl 'example.css'}}} //exmaple应用的css,直接引用
     {{/content}}                     //不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
     {{#content "body"}}
         <div id="app"></div>
-        {{{parseUrl 'example.js'}}}  //exmaple应用的js,webpack.options.conf.js  entry.home
+        {{{parseUrl 'example.js'}}}  //exmaple应用的js(相应webpack.entry)
     {{/content}}
 {{/extend}}
 ```
@@ -217,6 +217,7 @@ module.exports ={
         example: './web/page/example/index.js'
     },
     //devtool: '#cheap-module-eval-source-map'
+    ...
 };
 ```
 
