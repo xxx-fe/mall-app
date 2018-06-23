@@ -1,0 +1,12 @@
+[
+  {
+    "name": "webpack",
+    "imageUrl": "https://placeholdit.imgix.net/~text?txtsize=50&bg=ff6699&txtclr=ffffff&txt=150%C3%97300&w=300&h=150",
+    "description": "是前端资源模块化管理和打包工具Webpack 是当下最热门的前端资源模块化管理和打包工具。它可以将许多松散的模块按照依赖和规则打包成符合生产环境部署的前端资源。"
+  },
+  {
+    "name": "w3schools",
+    "imageUrl": "https://placeholdit.imgix.net/~text?txtsize=50&bg=ff6699&txtclr=ffffff&txt=150%C3%97300&w=300&h=150",
+    "description": "w3schools.com 是最受欢迎的前端技术教程网站，但是国内用户一直不能访问，并且国内的中文翻译版本十分陈旧。因此做了个镜像，希望英文好的同学直接去看原版教程吧！"
+  }
+]
