@@ -1,7 +1,12 @@
 # mall-app
 
 
-> vue koa 多页应用脚手架
+> vue koa 应用脚手架
+
+支持多语言    
+支持多页应用    
+支持MOCK    
+
 
 ## Architecture
 
@@ -27,6 +32,7 @@
 │    ├── view                                   //     视图
 │    ├── server.js                              //     服务器入口
 ├── dist                                        // 生产目录
+├── mock                                        // 模拟数据目录
 ├── public                                      // 公共资源
 │    ├── images                                 //     图片
 │    └── vendor                                 //     第三方插件
