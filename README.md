@@ -3,15 +3,13 @@
 
 > vue koa 多页应用脚手架
 
-支持多语言
-
 ## Architecture
 
 * `样式`:scss.
-* `库管理`:bower(npm有的,bower不需要,但比如boostrap,npm方式比较麻烦,看情况).
+* `库管理`:npm,bower(npm有的,bower不需要,但比如boostrap,npm方式比较麻烦,看情况).
 * `框架`:vue2,koa2.
-* `模板引擎`:handlebars.
-* `打包`:webapck4
+* `模板引擎`:handlebars4.
+* `打包`:webpack4
 
 **运行环境中Nodejs的版本至少是7**
 
@@ -250,7 +248,7 @@ buildPath: #webpack构建路径
 ...
 ```
 
-缺一不可
+**缺一不可**
 
 路由则支持
 
@@ -283,6 +281,35 @@ window.locale = {
 ```javascript
 getLocale('desc')
 ```
+
+## mock
+
+### 1.配置参数
+
+* ```/config.yml```
+```yml
+...
+# 是否使用模拟数据api(production模式无效)
+isMockAPI : true
+# apiServer api服务器
+apiServer : 'http://localhost:3334'
+
+...
+```
+
+### 2.编写模拟数据
+
+* ```/mock/example/list.json```
+
+现在请求 `/example/list`
+
+`isMockAPI:true`
+
+koa服务端会返回 `/mock/example/list.json`.
+
+`isMockAPI:false`
+
+koa服务端会返回 `http://localhost:3334/mock/example/list`.
 
 ## 打包
 
