@@ -1,16 +1,29 @@
-#多语言路由前缀
+# 多语言路由前缀
 locales: []
+
+# 是否使用模拟数据api(production模式无效)
+isMockAPI : true
+
+# development 开发模式
+# production 生产模式
+# port server端口
+# apiServer api服务器
 development:
-    port: 3333 #服务器端口
+    apiServer : 'http://localhost:3334'
+    port: 3333
     #redisStore :
     #   "host": '127.0.0.1'
     #   "port": '6379'
+
 production:
-    port: 3333 #服务器端口
+    apiServer : 'http://localhost:3335'
+    port: 3333
     #redisStore :
     #   "host": '127.0.0.1'
     #   "port": '6379'
-buildPath: #webpack构建路径
+
+#webpack构建路径(entry)
+buildPath:
     # name 路径
     # isIndexEntry 是否使用index.js作为webpack.entry.
     # isIndexEntry = true
@@ -22,6 +35,6 @@ buildPath: #webpack构建路径
     # 使用当前文件作为打包文件名(zh.js).
      -
        name: './web/page'
-       isIndexEntry : 'ture'
+       isIndexEntry : true
      -
        name: './web/locale'

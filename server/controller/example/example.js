@@ -12,7 +12,7 @@ const index = async (ctx, _next) => {
 const list = async (ctx, _next) => {
     const service = new exampleService(ctx);
     let locals = {
-        list: service.getList()
+        list: await service.getList(ctx)
     };
     ctx.body = locals;
 };
