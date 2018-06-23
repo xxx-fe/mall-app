@@ -7,7 +7,7 @@ isMockAPI : true
 # development 开发模式
 # production 生产模式
 # port server端口
-# apiServer api服务器
+# apiServer api服务器 如果isMockAPI
 development:
     apiServer : 'http://localhost:3334'
     port: 3333

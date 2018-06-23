@@ -32,7 +32,7 @@
 │    ├── view                                   //     视图
 │    ├── server.js                              //     服务器入口
 ├── dist                                        // 生产目录
-├── mock                                        // mock目录
+├── mock                                        // 模拟数据目录
 ├── public                                      // 公共资源
 │    ├── images                                 //     图片
 │    └── vendor                                 //     第三方插件
@@ -45,7 +45,7 @@
 │    ├── webpack.entry.conf.js                  //     webpack入口配置文件
 │    ├── webpack.dev.conf.js                    //     webpack开发模式配置文件
 │    └── webpack.pord.conf.js                   //     webpack生产模式配置文件
-│   config.yml                                  //     通用配置文件
+│   config.yml                                  //     通用配置文件,整个脚手架很多功能都与它有关
 ```
 
 ## 安装
@@ -201,6 +201,7 @@ $(document).ready(function(){
 ```
 **浏览: http://localhost:3333/example**
 
+
 ## 配置文件
 * ```/webpack.entry.conf.js```
 
@@ -255,7 +256,8 @@ module.exports ={
 ...
 #多语言路由前缀
 locales: ['zh', 'en'[,.]]
-buildPath: #webpack构建路径
+#webpack构建路径(entry)
+buildPath:
      -
        name: './web/locale'
 ...
@@ -304,12 +306,13 @@ getLocale('desc')
 isMockAPI : true
 # apiServer api服务器
 apiServer : 'http://localhost:3334'
-
 ...
 ```
 
 
 ### 1.不拦截Ajax方式
+
+#### 1.1 编写/mock/**/.json文件.
 
 * ```/mock/example/list.json```
 
@@ -325,6 +328,8 @@ apiServer : 'http://localhost:3334'
 
 ### 2.拦截Ajax方式
 
+#### 2.1 编写/public/mock.js文件.
+
 #### 引用:
 
 * [mockjs](http://mockjs.com/)
@@ -337,7 +342,9 @@ apiServer : 'http://localhost:3334'
 <script src="/public/vendor/mockjs/dist/mock-min.js"></script><script src="/public/mock.js"></script><script src="header.js"></script>
 ```
 
-* ```/public/mock.js```  **全局mock文件**
+* ```/public/mock.js``` 
+
+**这是个全局受影响的mock文件.**
 
 ```javascript
 Mock.mock('/example/list', 'post', function () {
@@ -366,7 +373,8 @@ Mock.mock('/example/list', 'post', function () {
 
 ```yml
 ...
-buildPath: #webpack构建路径
+#webpack构建路径(entry)
+buildPath:
     # name 路径
     # isIndexEntry 是否使用index.js作为webpack.entry.
     # isIndexEntry = true
