@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "mockjs": "^1.0.0"
   }
 }
