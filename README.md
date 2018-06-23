@@ -315,7 +315,7 @@ koa服务端会返回 `/mock/example/list.json`.
 
 `isMockAPI:false`
 
-koa服务端会返回 `http://localhost:3334/mock/example/list`.
+koa服务端会返回 `http://localhost:3334/example/list`.
 
 ## 打包
 
