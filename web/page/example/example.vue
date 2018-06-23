@@ -11,7 +11,7 @@
         <div class="container">
             <div class="text-center page-header">
                 <h1 class="mall-app">mall-app</h1>
-                <p>中文: vue koa 前后分离多页应用脚手架</p>
+                <p>中文: vue koa 应用脚手架</p>
                 <p class="lang">多语言: {{desc}}</p>
                 <div>
                     <button class="btn btn-primary" v-on:click="changeLocale('zh')">中文</button>
@@ -23,8 +23,8 @@
                 <div v-for="item in list" class="col-sm-6 col-md-4 col-lg-3">
                     <div class="thumbnail">
                         <img
-                            v-bind:src="item.imageUrl"
-                            width="300" height="150">
+                                v-bind:src="item.imageUrl"
+                                width="300" height="150">
                         <div class="caption">
                             <h3>
                                 <a href="javascript:void(0)"
@@ -50,7 +50,7 @@
             }
         },
         methods: {
-            changeLocale(code){
+            changeLocale(code) {
                 location.href = `/${code}/example`
             }
         },
@@ -60,7 +60,7 @@
                 this.list = response.data.list
             }, response => {
                 console.log(response);
-            })
+            });
         }
     }
 </script>
