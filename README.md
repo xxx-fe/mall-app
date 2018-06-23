@@ -5,7 +5,7 @@
 
 支持多语言    
 支持多页应用    
-支持MOCK    
+支持多种MOCK
 
 
 ## Architecture
@@ -32,7 +32,7 @@
 │    ├── view                                   //     视图
 │    ├── server.js                              //     服务器入口
 ├── dist                                        // 生产目录
-├── mock                                        // 模拟数据目录
+├── mock                                        // mock目录
 ├── public                                      // 公共资源
 │    ├── images                                 //     图片
 │    └── vendor                                 //     第三方插件
@@ -48,10 +48,17 @@
 │   config.yml                                  //     通用配置文件
 ```
 
+## 安装
+
+``` bash
+npm install    //安装npm
+bower install  //安装bower
+```
+
+
 ## 命令
 
 ``` bash
-npm install    //安装
 npm run dev    //启动开发模式
 npm run build  //构建项目
 npm run prod   //启动生产模式
@@ -290,8 +297,6 @@ getLocale('desc')
 
 ## mock
 
-### 1.配置参数
-
 * ```/config.yml```
 ```yml
 ...
@@ -303,7 +308,8 @@ apiServer : 'http://localhost:3334'
 ...
 ```
 
-### 2.编写模拟数据
+
+### 1.不拦截Ajax方式
 
 * ```/mock/example/list.json```
 
@@ -311,11 +317,48 @@ apiServer : 'http://localhost:3334'
 
 `isMockAPI:true`
 
-koa服务端会返回 `/mock/example/list.json`.
+服务端返回 `/mock/example/list.json`.
 
 `isMockAPI:false`
 
-koa服务端会返回 `http://localhost:3334/example/list`.
+服务端返回 `http://localhost:3334/example/list`.
+
+### 2.拦截Ajax方式
+
+#### 引用:
+
+* [mockjs](http://mockjs.com/)
+
+`isMockAPI:true`
+
+在页面渲染时紧接着`/header/index.js`前插入`/public/vender/mock-min.js`,`/public/mock.js`.
+
+```javascript
+<script src="/public/vendor/mockjs/dist/mock-min.js"></script><script src="/public/mock.js"></script><script src="header.js"></script>
+```
+
+* ```/public/mock.js```  **全局mock文件**
+
+```javascript
+Mock.mock('/example/list', 'post', function () {
+    return Mock.mock({
+        "list|1-10": [{
+            'name': '@cname',
+            'imageUrl': 'https://placeholdit.imgix.net/~text?txtsize=50&bg=323232&txtclr=ffffff&txt=150%C3%97300&w=300&h=150',
+            'description': '@cname'
+        }
+        ]
+    });
+});
+```
+
+如果注释该文件则以**不拦截AJAX方式**发出请求.
+
+`isMockAPI:false`
+
+不会插入`mock-min.js`,`mock.js.`
+
+
 
 ## 打包
 
