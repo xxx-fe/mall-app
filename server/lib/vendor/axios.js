@@ -6,7 +6,7 @@ const axios = require('axios');
 module.exports.default = module.exports = async (ctx, options) => {
     let url = options.url;
     //读mock数据
-    if (ctx.app.context.env === 'development' && ctx.app.context.isMockAPI) {
+    if (ctx.env === 'development' && ctx.isMockAPI) {
         let mockFilePath = `./mock${url}.json`;
         let existsMockFilePath = await fs.existsSync(mockFilePath);
         if (existsMockFilePath) {
