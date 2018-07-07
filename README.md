@@ -8,6 +8,7 @@
 支持多种MOCK
 
 
+
 ## Architecture
 
 * `样式`:scss.
@@ -33,7 +34,7 @@
 │    ├── server.js                              //     服务器入口
 ├── dist                                        // 生产目录
 ├── mock                                        // 模拟数据目录
-├── public                                      // 公共资源
+├── public                                      // 公共资源(例如访问http://localhost:3333/public/images/bg.jpg)
 │    ├── images                                 //     图片
 │    └── vendor                                 //     第三方插件
 ├── web                                         // 前端(vue,js,css...)
@@ -51,17 +52,17 @@
 ## 安装
 
 ``` bash
-npm install    //安装npm
-bower install  //安装bower
+npm install    //npm 安装
+bower install  //bower 安装
 ```
 
 
 ## 命令
 
 ``` bash
-npm run dev    //启动开发模式
+npm run dev    //启动开发模式(dev)
 npm run build  //构建项目
-npm run prod   //启动生产模式
+npm run prod   //启动生产模式(prod)
 ```
 
 ## example
@@ -142,7 +143,8 @@ module.exports = {
 ```javascript
 {{{parseUrl 'example.css' 'example.js'}}}
 ```
-结果:
+结果:    
+
 ```html
 //dev
 <link href="/dist/static/css/example.[chunkhash].css" type="text/css" rel="stylesheet">//如果build过,则加载
@@ -302,7 +304,7 @@ getLocale('desc')
 * ```/config.yml```
 ```yml
 ...
-# 是否使用模拟数据api(production模式无效)
+# 是否使用模拟数据api(dev模式有效)
 isMockAPI : true
 # apiServer api服务器
 apiServer : 'http://localhost:3334'
@@ -373,9 +375,9 @@ Mock.mock('/example/list', 'post', function () {
 
 ```yml
 ...
-#webpack构建路径(entry)
+#webpack构建路径(prod模式有效)
 buildPath:
-    # name 路径
+    # name entry路径
     # isIndexEntry 是否使用index.js作为webpack.entry.
     # isIndexEntry = true
     # './web/page/example/index.js'  --> /dist/static/js/example[chunkhash].js
@@ -386,7 +388,7 @@ buildPath:
     # 使用当前文件作为打包文件名(zh.js).
      -
        name: './web/page'
-       isIndexEntry : 'ture'
+       isIndexEntry : 'true'
      -
        name: './web/locale'
 ...
@@ -397,3 +399,15 @@ buildPath:
 否则,如果有`/web/page/example1/index.js`,`/web/page/example2/index.js`,`/web/page/example3/index.js`.就会最终构建出以排序最后的`index.js`.
 
 所以,`/web/page/**`,只要目录不重名,并且以`index.js`作为入口.就不会冲突.
+
+
+**dev**
+
+从这些配置文件打包 `/webpack.base.conf` , `/webpack.entry.conf.js` , `/webpack.dev.conf.js`    
+**主要从`/webpack.dev.conf.js`配置打包开发需要的entry.**
+
+**prod**
+
+从这些配置文件打包 `/webpack.base.conf` , ` /webpack.entry.conf.js` , `/webpack.prod.conf` , `/web/page/**/index.js`    
+**主要从`/web/page/**/index.js`打包所有js**
+
