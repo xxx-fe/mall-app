@@ -12,5 +12,5 @@ module.exports.default = module.exports = async (app) => {
         }
         await next();
     });
-    console.log('state-context initialized');
+    app.context.logger.info('state-context initialized');
 };

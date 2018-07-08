@@ -30,7 +30,7 @@ const appendFileForDev = (ctx, url) => {
                 }
             }
             //插入mockjs
-            if(ctx.app.context.isMockAPI){
+            if (ctx.app.context.isMockAPI) {
                 html.push(`<script src="/public/vendor/mockjs/dist/mock-min.js"></script>`);
                 html.push(`<script src="/public/mock.js"></script>`);
             }
@@ -73,6 +73,10 @@ const appendFileForProd = (ctx, url) => {
             if (url === 'header.js') {
                 html.push(`<script src="${manifest['manifest.js']}"></script>`);
                 html.push(`<script src="${manifest['vendor.js']}"></script>`);
+                let vendorCss = manifest['vendor.css'];
+                if (vendorCss) {
+                    html.push(`<link href="${vendorCss}" type="text/css" rel="stylesheet"/>`);
+                }
                 let localeJS = manifest[`${ctx.state.locale}.js`];
                 if (localeJS) {
                     html.push(`<script src="${localeJS}"></script>`);
@@ -156,8 +160,8 @@ const rawHelper = async (ctx, next) => {
 /**
  * handlebarsPartial
  */
-module.exports.default = module.exports =  async (app) => {
+module.exports.default = module.exports = async (app) => {
     app.use(layouts);
     app.use(rawHelper);
-    console.log('handlebars initialized');
+    app.context.logger.info('handlebars initialized');
 };

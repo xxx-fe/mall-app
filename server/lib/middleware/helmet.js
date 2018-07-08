@@ -5,5 +5,5 @@ const koaHelmet = require('koa-helmet');
  */
 module.exports.default = module.exports = async (app) => {
     app.use(koaHelmet());
-    console.log('helmet initialized');
+    app.context.logger.info('helmet initialized');
 };

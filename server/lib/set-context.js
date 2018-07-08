@@ -4,6 +4,7 @@ const path = require('path');
 const config = yaml.safeLoad(fs.readFileSync(path.join(__dirname, '../../config.yml')));
 const isEmpty = require('lodash/isEmpty');
 const axios = require('./vendor/axios');
+const logger = require('./vendor/log4js');
 
 /**
  * 基础上下文配置(静态)
@@ -38,7 +39,6 @@ function appContextConfig(app) {
     delete appConfig['production'];
 
 
-
     for (let item in appConfig) {
         app.context[item] = appConfig[item];
     }
@@ -51,8 +51,9 @@ function appContextConfig(app) {
 /**
  * 包上通用内容到上下文(可变) 比如axios ,某些utils方法....
  */
-function wrapCommonToContext(app){
+function wrapCommonToContext(app) {
     app.context.axios = axios;
+    app.context.logger = logger;
 }
 
 
@@ -61,5 +62,5 @@ function wrapCommonToContext(app){
  */
 module.exports.default = module.exports = async (app) => {
     appContextConfig(app);
-    console.log('set-context initialized');
+    app.context.logger.info('set-context initialized');
 };

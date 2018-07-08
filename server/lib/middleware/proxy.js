@@ -91,5 +91,5 @@ module.exports.default = module.exports = async (app) => {
         })));
     }
 
-    console.log('proxy initialized')
-}
+    app.context.logger.info('proxy initialized');
+};

@@ -26,11 +26,11 @@ module.exports.default = module.exports = async (app) => {
         router[item.method || 'get'](`${app.context.urlLocalesRegExp}${item.path}`, item.ctrl);
     });
 
-    console.log(`app.context.urlLocalesRegExp: ${app.context.urlLocalesRegExp}`);
+    app.context.logger.info(`app.context.urlLocalesRegExp: ${app.context.urlLocalesRegExp}`);
 
     app.use(router.routes(), router.allowedMethods());
 
-    console.log('router initialized');
+    app.context.logger.info('router initialized');
 };
 
 /**

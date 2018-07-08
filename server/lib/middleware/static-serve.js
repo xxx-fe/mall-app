@@ -5,5 +5,5 @@ const serve = require('koa-static');
  */
 module.exports.default = module.exports = async (app) => {
     app.use(serve(path.join(path.resolve('./'))));
-    console.log('static-serve initialized');
+    app.context.logger.info('static-serve initialized');
 };

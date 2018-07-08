@@ -16,14 +16,13 @@ module.exports.default = module.exports = async (app) => {
                 status: status,
                 error: err,
                 url: ctx.path,
-                xhr: ctx.request.get('X-Requested-With') === 'XMLHttpRequest',
-                method: ctx.request.method
+                xhr: ctx.request.get('X-Requested-With') === 'XMLHttpRequest'
             };
-            console.error(JSON.stringify(ctx.state.error));
+            ctx.logger.info(JSON.stringify(ctx.state.error));
             if (status === 404) {
                 await ctx.redirect('/error');
             }
         }
     });
-    console.log('catch-error initialized');
+    app.context.logger.info('catch-error initialized');
 };

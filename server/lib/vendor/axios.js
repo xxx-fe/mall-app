@@ -24,13 +24,14 @@ module.exports.default = module.exports = async (ctx, options) => {
     //请求url
     else {
         options.url = ctx.apiServer + options.url;
+        options.headers = {'content-type': 'application/json;charset=utf-8'};
         return await axios(options).then(function (res) {
-            showInfo('info', res, {
+            showInfo(ctx, 'info', res, {
                 response: res.data
             });
             return res.data;
         }).catch(function (res) {
-            showInfo('warn', res, {
+            showInfo(ctx, 'error', res, {
                 response: res.response.data
             });
             return {status: res.response.status, error: res.response.data};
@@ -38,16 +39,16 @@ module.exports.default = module.exports = async (ctx, options) => {
     }
 };
 
-function showInfo(type, res, option) {
+function showInfo(ctx, type, res, option) {
     let defaults = {
         url: res.config.url,
         method: res.request.method
     };
     let options = JSON.stringify(Object.assign({}, defaults, option));
     if (type === 'info') {
-        console.info(options);
+        ctx.logger.info(options);
     }
-    else if (type === 'warn') {
-        console.warn(options);
+    else if (type === 'error') {
+        ctx.logger.error(options);
     }
 }

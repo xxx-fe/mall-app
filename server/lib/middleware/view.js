@@ -10,5 +10,5 @@ module.exports.default = module.exports = async (app) => {
             hbs: 'handlebars'
         }
     }));
-    console.log('view initialized');
+    app.context.logger.info('view initialized');
 };
