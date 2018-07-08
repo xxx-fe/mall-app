@@ -86,7 +86,7 @@ module.exports.default = module.exports = [
 * ```/server/controller/example/example.js```
 
 ```javascript
-import exampleService from '../../service/example/example';
+const exampleService = require('../../service/example/example');
 
 const index = async (ctx, _next) => {
     let locals = {
@@ -98,17 +98,17 @@ const index = async (ctx, _next) => {
 };
 
 const list = async (ctx, _next) => {
-    const service = new exampleService(ctx);
     let locals = {
-        list: service.getList()
+        list: await exampleService.getList(ctx)
     };
     ctx.body = locals;
 };
 
-module.exports = {
+module.exports.default = module.exports = {
     index,
     list
 };
+
 
 ```
 
@@ -249,7 +249,7 @@ module.exports ={
 };
 ```
 
-## 多语言(locales)
+## 多语言方案(locales)
 
 ### 1.配置参数
 * ```/config.yml```
@@ -261,17 +261,12 @@ locales: ['zh', 'en'[,.]]
 #webpack构建路径(entry)
 buildPath:
      -
+       #多语言入口
        name: './web/locale'
 ...
 ```
 
 **缺一不可**
-
-路由则支持
-
-*  http://localhost:3333/example
-*  http://localhost:3333/zh/example
-*  http://localhost:3333/en/example
 
 ### 2.创建多语言文件
 * `/web/locale/zh.js`
@@ -292,12 +287,41 @@ window.locale = {
 
 多语言文件会在`header.js`之前插入.
 
-### 3.调用getLocale全局方法
+### 3.创建全局方法
 * `/web/lib/utils/locale.js`
 
 ```javascript
-getLocale('desc')
+/**
+ * 获取locale对应的值
+ */
+window.getLocale = function (key) {
+    if (window.locale) {
+        return window.locale[key] || '';
+    }
+    else {
+        return key;
+    }
+};
 ```
+
+### 4.调用全局方法
+
+```javascript
+...
+data() {
+    return {
+        list: '',
+        desc: getLocale('desc')
+    }
+}
+...
+```
+
+路由则支持
+
+*  http://localhost:3333/example
+*  http://localhost:3333/zh/example
+*  http://localhost:3333/en/example
 
 ## mock
 

@@ -25,10 +25,29 @@ module.exports.default = module.exports = async (ctx, options) => {
     else {
         options.url = ctx.apiServer + options.url;
         return await axios(options).then(function (res) {
+            showInfo('info', res, {
+                response: res.data
+            });
             return res.data;
-        }).catch(function (error) {
-            console.error(error.response.data);
-            return {status: error.response.status, error: error.response.data};
+        }).catch(function (res) {
+            showInfo('warn', res, {
+                response: res.response.data
+            });
+            return {status: res.response.status, error: res.response.data};
         });
     }
 };
+
+function showInfo(type, res, option) {
+    let defaults = {
+        url: res.config.url,
+        method: res.request.method
+    };
+    let options = JSON.stringify(Object.assign({}, defaults, option));
+    if (type === 'info') {
+        console.info(options);
+    }
+    else if (type === 'warn') {
+        console.warn(options);
+    }
+}

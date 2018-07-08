@@ -1,7 +1,7 @@
 # 多语言路由前缀
 locales: []
 
-# 是否使用模拟数据api(production模式无效)
+# 是否使用模拟数据api(prod模式无效)
 isMockAPI : true
 
 # development 开发模式
@@ -34,7 +34,10 @@ buildPath:
     # './web/locale/zh.js'           --> /dist/static/js/zh[chunkhash].js
     # 使用当前文件作为打包文件名(zh.js).
      -
+       #应用入口
        name: './web/page'
        isIndexEntry : true
-     -
-       name: './web/locale'
+
+     #-
+       #多语言入口
+       #name: './web/locale'

@@ -16,7 +16,8 @@ module.exports.default = module.exports = async (app) => {
                 status: status,
                 error: err,
                 url: ctx.path,
-                xhr: ctx.request.get('X-Requested-With') === 'XMLHttpRequest'
+                xhr: ctx.request.get('X-Requested-With') === 'XMLHttpRequest',
+                method: ctx.request.method
             };
             console.error(JSON.stringify(ctx.state.error));
             if (status === 404) {

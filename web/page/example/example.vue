@@ -11,12 +11,7 @@
         <div class="container">
             <div class="text-center page-header">
                 <h1 class="mall-app">mall-app</h1>
-                <p>中文: vue koa 应用脚手架</p>
-                <p class="lang">多语言: {{desc}}</p>
-                <div>
-                    <button class="btn btn-primary" v-on:click="changeLocale('zh')">中文</button>
-                    <button class="btn btn-primary" v-on:click="changeLocale('en')">英文</button>
-                </div>
+                <p>vue koa 应用脚手架</p>
                 <img src="/public/images/logo.gif">
             </div>
             <div class="row">
@@ -31,9 +26,6 @@
                                    title="webpack" target="_blank">{{item.name}}
                                 </a>
                             </h3>
-                            <p>
-                                {{item.description}}
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -50,9 +42,7 @@
             }
         },
         methods: {
-            changeLocale(code) {
-                location.href = `/${code}/example`
-            }
+
         },
         mounted() {
             this.$http.post('/example/list').then(response => {

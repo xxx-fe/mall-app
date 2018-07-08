@@ -1,4 +1,4 @@
-import exampleService from '../../service/example/example';
+const exampleService = require('../../service/example/example');
 
 const index = async (ctx, _next) => {
     let locals = {
@@ -10,14 +10,13 @@ const index = async (ctx, _next) => {
 };
 
 const list = async (ctx, _next) => {
-    const service = new exampleService(ctx);
     let locals = {
-        list: await service.getList(ctx)
+        list: await exampleService.getList(ctx)
     };
     ctx.body = locals;
 };
 
-module.exports.default = module.exports  = {
+module.exports.default = module.exports = {
     index,
     list
 };
