@@ -1,16 +1,10 @@
-const log4js = require('log4js');
+const logger = require('koa-logger');
 /**
  * 日志
  */
 module.exports.default = module.exports = async (app) => {
-    log4js.configure({
-        appenders: [{
-            type: 'console',
-            layout: {
-                type: 'basic'
-            }
-        }],
-        replaceConsole: true
-    });
+    app.use(logger((str, args) => {
+        console.log(str)
+    }));
     console.log('logger initialized');
 };
