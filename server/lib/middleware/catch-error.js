@@ -20,7 +20,12 @@ module.exports.default = module.exports = async (app) => {
                 url: ctx.path,
                 xhr: ctx.request.get('X-Requested-With') === 'XMLHttpRequest'
             };
-            ctx.logger.error(JSON.stringify(ctx.state.error));
+            if (status === 500) {
+                throw err;
+            }
+            else {
+                ctx.logger.error(JSON.stringify(ctx.state.error));
+            }
             if (status === 404) {
                 await ctx.redirect('/error');
             }
