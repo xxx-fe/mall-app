@@ -12,8 +12,10 @@
             <div class="text-center page-header">
                 <h1 class="mall-app">mall-app</h1>
                 <p>vue koa 应用脚手架</p>
-                <img src="/public/images/logo.gif">
+                <img src="/public/images/logo.gif" style="width: 300px;">
+                <hello></hello>
             </div>
+
             <div class="row">
                 <div v-for="item in list" class="col-sm-6 col-md-4 col-lg-3">
                     <div class="thumbnail">
@@ -34,11 +36,11 @@
     </div>
 </template>
 <script>
+    import hello from '../../component/hello';
     export default {
         data() {
             return {
-                list: '',
-                desc: getLocale('desc')
+                list: ''
             }
         },
         methods: {
@@ -51,6 +53,11 @@
             }, response => {
                 console.log(response);
             });
+
+            this.globalComponent()
+        },
+        components:{
+            hello
         }
     }
 </script>
