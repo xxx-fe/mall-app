@@ -1,5 +1,4 @@
 import exampleApp from './example.vue';
-
 $(document).ready(function(){
     new Vue({
         el: '#app',
