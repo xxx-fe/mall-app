@@ -188,8 +188,6 @@ module.exports.default = module.exports = {
 
 ```javascript
 import exampleApp from './example.vue';
-//公共资源样式
-import '../../../public/style/common.scss';
 $(document).ready(function(){
     new Vue({
         el: '#app',
@@ -209,7 +207,7 @@ $(document).ready(function(){
 **作为全局通用的入口文件,处在不同位置.在开发,生产模式webapck构建时自动合并引入webpack.entry.(不做其他属性合并).一般情况不作修改.**
 ```javascript
 module.exports ={
-    header: './web/lib/header/index.js', //全局头部通用文件(引用vue,jquery...)
+    header: './web/lib/header/index.js', //全局头部通用文件(引用vue,jquery,全局样式...)
     footer: './web/lib/footer/index.js', //全局底部通用文件(比如统计数据...)
 };
 ```
