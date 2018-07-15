@@ -1,7 +1,7 @@
-import exampleApp from './example.vue';
+import exampleApp from './example2.vue';
 $(document).ready(function(){
     new Vue({
-        el: '#example1-app',
+        el: '#example2-app',
         template: '<exampleApp/>',
         components: {exampleApp}
     });

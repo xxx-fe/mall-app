@@ -1,5 +1,5 @@
 <template>
-    <div id="example1-app">
+    <div id="example2-app">
         <header class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -55,6 +55,7 @@
             });
 
             this.globalComponent();
+
         },
         components:{
             hello
@@ -74,8 +75,10 @@
     }
 
     .lang {
-        font-size: 30px;
+        font-size: 50px;
     }
+
+
 </style>
 <style lang="scss">
 </style>

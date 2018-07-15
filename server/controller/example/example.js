@@ -9,6 +9,15 @@ const index = async (ctx, _next) => {
     await ctx.render('page/example', locals);
 };
 
+const index2 = async (ctx, _next) => {
+    let locals = {
+        title: 'example2'
+    };
+    //appName开发模式下不会加载生产后的css
+    ctx.state.appName = 'example2';
+    await ctx.render('page/example2', locals);
+};
+
 const list = async (ctx, _next) => {
     let locals = {
         list: await exampleService.getList(ctx)
@@ -18,5 +27,6 @@ const list = async (ctx, _next) => {
 
 module.exports.default = module.exports = {
     index,
+    index2,
     list
 };

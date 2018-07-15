@@ -14,7 +14,7 @@
 
 <style lang="scss">
     .hello {
-        font-size: 36px;
+        font-size: 55px;
         color: #ddd;
     }
 </style>
