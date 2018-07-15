@@ -5,6 +5,7 @@ const config = yaml.safeLoad(fs.readFileSync(path.join(__dirname, '../../config.
 const isEmpty = require('lodash/isEmpty');
 const axios = require('./vendor/axios');
 const logger = require('./vendor/log4js');
+const webpackEntryConf = require(path.resolve('./webapck.entry.conf'));
 
 /**
  * 基础上下文配置(静态)
@@ -35,6 +36,16 @@ function appContextConfig(app) {
             appConfig.urlLocalesRegExp = `(${regexp})*/`;
         }
     }
+
+    //全局通用entry
+    let webpackEntry = [];
+    if (webpackEntryConf) {
+        Object.keys(webpackEntryConf).forEach(function (name) {
+            webpackEntry.push(name.replace(/\.js/, '') + '.js');
+        });
+        appConfig.globalEntry = webpackEntry;
+    }
+
     delete appConfig['development'];
     delete appConfig['production'];
 
@@ -43,9 +54,10 @@ function appContextConfig(app) {
         app.context[item] = appConfig[item];
     }
 
-
     wrapCommonToContext(app);
 }
+
+
 
 
 /**
