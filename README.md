@@ -234,7 +234,12 @@ module.exports ={
 
 ```javascript
 entry: {
-    example: ['./web/lib/header/index.js', './web/lib/footer/index.js' , './web/page/example/index.js' , 'webpack-hot-client/client']
+    example: [
+        './web/lib/header/index.js', 
+        './web/lib/footer/index.js' , 
+        './web/page/example/index.js' , 
+        'webpack-hot-client/client'
+    ]
 }
 ```
 `webpack-hot-client/client(hot-reload)`: 开发模式时每个入口自动加入.
