@@ -223,18 +223,25 @@ module.exports ={
 ```javascript
 module.exports ={
     entry: {
-        example: './web/page/example/index.js'
+        example: './web/page/example/index.js',
+        example2: './web/page/example2/index.js'
     },
     //devtool: '#cheap-module-eval-source-map'
     ...
 };
 ```
 
-合并后的实际入口
+合并后的实际入口(多入口)
 
 ```javascript
 entry: {
     example: [
+        './web/lib/header/index.js', 
+        './web/lib/footer/index.js' , 
+        './web/page/example/index.js' , 
+        'webpack-hot-client/client'
+    ],
+    example2: [
         './web/lib/header/index.js', 
         './web/lib/footer/index.js' , 
         './web/page/example/index.js' , 
@@ -258,11 +265,12 @@ module.exports ={
 };
 ```
 
-合并后的实际入口
+合并后的实际入口(多入口)
 
 ```javascript
 entry: {
     example: ['./web/page/example/index.js'],
+    example2: ['./web/page/example2/index.js'],
     header: ['./web/lib/header/index.js'],
     footer: ['./web/lib/footer/index.js']
 }
