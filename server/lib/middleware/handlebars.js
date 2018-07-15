@@ -13,6 +13,7 @@ if (existsManifest) {
     manifest = require(path.resolve('./dist/manifest.json'));
 }
 
+
 /**
  * dev 环境插入文件
  */
@@ -34,11 +35,16 @@ const appendFileForDev = (ctx, url) => {
                 html.push(`<script src="/public/vendor/mockjs/dist/mock-min.js"></script>`);
                 html.push(`<script src="/public/mock.js"></script>`);
             }
-            html.push(`<script src="${url}"></script>`);
+            //不插入全局entry
+            if (!ctx.globalEntry.includes(url)) {
+                html.push(`<script src="${url}"></script>`);
+            }
             return html.join('');
         }
         else {
-            return `<script src="${url}"></script>`;
+            if (!ctx.globalEntry.includes(url)) {
+                return `<script src="${url}"></script>`;
+            }
         }
     }
     //dist可能存在css,但当前app的css就不加载了,避免冲突
