@@ -1,7 +1,7 @@
 const path = require('path');
 const koaProxy = require('koa-proxy');
 const koaConvert = require('koa-convert');
-const isEmptyArray = require('../utils/is-empty-array');
+const isEmpty = require('lodash/isEmpty');
 /**
  * 代理
  */
@@ -9,7 +9,6 @@ module.exports.default = module.exports = async (app) => {
     let webpackDevConf = require(path.resolve('./webpack.dev.conf'));
     let entry = webpackDevConf.entry;
     let webpackEntryName = [];
-    let webpackMatch = '';
     let env = app.context.env;
 
     //处理webpack.options.conf 所有EntryName
@@ -24,7 +23,7 @@ module.exports.default = module.exports = async (app) => {
     let locales = app.context.locales;
 
     //返回在多语言路由加载文件的正确性
-    if (env === 'development' && !isEmptyArray(locales)) {
+    if (env === 'development' && !isEmpty(locales)) {
         let urlMatch = '';
         let urlReplaceMatch = '';
         let len = locales.length;
@@ -56,33 +55,6 @@ module.exports.default = module.exports = async (app) => {
                 }
                 if (url.indexOf('.') > -1) {
                     return url.replace(urlReplaceRegexp, '');
-                }
-                else {
-                    return url;
-                }
-            }
-        })));
-    }
-
-    //返回webpack.entry加载js的正确性
-    if (env === 'development' && webpackEntryName) {
-        let len = webpackEntryName.length;
-        for (let i = 0; i < len; i++) {
-            let item = webpackEntryName[i];
-            if (i == len - 1) {
-                webpackMatch += `((.+)${item})`;
-            }
-            else {
-                webpackMatch += `((.+)${item})|`;
-            }
-        }
-        let webpackMatchRegexp = new RegExp(webpackMatch);
-        app.use(koaConvert(koaProxy({
-            match: webpackMatchRegexp,
-            host: `http://localhost:${port}/`,
-            map: function (url) {
-                if (/[.]js/.test(url)) {
-                    return path.basename(url);
                 }
                 else {
                     return url;
