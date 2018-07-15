@@ -230,6 +230,15 @@ module.exports ={
 };
 ```
 
+合并后的实际入口
+
+```javascript
+entry: {
+    example: ['./web/lib/header/index.js', './web/lib/footer/index.js' , './web/page/example/index.js' , 'webpack-hot-client/client']
+}
+```
+`webpack-hot-client/client(hot-reload)`: 开发模式时每个入口自动加入.
+
 * ```/webpack.prod.conf.js```
 
 **生产模式时所引用的配置文件,构建会合并所有属性.**
@@ -242,6 +251,16 @@ module.exports ={
     })
     ...
 };
+```
+
+合并后的实际入口
+
+```javascript
+entry: {
+    example: ['./web/page/example/index.js'],
+    header: ['./web/lib/header/index.js'],
+    footer: ['./web/lib/footer/index.js']
+}
 ```
 
 ## 多语言方案(locales)
@@ -385,7 +404,6 @@ Mock.mock('/example/list', 'post', function () {
 `isMockAPI:false`
 
 不会插入`mock-min.js`,`mock.js.`
-
 
 
 ## 打包
