@@ -11,14 +11,15 @@ module.exports.default = module.exports = async (app) => {
             if (status < 0) {
                 status = 500;
             }
+            ctx.status = status;
             ctx.state.error = {
                 status: status,
+                url: ctx.path,
+                xhr: ctx.request.get('X-Requested-With') === 'XMLHttpRequest',
                 error: {
                     message: err.message || '',
                     stack: err.stack || ''
-                },
-                url: ctx.path,
-                xhr: ctx.request.get('X-Requested-With') === 'XMLHttpRequest'
+                }
             };
             if (status === 500) {
                 throw err;
@@ -27,7 +28,7 @@ module.exports.default = module.exports = async (app) => {
                 ctx.logger.error(JSON.stringify(ctx.state.error));
             }
             if (status === 404) {
-                await ctx.redirect('/error');
+                await ctx.render('common/error');
             }
         }
     });
