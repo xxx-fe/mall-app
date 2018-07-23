@@ -9,5 +9,4 @@ global.Vue = Vue;
 Vue.config.productionTip = false;
 require('../utils/index');
 
-import axios from 'axios';
-Vue.prototype.$http = axios;
+require('../vendor/axios');
