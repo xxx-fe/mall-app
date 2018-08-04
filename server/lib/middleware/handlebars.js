@@ -43,7 +43,12 @@ const appendFileForDev = (ctx, url) => {
         }
         else {
             if (!ctx.globalEntry.includes(url)) {
-                return `<script src="${url}"></script>`;
+                if (ctx.originalUrl.match(new RegExp('\/', 'g')).length > 0) {
+                    return `<script src="/${url}"></script>`;
+                }
+                else {
+                    return `<script src="${url}"></script>`;
+                }
             }
         }
     }
