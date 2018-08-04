@@ -42,7 +42,7 @@ const appendFileForDev = (ctx, url) => {
             return html.join('');
         }
         else {
-            if (!ctx.globalEntry.includes(url)) {
+            if (!ctx.globalEntry.includes(url) && url.indexOf('/') === -1) {
                 if (ctx.originalUrl.match(new RegExp('\/', 'g')).length > 0) {
                     return `<script src="/${url}"></script>`;
                 }
