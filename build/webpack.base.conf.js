@@ -2,7 +2,7 @@
 const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
-const vueLoaderConfig = require('./vue-loader.conf')
+const vueLoaderConfig = require('./vue-loader.conf');
 
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
@@ -32,7 +32,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                include: [resolve('src'), resolve('test')]
+                exclude: /node_modules/
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

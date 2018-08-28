@@ -7,6 +7,6 @@ import Vue from 'vue';
 global.Vue = Vue;
 
 Vue.config.productionTip = false;
-require('../utils/index');
 
-require('../vendor/axios');
+require('../utils/index');
+require('../vendor/index');
