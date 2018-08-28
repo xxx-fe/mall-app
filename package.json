@@ -32,6 +32,7 @@
     "log4js": "^2.9.0",
     "mini-css-extract-plugin": "^0.4.0",
     "optimize-css-assets-webpack-plugin": "^4.0.2",
+    "promise-polyfill": "^8.1.0",
     "time-fix-plugin": "^2.0.3",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "vue": "^2.5.16",
