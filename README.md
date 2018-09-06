@@ -207,14 +207,14 @@ $(document).ready(function(){
 **作为全局通用的入口文件,处在不同位置.在开发,生产模式webapck构建时自动合并引入webpack.entry.(不做其他属性合并).一般情况不作修改.**
 ```javascript
 module.exports ={
-    header: './web/lib/header/index.js', //全局头部通用文件(引用vue,jquery,全局样式...)
-    footer: './web/lib/footer/index.js', //全局底部通用文件(比如统计数据...)
+    header: './web/lib/header.js', //全局头部通用文件(引用vue,全局样式...)
+    footer: './web/lib/footer.js', //全局底部通用文件(比如统计数据...)
 };
 ```
 
-`header/index.js`:不支持删除,在生产模式时,紧接着插入manifest.js,vendor.js.
+`header.js`:不支持删除,在生产模式时,紧接着插入manifest.js,vendor.js.
 
-`footer/index.js`:支持删除.
+`footer.js`:支持删除.
 
 * ```/webpack.dev.conf.js```
 
@@ -236,14 +236,14 @@ module.exports ={
 ```javascript
 entry: {
     example: [
-        './web/lib/header/index.js', 
-        './web/lib/footer/index.js' , 
+        './web/lib/header.js', 
+        './web/lib/footer.js' , 
         './web/page/example/index.js' , 
         'webpack-hot-client/client'
     ],
     example2: [
-        './web/lib/header/index.js', 
-        './web/lib/footer/index.js' , 
+        './web/lib/header.js', 
+        './web/lib/footer.js' , 
         './web/page/example/index.js' , 
         'webpack-hot-client/client'
     ]
@@ -271,8 +271,8 @@ module.exports ={
 entry: {
     example: ['./web/page/example/index.js'],
     example2: ['./web/page/example2/index.js'],
-    header: ['./web/lib/header/index.js'],
-    footer: ['./web/lib/footer/index.js']
+    header: ['./web/lib/header.js'],
+    footer: ['./web/lib/footer.js']
 }
 ```
 
