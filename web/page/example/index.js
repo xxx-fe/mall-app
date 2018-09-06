@@ -1,8 +1,6 @@
-import exampleApp from './example.vue';
-$(document).ready(function(){
-    new Vue({
-        el: '#example1-app',
-        template: '<exampleApp/>',
-        components: {exampleApp}
-    });
+import exampleApp from './example-app.vue';
+new Vue({
+    el: '#example1-app',
+    template: '<exampleApp/>',
+    components: {exampleApp}
 });

@@ -14,8 +14,6 @@
     "babel-cli": "^6.26.0",
     "handlebars": "^4.0.11",
     "handlebars-layouts": "^3.1.4",
-    "jquery": "^1.12.4",
-    "jquery-lazyload": "^1.9.7",
     "js-yaml": "^3.12.0",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",

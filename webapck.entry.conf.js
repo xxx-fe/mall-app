@@ -1,4 +1,4 @@
 module.exports ={
-    header: './web/lib/header/index.js',
-    footer: './web/lib/footer/index.js',
+    header: './web/lib/header.js',
+    footer: './web/lib/footer.js'
 };

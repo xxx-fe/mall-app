@@ -1,1 +1,0 @@
-window.footer = 'mallapp-footer';

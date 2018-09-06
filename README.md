@@ -41,7 +41,7 @@
 │    ├── component                              //     组件
 │    ├── lib                                    //     库
 │    ├── locale                                 //     多语言文件
-│    ├── page                                   //     页面(目录下的每个文件夹都应是一个应用)
+│    ├── page                                   //     页面
 │    ├── style                                  //     样式(应用样式)
 │    ├── webpack.entry.conf.js                  //     webpack入口配置文件
 │    ├── webpack.dev.conf.js                    //     webpack开发模式配置文件
@@ -159,7 +159,7 @@ module.exports.default = module.exports = {
 
 ### 4.新建应用页面
 
-* ```/web/page/example/example.vue```
+* ```/web/page/example/example-app.vue```
 
 ```javascript
 ...
@@ -187,7 +187,7 @@ module.exports.default = module.exports = {
 * ```/web/page/example/index.js```
 
 ```javascript
-import exampleApp from './example.vue';
+import exampleApp from './example-app.vue';
 $(document).ready(function(){
     new Vue({
         el: '#app',
