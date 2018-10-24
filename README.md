@@ -12,7 +12,7 @@
 ## Architecture
 
 * `样式`:scss.
-* `库管理`:npm,bower(npm有的,bower不需要,但比如boostrap,npm方式比较麻烦,看情况).
+* `库管理`:npm,bower
 * `框架`:vue2,koa2.
 * `模板引擎`:handlebars4.
 * `打包`:webpack4
@@ -34,15 +34,18 @@
 │    ├── server.js                              //     服务器入口
 ├── dist                                        // 生产目录
 ├── mock                                        // 模拟数据目录
-├── public                                      // 公共资源(例如访问http://localhost:3333/public/images/bg.jpg)
-│    ├── images                                 //     图片
+├── public                                      // 公共资源(例如访问http://localhost:3333/public/img/bg.jpg)
+│    ├── img                                    //     图片
 │    └── vendor                                 //     第三方插件
 ├── web                                         // 前端(vue,js,css...)
-│    ├── component                              //     组件
-│    ├── lib                                    //     库
-│    ├── locale                                 //     多语言文件
-│    ├── page                                   //     页面
-│    ├── style                                  //     样式(应用样式)
+│    ├── components                             //     组件
+│    ├── directives                             //     指令
+│    ├── entry                                  //     入口
+│    ├── filters                                //     过滤
+│    ├── global                                 //     全局设置
+│    ├── pages                                  //     应用页面                  
+│    ├── styles                                 //     样式(应用样式)
+│    ├── vendor                                 //     第三方插件
 │    ├── webpack.entry.conf.js                  //     webpack入口配置文件
 │    ├── webpack.dev.conf.js                    //     webpack开发模式配置文件
 │    └── webpack.pord.conf.js                   //     webpack生产模式配置文件
@@ -69,43 +72,42 @@ npm run prod   //启动生产模式(prod)
 
 ### 1.新建应用路由
 
-* ```/server/router/example/example.js```
+* ```/server/router/main-app/index.js```
 
 ```javascript
-
-const exampleCtrl = require('../../controller/example/example');
+const mainCtrl = require('../../controller/main-app');
 module.exports.default = module.exports = [
-    {path: '', ctrl: exampleCtrl.index},
-    {path: 'example', ctrl: exampleCtrl.index},
-    {path: 'example/list', ctrl: exampleCtrl.list, method: 'post'}
+    {path: '', ctrl: mainCtrl.pageHome},
+    {path: 'main', ctrl: mainCtrl.pageHome},
+    {path: 'main/list', ctrl: mainCtrl.list, method: 'post'}
 ];
 ```
 
 ### 2.新建应用控制器
 
-* ```/server/controller/example/example.js```
+* ```/server/controller/main-app/index.js```
 
 ```javascript
-const exampleService = require('../../service/example/example');
+const mainService = require('../../service/main-app');
 
-const index = async (ctx, _next) => {
+const pageHome = async (ctx, _next) => {
     let locals = {
-        title: 'example'
+        title: 'home-page'
     };
     //appName开发模式下不会加载生产后的css
-    ctx.state.appName = 'example';
-    await ctx.render('page/example', locals);
+    ctx.state.appName = 'main-app';
+    await ctx.render('pages/main-app/home', locals);
 };
 
 const list = async (ctx, _next) => {
     let locals = {
-        list: await exampleService.getList(ctx)
+        list: await mainService.getList(ctx)
     };
     ctx.body = locals;
 };
 
 module.exports.default = module.exports = {
-    index,
+    pageHome,
     list
 };
 
@@ -114,16 +116,16 @@ module.exports.default = module.exports = {
 
 ### 3.新建应用视图
 
-- ```/server/view/page/example.hbs```
+- ```/server/view/pages/main-app/home.hbs```
 
 ```handlebars
-{{#extend "layout-example"}}         //使用layout-example布局
+{{#extend "layout-default"}}          //使用layout-default布局
     {{#content "head"}}
-        {{{parseUrl 'example.css'}}} //exmaple应用的css,直接引用
-    {{/content}}                     //不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
+        {{{parseUrl 'main-app.css'}}} //main-app应用的css,直接引用
+    {{/content}}                      //不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
     {{#content "body"}}
-        <div id="app"></div>
-        {{{parseUrl 'example.js'}}}  //exmaple应用的js(相应webpack.entry)
+        <div id="home-app"></div>
+        {{{parseUrl 'main-app.js'}}}  //main-app应用的js(相应webpack.entry)
     {{/content}}
 {{/extend}}
 ```
@@ -141,25 +143,25 @@ module.exports.default = module.exports = {
 解析url, handlebars自定义helpers.根据当前开发环境返回正确的url.
 
 ```javascript
-{{{parseUrl 'example.css' 'example.js'}}}
+{{{parseUrl 'main-app.css' 'main-app.js'}}}
 ```
 结果:    
 
 ```html
 //dev
-<link href="/dist/static/css/example.[chunkhash].css" type="text/css" rel="stylesheet">//如果build过,则加载
-<script web="example.js"></script>
+<link href="/dist/static/css/main-app.[chunkhash].css" type="text/css" rel="stylesheet">//如果build过,则加载
+<script web="main-app.js"></script>
 //prod
-<link href="/dist/static/css/example.[chunkhash].css" type="text/css" rel="stylesheet">
-<script web="/dist/static/js/example.[chunkhash].js"></script>
+<link href="/dist/static/css/main-app.[chunkhash].css" type="text/css" rel="stylesheet">
+<script web="/dist/static/js/main-app.[chunkhash].js"></script>
 ```
-如果没有build过,dev模式不会加载example.css,一般情况只加载example.js.即使加载build过的css也不影响dev模式下的样式应用.
+如果没有build过,dev模式不会加载main-app.css,一般情况只加载main-app.js.即使加载build过的css也不影响dev模式下的样式应用.
 
 
 
 ### 4.新建应用页面
 
-* ```/web/page/example/example-app.vue```
+* ```/web/pages/main-app/home.vue```
 
 ```javascript
 ...
@@ -171,7 +173,7 @@ module.exports.default = module.exports = {
             }
         },
         mounted(){
-            this.$http.post('/example/list').then(response => {
+            this.$http.post('/main/list').then(response => {
                 console.log(response);
                 this.list = response.data.list
             }, response => {
@@ -184,19 +186,17 @@ module.exports.default = module.exports = {
 ```
 ### 5.新建应用入口
 
-* ```/web/page/example/index.js```
+* ```/web/pages/main-app/index.js```
 
 ```javascript
-import exampleApp from './example-app.vue';
-$(document).ready(function(){
-    new Vue({
-        el: '#app',
-        template: '<exampleApp/>',
-        components: {exampleApp}
-    });
+import homeApp from './home.vue';
+new Vue({
+    el: '#home-app',
+    template: '<homeApp/>',
+    components: {homeApp}
 });
 ```
-**浏览: http://localhost:3333/example**
+**浏览: http://localhost:3333/**
 
 
 ## 配置文件
@@ -207,8 +207,8 @@ $(document).ready(function(){
 **作为全局通用的入口文件,处在不同位置.在开发,生产模式webapck构建时自动合并引入webpack.entry.(不做其他属性合并).一般情况不作修改.**
 ```javascript
 module.exports ={
-    header: './web/lib/header.js', //全局头部通用文件(引用vue,全局样式...)
-    footer: './web/lib/footer.js', //全局底部通用文件(比如统计数据...)
+    header: './web/entry/header.js', //全局头部通用文件(引用vue,全局样式...)
+    footer: './web/entry/footer.js', //全局底部通用文件(比如统计数据...)
 };
 ```
 
@@ -223,9 +223,9 @@ module.exports ={
 ```javascript
 module.exports ={
     entry: {
-        example: './web/page/example/index.js',
-        example2: './web/page/example2/index.js'
-    },
+        'main-app': './web/pages/main-app/index.js',
+        'other-app': './web/pages/other-app/index.js'
+    }
     //devtool: '#cheap-module-eval-source-map'
     ...
 };
@@ -235,16 +235,16 @@ module.exports ={
 
 ```javascript
 entry: {
-    example: [
-        './web/lib/header.js', 
-        './web/lib/footer.js' , 
-        './web/page/example/index.js' , 
+    'main-app': [
+        './web/entry/header.js', 
+        './web/entry/footer.js' , 
+        './web/pages/main-app/index.js' , 
         'webpack-hot-client/client'
     ],
-    example2: [
-        './web/lib/header.js', 
-        './web/lib/footer.js' , 
-        './web/page/example/index.js' , 
+    'other-app': [
+        './web/entry/header.js', 
+        './web/entry/footer.js' , 
+        './web/pages/other-app/index.js' , 
         'webpack-hot-client/client'
     ]
 }
@@ -259,7 +259,7 @@ entry: {
 module.exports ={
     ...
     new ManifestPlugin({
-        publicPath: 'http://localhost:3333/example'
+        publicPath: 'http://localhost:3333/main-app'
     })
     ...
 };
@@ -269,10 +269,10 @@ module.exports ={
 
 ```javascript
 entry: {
-    example: ['./web/page/example/index.js'],
-    example2: ['./web/page/example2/index.js'],
-    header: ['./web/lib/header.js'],
-    footer: ['./web/lib/footer.js']
+    'main-app': ['./web/pages/main-app/index.js'],
+    'other-app': ['./web/pages/other-app/index.js'],
+    header: ['./web/entry/header.js'],
+    footer: ['./web/entry/footer.js']
 }
 ```
 
@@ -315,11 +315,11 @@ window.locale = {
 多语言文件会在`header.js`之前插入.
 
 ### 3.创建全局方法
-* `/web/lib/utils/locale.js`
+* `/web/utils/locale.js`
 
 ```javascript
 /**
- * 获取locale对应的值
+ * 获取locale对应的值 
  */
 window.getLocale = function (key) {
     if (window.locale) {
@@ -346,9 +346,9 @@ data() {
 
 路由则支持
 
-*  http://localhost:3333/example
-*  http://localhost:3333/zh/example
-*  http://localhost:3333/en/example
+*  http://localhost:3333/
+*  http://localhost:3333/zh/
+*  http://localhost:3333/en/
 
 ## mock
 
@@ -367,17 +367,17 @@ apiServer : 'http://localhost:3334'
 
 #### 1.1 编写/mock/**/.json文件.
 
-* ```/mock/example/list.json```
+* ```/mock/main/list.json```
 
-现在请求 `/example/list`
+现在请求 `/main/list`
 
 `isMockAPI:true`
 
-服务端返回 `/mock/example/list.json`.
+服务端返回 `/mock/main/list.json`.
 
 `isMockAPI:false`
 
-服务端返回 `http://localhost:3334/example/list`.
+服务端返回 `http://localhost:3334/main/list`.
 
 ### 2.拦截Ajax方式
 
@@ -400,7 +400,7 @@ apiServer : 'http://localhost:3334'
 **这是个全局受影响的mock文件.**
 
 ```javascript
-Mock.mock('/example/list', 'post', function () {
+Mock.mock('/main/list', 'post', function () {
     return Mock.mock({
         "list|1-10": [{
             'name': '@cname',
@@ -430,25 +430,25 @@ buildPath:
     # name entry路径
     # isIndexEntry 是否使用index.js作为webpack.entry.
     # isIndexEntry = true
-    # './web/page/example/index.js'  --> /dist/static/js/example[chunkhash].js
+    # './web/pages/main-app/index.js'  --> /dist/static/js/main-app[chunkhash].js
     # 使用index.js上一级目录名作为打包文件名(example.js).
 
     # isIndexEntry = false
     # './web/locale/zh.js'           --> /dist/static/js/zh[chunkhash].js
     # 使用当前文件作为打包文件名(zh.js).
      -
-       name: './web/page'
+       name: './web/pages'
        isIndexEntry : 'true'
      -
        name: './web/locale'
 ...
 ```
 
-一般情况每一个应用都建立在 `/web/page/**/index.js`,以`index.js`作为打包入口.
+一般情况每一个应用都建立在 `/web/pages/**/index.js`,以`index.js`作为打包入口.
 
-否则,如果有`/web/page/example1/index.js`,`/web/page/example2/index.js`,`/web/page/example3/index.js`.就会最终构建出以排序最后的`index.js`.
+否则,如果有`/web/pages/main-app/index.js`,`/web/pages/main-app2/index.js`,`/web/pages/main-app3/index.js`.就会最终构建出以排序最后的`index.js`.
 
-所以,`/web/page/**`,只要目录不重名,并且以`index.js`作为入口.就不会冲突.
+所以,`/web/pages/**`,只要目录不重名,并且以`index.js`作为入口.就不会冲突.
 
 
 **dev**
@@ -458,6 +458,6 @@ buildPath:
 
 **prod**
 
-从这些配置文件打包 `/webpack.base.conf` , ` /webpack.entry.conf.js` , `/webpack.prod.conf` , `/web/page/**/index.js`    
-**主要从`/web/page/**/index.js`打包所有js**
+从这些配置文件打包 `/webpack.base.conf` , ` /webpack.entry.conf.js` , `/webpack.prod.conf` , `/web/pages/**/index.js`    
+**主要从`/web/pages/**/index.js`打包所有js**
 

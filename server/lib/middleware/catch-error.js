@@ -28,7 +28,7 @@ module.exports.default = module.exports = async (app) => {
                 ctx.logger.error(JSON.stringify(ctx.state.error));
             }
             if (status === 404) {
-                await ctx.render('common/error');
+                await ctx.render('pages/404');
             }
         }
     });

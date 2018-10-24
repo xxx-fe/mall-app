@@ -27,7 +27,7 @@ buildPath:
     # name 路径
     # isIndexEntry 是否使用index.js作为webpack.entry.
     # isIndexEntry = true
-    # './web/page/example/index.js'  --> /dist/static/js/example[chunkhash].js
+    # './web/pages/main-app/index.js'  --> /dist/static/js/main-app[chunkhash].js
     # 使用index.js上一级目录名作为打包文件名(example.js).
 
     # isIndexEntry = false
@@ -35,7 +35,7 @@ buildPath:
     # 使用当前文件作为打包文件名(zh.js).
      -
        #应用入口
-       name: './web/page'
+       name: './web/pages'
        isIndexEntry : true
 
      #-

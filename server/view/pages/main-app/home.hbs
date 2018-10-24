@@ -1,0 +1,9 @@
+{{#extend "layout-default"}}
+    {{#content "head"}}
+        {{{parseUrl 'main-app.css'}}}
+    {{/content}}
+    {{#content "body"}}
+        <div id="home-app"></div>
+        {{{parseUrl 'main-app.js'}}}
+    {{/content}}
+{{/extend}}

@@ -1,2 +1,0 @@
-require('./axios');
-require('./promise');

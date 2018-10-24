@@ -12,7 +12,8 @@ const webpackEntryConf = require(path.resolve('./webapck.entry.conf'));
  */
 function appContextConfig(app) {
     let argv = process.argv.splice(2);
-    let env = process.env.NODE_ENV = argv[0] !== 'production' ? 'development' : 'production';
+    argv[0] = 'development'
+    let env = process.env.NODE_ENV = argv[0] !== 'development' ? 'production' : 'development';
     let appConfig = Object.assign({},
         config,
         config[env],

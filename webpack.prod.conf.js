@@ -13,12 +13,7 @@ module.exports = {
             new UglifyJsPlugin({
                 cache: true,
                 parallel: true,
-                sourceMap: true,
-                uglifyOptions: {
-                  mangle: { // https://github.com/webpack-contrib/uglifyjs-webpack-plugin/issues/92
-                      safari10: true,
-                  }
-                }
+                sourceMap: true
             }),
             new OptimizeCSSAssetsPlugin({})
         ],

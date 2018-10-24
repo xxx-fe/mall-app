@@ -1,0 +1,19 @@
+
+@font-face {font-family: "iconfont";
+  src: url('/public/icon-font/iconfont.eot?t=1540346446134'); /* IE9*/
+  src: url('iconfont.eot?t=1540346446134#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAQ0AAsAAAAABogAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFY/3UtZY21hcAAAAYAAAABLAAABcOqPv99nbHlmAAABzAAAAIgAAACYRRFte2hlYWQAAAJUAAAALwAAADYTCyqZaGhlYQAAAoQAAAAcAAAAJAfeA4NobXR4AAACoAAAAAgAAAAICAAAAGxvY2EAAAKoAAAABgAAAAYATAAAbWF4cAAAArAAAAAgAAAAIAEPADZuYW1lAAAC0AAAAUUAAAJtPlT+fXBvc3QAAAQYAAAAGwAAACx2gQEEeJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2BkYWCcwMDKwMHUyXSGgYGhH0IzvmYwYuRgYGBiYGVmwAoC0lxTGBxepr9MZ27438AQw9zA0AAUZgTJAQDtuwy3eJxjYGBgZWBgYAZiHSBmYWBgDGFgZAABP6AoI1icmYELLM7CoARWwwISf5n+/z+MBPJZwCQDIxvDKOABkzJQHjisIJiBEQAsOQsRAHicY2BmYPjfwMLA3MDAzSDOoMnAwKrGoG7GYC7GIM7GwMzHyC7HKG7HaK7HyKykz8jOpqRmYs9oZiTPKCbCxsRw8999NjZGxZs3GRXZ2P7dv7n1Iyvrx61g0lSIJymJV0mKt4FXCYglG5DVAfUxL4WpBJL/WHmSk3mkFIEKgUhRioEBAJxIKSF4nGNgZGBgAOJs0apT8fw2Xxm4WRhA4PrXz34I+n8DCwNzA5DLwcAEEgUARfsLnwB4nGNgZGBgbvjfwBDDwgACQJKRARUwAQBHCAJrBAAAAAQAAAAAAAAAAEwAAAABAAAAAgAqAAMAAAAAAAIAAAAKAAoAAAD/AAAAAAAAeJxlj01OwzAQhV/6B6QSqqhgh+QFYgEo/RGrblhUavdddN+mTpsqiSPHrdQDcB6OwAk4AtyAO/BIJ5s2lsffvHljTwDc4Acejt8t95E9XDI7cg0XuBeuU38QbpBfhJto41W4Rf1N2MczpsJtdGF5g9e4YvaEd2EPHXwI13CNT+E69S/hBvlbuIk7/Aq30PHqwj7mXle4jUcv9sdWL5xeqeVBxaHJIpM5v4KZXu+Sha3S6pxrW8QmU4OgX0lTnWlb3VPs10PnIhVZk6oJqzpJjMqt2erQBRvn8lGvF4kehCblWGP+tsYCjnEFhSUOjDFCGGSIyujoO1Vm9K+xQ8Jee1Y9zed0WxTU/3OFAQL0z1xTurLSeTpPgT1fG1J1dCtuy56UNJFezUkSskJe1rZUQuoBNmVXjhF6XNGJPyhnSP8ACVpuyAAAAHicY2BigAAuBuyAiZGJkZmBqbSAgQEABV0A/QA=') format('woff'),
+  url('/public/icon-font/iconfont.ttf?t=1540346446134') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('/public/icon-font/iconfont.svg?t=1540346446134#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-up:before { content: "\e967"; }
+

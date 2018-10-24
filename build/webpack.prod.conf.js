@@ -20,13 +20,13 @@ if (buildPath) {
             if (buildPathItem.isIndexEntry) {
                 if (/\.js$/.test(fileName) && fileName === 'index.js') {
                     var entryPath = path.basename(path.join(dirPath, '../'));
-                    files[entryPath] = dirPath;
+                    files[entryPath] = ['babel-polyfill', dirPath];
                 }
             }
             else {
                 if (/\.js$/.test(fileName)) {
                     var entryPath = path.basename(dirPath, '.js');
-                    files[entryPath] = dirPath;
+                    files[entryPath] = ['babel-polyfill', dirPath];
                 }
             }
         });

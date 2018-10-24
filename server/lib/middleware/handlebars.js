@@ -12,7 +12,7 @@ let existsManifest = fs.existsSync(path.resolve('./dist/manifest.json'));
 if (existsManifest) {
     manifest = require(path.resolve('./dist/manifest.json'));
 }
-
+const isEmpty = require('lodash/isEmpty');
 
 /**
  * dev 环境插入文件
@@ -66,37 +66,30 @@ const appendFileForDev = (ctx, url) => {
  */
 const appendFileForProd = (ctx, url) => {
     let html = [];
-    let basePath = '../../../';
     if (url.indexOf('.css') > -1) {
         let cssUrl = manifest[url];
         //判断是否存在生产模式的css
-        let existsCSS = fs.existsSync(path.join(__dirname, `${basePath}${cssUrl}`));
-        if (existsCSS) {
+        if (cssUrl) {
             html.push(`<link href="${cssUrl}" type="text/css" rel="stylesheet"/>`);
         }
     }
     else if (url.indexOf('.js') > -1) {
         let jsUrl = manifest[url];
-        //判断是否存在生产模式的js
-        let existsJS = fs.existsSync(path.join(__dirname, `${basePath}${jsUrl}`));
-        if (existsJS) {
-            //头部插入通用chunks
-            if (url === 'header.js') {
-                html.push(`<script src="${manifest['manifest.js']}"></script>`);
-                html.push(`<script src="${manifest['vendor.js']}"></script>`);
-                let vendorCss = manifest['vendor.css'];
-                if (vendorCss) {
-                    html.push(`<link href="${vendorCss}" type="text/css" rel="stylesheet"/>`);
-                }
-                let localeJS = manifest[`${ctx.state.locale}.js`];
-                if (localeJS) {
-                    html.push(`<script src="${localeJS}"></script>`);
-                }
+        //头部插入通用chunks
+        if (url === 'header.js') {
+            html.push(`<script src="${manifest['manifest.js']}"></script>`);
+            html.push(`<script src="${manifest['vendor.js']}"></script>`);
+            let vendorCss = manifest['vendor.css'];
+            if (vendorCss) {
+                html.push(`<link href="${vendorCss}" type="text/css" rel="stylesheet"/>`);
             }
-            html.push(`<script src="${jsUrl}"></script>`);
         }
+        html.push(`<script src="${jsUrl}"></script>`);
     }
-    return html.join('');
+
+    if (!isEmpty(html)) {
+        return html.join('');
+    }
 };
 
 
@@ -119,7 +112,6 @@ const parseUrl = (url, ctx) => {
         console.warn(err);
     }
 };
-
 
 /**
  * handlebars布局
@@ -152,6 +144,11 @@ const layouts = async (ctx, next) => {
         }
     });
 
+    //挂载ctx.state到window
+    handlebars.registerHelper('mountState', function () {
+        return `<script type="text/javascript">window.APPSTATE = ${JSON.stringify(ctx.state)}</script>`;
+    });
+
     await next();
 };
 
@@ -166,7 +163,6 @@ const rawHelper = async (ctx, next) => {
     });
     await next();
 };
-
 
 /**
  * handlebarsPartial

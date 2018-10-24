@@ -9,6 +9,7 @@ module.exports.default = module.exports = async (app) => {
         }
         if (!ctx.state.locale) {
             ctx.state.locale = 'zh';
+            ctx.state.publicServer = ctx.publicServer || '';
         }
         await next();
     });

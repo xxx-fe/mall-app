@@ -1,8 +1,7 @@
 module.exports ={
     entry: {
-        example: './web/page/example/index.js',
-        example2: './web/page/example2/index.js',
-        example3: './web/page/example3/index.js'
+        'main-app': './web/pages/main-app/index.js',
+        'other-app': './web/pages/other-app/index.js'
     },
-    devtool: '#cheap-module-eval-source-map',
+    //devtool: '#cheap-module-eval-source-map',
 };

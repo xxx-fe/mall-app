@@ -5,9 +5,9 @@ const koaSession = require('koa-session');
 module.exports.default = module.exports = (app) => {
     app.keys = ['keys'];
     const CONFIG = {
-        key: 'koa:sess',
+        key: 'portal.sid',
         //30 minutes
-        maxAge: 1800000,
+        maxAge: 30 * 60 * 1000,
         overwrite: true,
         httpOnly: true,
         signed: true,
