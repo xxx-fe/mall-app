@@ -3,69 +3,69 @@
 
 > vue koa 应用脚手架
 
-支持多语言    
-支持多页应用    
-支持多种MOCK
-
-
+支持多语言,多页应用,多种MOCK     
 
 ## Architecture
 
+### 前端
+
 * `样式`:scss.
 * `库管理`:npm,bower
-* `框架`:vue2,koa2.
+* `框架`:vue2.
 * `模板引擎`:handlebars4.
 * `打包`:webpack4
 
-**运行环境中Nodejs的版本至少是7**
+### 中台
+* `框架`:koa2, nodejs>=7
+
 
 ## 目录结构
 
 ```text
 .
-├── build                                       // 使用 vue-cli 2.9.3(有修正)
-├── config                                      // 使用 vue-cli 2.9.3(有修正)
-├── server                                      // 服务端(koa,nodejs)
-│    ├── lib                                    //     库
-│    ├── controller                             //     控制器
-│    ├── router                                 //     路由(koa-router,或者在前端用vue-router)
-│    ├── service                                //     数据(api)
-│    ├── view                                   //     视图
-│    ├── server.js                              //     服务器入口
-├── dist                                        // 生产目录
-├── mock                                        // 模拟数据目录
-├── public                                      // 公共资源(例如访问http://localhost:3333/public/img/bg.jpg)
-│    ├── img                                    //     图片
-│    └── vendor                                 //     第三方插件
-├── web                                         // 前端(vue,js,css...)
-│    ├── components                             //     组件
-│    ├── directives                             //     指令
-│    ├── entry                                  //     入口
-│    ├── filters                                //     过滤
-│    ├── global                                 //     全局设置
-│    ├── pages                                  //     应用页面                  
-│    ├── styles                                 //     样式(应用样式)
-│    ├── vendor                                 //     第三方插件
-│    ├── webpack.entry.conf.js                  //     webpack入口配置文件
-│    ├── webpack.dev.conf.js                    //     webpack开发模式配置文件
-│    └── webpack.pord.conf.js                   //     webpack生产模式配置文件
-│   config.yml                                  //     通用配置文件,整个脚手架很多功能都与它有关
+├── build                                       # 使用 vue-cli 2.9.3(有修改)
+├── config                                      # 使用 vue-cli 2.9.3(有修改)
+├── server                                      # 服务端(koa,nodejs)
+│    ├── lib                                    #     库
+│    ├── controller                             #     控制器
+│    ├── router                                 #     路由(koa-router,或者在前端用vue-router)
+│    ├── service                                #     数据
+│    ├── view                                   #     视图
+│    ├── server.js                              #     服务器入口
+├── dist                                        # 生产目录
+├── mock                                        # 模拟数据
+├── public                                      # 公共资源(例如访问http://localhost:3333/public/img/bg.jpg)
+│    ├── img                                    #     图片
+│    └── vendor                                 #     第三方插件
+├── web                                         # 前端(vue,js,css...)
+│    ├── components                             #     组件
+│    ├── directives                             #     指令
+│    ├── entry                                  #     入口
+│    ├── filters                                #     过滤
+│    ├── global                                 #     全局设置
+│    ├── pages                                  #     页面                  
+│    ├── styles                                 #     样式
+│    ├── vendor                                 #     第三方插件
+│    ├── webpack.entry.conf.js                  #     入口配置文件
+│    ├── webpack.dev.conf.js                    #     开发模式配置文件
+│    └── webpack.pord.conf.js                   #     生产模式配置文件
+│   config.yml                                  #     通用配置文件,整个脚手架很多功能都与它有关
 ```
 
 ## 安装
 
 ``` bash
-npm install    //npm 安装
-bower install  //bower 安装
+npm install    # npm 安装
+bower install  # bower 安装
 ```
 
 
 ## 命令
 
 ``` bash
-npm run dev    //启动开发模式(dev)
-npm run build  //构建项目
-npm run prod   //启动生产模式(prod)
+npm run dev    # 启动开发模式(dev)
+npm run build  # 构建项目
+npm run prod   # 启动生产模式(prod)
 ```
 
 ## example
@@ -94,12 +94,13 @@ const pageHome = async (ctx, _next) => {
     let locals = {
         title: 'home-page'
     };
-    //appName开发模式下不会加载生产后的css
+    //appName开发模式下不会加载生产后的css,只有在路由对应的控制器设置
     ctx.state.appName = 'main-app';
     await ctx.render('pages/main-app/home', locals);
 };
 
 const list = async (ctx, _next) => {
+    //不需要设置ctx.state.appName
     let locals = {
         list: await mainService.getList(ctx)
     };
@@ -114,18 +115,24 @@ module.exports.default = module.exports = {
 
 ```
 
+**ctx.state.appName** 
+
+默认值:'',开发模式下不会加载生产后的css,**parseUrl**有解释.
+
+
+
 ### 3.新建应用视图
 
 - ```/server/view/pages/main-app/home.hbs```
 
 ```handlebars
-{{#extend "layout-default"}}          //使用layout-default布局
+{{#extend "layout-default"}}          # 使用layout-default布局
     {{#content "head"}}
-        {{{parseUrl 'main-app.css'}}} //main-app应用的css,直接引用
-    {{/content}}                      //不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
+        {{{parseUrl 'main-app.css'}}} # main-app应用的css,直接引用
+    {{/content}}                      # 不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
     {{#content "body"}}
         <div id="home-app"></div>
-        {{{parseUrl 'main-app.js'}}}  //main-app应用的js(相应webpack.entry)
+        {{{parseUrl 'main-app.js'}}}  # main-app应用的js(相应webpack.entry)
     {{/content}}
 {{/extend}}
 ```
@@ -140,23 +147,34 @@ module.exports.default = module.exports = {
 
 #### parseUrl
 
-解析url, handlebars自定义helpers.根据当前开发环境返回正确的url.
+解析url, handlebars自定义helpers.结合ctx.state.appName,根据当前开发环境返回正确的url.
 
+**dev**
+
+`ctx.state.appName='main-app'`
 ```javascript
 {{{parseUrl 'main-app.css' 'main-app.js'}}}
 ```
-结果:    
-
+↓↓↓
 ```html
-//dev
-<link href="/dist/static/css/main-app.[chunkhash].css" type="text/css" rel="stylesheet">//如果build过,则加载
 <script web="main-app.js"></script>
-//prod
+```
+
+`ctx.state.appName=''; 或不设置`   
+
+↓↓↓
+```html
+<link href="/dist/static/css/main-app.[chunkhash].css" type="text/css" rel="stylesheet">
+<script web="main-app.js"></script>
+```
+
+**prod**
+```html
 <link href="/dist/static/css/main-app.[chunkhash].css" type="text/css" rel="stylesheet">
 <script web="/dist/static/js/main-app.[chunkhash].js"></script>
 ```
-如果没有build过,dev模式不会加载main-app.css,一般情况只加载main-app.js.即使加载build过的css也不影响dev模式下的样式应用.
 
+如果没有build过,dev模式不会加载main-app.css,只加载main-app.js.即使加载build过的css也不影响dev模式下的样式应用.
 
 
 ### 4.新建应用页面
@@ -275,6 +293,11 @@ entry: {
     footer: ['./web/entry/footer.js']
 }
 ```
+
+`/web/pages/**/index.js` 都是app. 这里,`main-app`, `other-app` 2个app,甚至更多,即多页应用.
+
+`main-app`, `other-app`,分别叫主app,其他app,还可以有另外app...等. 名字随你.
+ 
 
 ## 多语言方案(locales)
 
