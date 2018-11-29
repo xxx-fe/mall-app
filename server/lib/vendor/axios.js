@@ -7,7 +7,7 @@ module.exports.default = module.exports = async (ctx, options) => {
     let url = options.url;
     //读mock数据
     if (ctx.env === 'development' && ctx.isMockAPI) {
-        let mockFilePath = `./mock${url}.json`;
+        let mockFilePath = `./server/mock${url}.json`;
         let existsMockFilePath = await fs.existsSync(mockFilePath);
         if (existsMockFilePath) {
             let data = fs.readFileSync(mockFilePath, 'utf-8');

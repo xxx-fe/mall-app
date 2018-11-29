@@ -10,6 +10,10 @@ module.exports.default = module.exports = async (app) => {
         if (!ctx.state.locale) {
             ctx.state.locale = 'zh';
             ctx.state.publicServer = ctx.publicServer || '';
+            ctx.state.isMockAPI = ctx.isMockAPI || false;
+        }
+        if (ctx.env === 'production') {
+            ctx.state.isMockAPI = false;
         }
         await next();
     });

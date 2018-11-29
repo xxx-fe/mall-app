@@ -46,7 +46,7 @@
 
         },
         mounted() {
-            this.$http.post('/main/list').then(response => {
+            this.$http.post('/api/list').then(response => {
                 console.log(response);
                 this.list = response.data.list
             }, response => {

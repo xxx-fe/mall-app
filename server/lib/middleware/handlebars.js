@@ -33,7 +33,6 @@ const appendFileForDev = (ctx, url) => {
             //插入mockjs
             if (ctx.app.context.isMockAPI) {
                 html.push(`<script src="/public/vendor/mockjs/dist/mock-min.js"></script>`);
-                html.push(`<script src="/public/mock.js"></script>`);
             }
             //不插入全局entry
             if (!ctx.globalEntry.includes(url)) {

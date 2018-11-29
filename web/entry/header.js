@@ -9,6 +9,9 @@ require('../vendor');
 import 'minireset.css';
 import '../styles/index.scss';
 
+if (APPSTATE.isMockAPI) {
+    require('../mock');
+}
 import * as filters from '../filters'
 
 Object.keys(filters).forEach(key => {

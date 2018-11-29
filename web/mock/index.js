@@ -1,4 +1,4 @@
-Mock.mock('/main/list', 'post', function () {
+Mock.mock('/api/list', 'post', function () {
     return Mock.mock({
         "list|30-40": [{
             'name': '@cname',
