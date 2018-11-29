@@ -9,7 +9,6 @@ const pageHome = async (ctx, _next) => {
     await ctx.render('pages/home', locals);
 };
 
-
 const list = async (ctx, _next) => {
     //不需要设置ctx.state.appName
     let locals = {

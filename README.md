@@ -26,14 +26,14 @@
 ├── build                                       # 使用 vue-cli 2.9.3(有修改)
 ├── config                                      # 使用 vue-cli 2.9.3(有修改)
 ├── server                                      # 服务端(koa,nodejs)
-│    ├── lib                                    #     库
+│    ├── api                                    #     接口
 │    ├── controller                             #     控制器
-│    ├── router                                 #     路由(koa-router,或者在前端用vue-router)
-│    ├── service                                #     数据
+│    ├── lib                                    #     库
+│    ├── mock                                   #     模拟数据
+│    ├── router                                 #     路由(koa-router,或前端用vue-router)
 │    ├── view                                   #     视图
-│    ├── server.js                              #     服务器入口
+│    ├── server.js                              #     服务端入口
 ├── dist                                        # 生产目录
-├── mock                                        # 模拟数据
 ├── public                                      # 公共资源(例如访问http://localhost:3333/public/img/bg.jpg)
 │    ├── img                                    #     图片
 │    └── vendor                                 #     第三方插件
@@ -43,6 +43,7 @@
 │    ├── entry                                  #     入口
 │    ├── filters                                #     过滤
 │    ├── global                                 #     全局设置
+│    ├── mock                                   #     模拟数据
 │    ├── pages                                  #     页面                  
 │    ├── styles                                 #     样式
 │    ├── vendor                                 #     第三方插件
@@ -72,37 +73,37 @@ npm run prod   # 启动生产模式(prod)
 
 ### 1.新建应用路由
 
-* ```/server/router/main-app/index.js```
+* ```/server/router/app/index.js```
 
 ```javascript
-const mainCtrl = require('../../controller/main-app');
+const mainCtrl = require('../casontroller/index');
 module.exports.default = module.exports = [
     {path: '', ctrl: mainCtrl.pageHome},
     {path: 'main', ctrl: mainCtrl.pageHome},
-    {path: 'main/list', ctrl: mainCtrl.list, method: 'post'}
+    {path: 'api/list', ctrl: mainCtrl.list, method: 'post'}
 ];
 ```
 
 ### 2.新建应用控制器
 
-* ```/server/controller/main-app/index.js```
+* ```/server/controller/index.js```
 
 ```javascript
-const mainService = require('../../service/main-app');
+const api = require('../api/index');
 
 const pageHome = async (ctx, _next) => {
     let locals = {
         title: 'home-page'
     };
     //appName开发模式下不会加载生产后的css,只有在路由对应的控制器设置
-    ctx.state.appName = 'main-app';
-    await ctx.render('pages/main-app/home', locals);
+    ctx.state.appName = 'app';
+    await ctx.render('pages/home', locals);
 };
 
 const list = async (ctx, _next) => {
     //不需要设置ctx.state.appName
     let locals = {
-        list: await mainService.getList(ctx)
+        list: await api.getList(ctx)
     };
     ctx.body = locals;
 };
@@ -111,8 +112,6 @@ module.exports.default = module.exports = {
     pageHome,
     list
 };
-
-
 ```
 
 **ctx.state.appName** 
@@ -123,16 +122,16 @@ module.exports.default = module.exports = {
 
 ### 3.新建应用视图
 
-- ```/server/view/pages/main-app/home.hbs```
+- ```/server/view/pages/home.hbs```
 
 ```handlebars
 {{#extend "layout-default"}}          # 使用layout-default布局
     {{#content "head"}}
-        {{{parseUrl 'main-app.css'}}} # main-app应用的css,直接引用
+        {{{parseUrl 'app.css'}}} # app应用的css,直接引用
     {{/content}}                      # 不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
     {{#content "body"}}
         <div id="home-app"></div>
-        {{{parseUrl 'main-app.js'}}}  # main-app应用的js(相应webpack.entry)
+        {{{parseUrl 'app.js'}}}  # app应用的js(相应webpack.entry)
     {{/content}}
 {{/extend}}
 ```
@@ -151,35 +150,35 @@ module.exports.default = module.exports = {
 
 **dev**
 
-`ctx.state.appName='main-app'`
+`ctx.state.appName='app'`
 ```javascript
-{{{parseUrl 'main-app.css' 'main-app.js'}}}
+{{{parseUrl 'app.css' 'app.js'}}}
 ```
 ↓↓↓
 ```html
-<script web="main-app.js"></script>
+<script web="app.js"></script>
 ```
 
 `ctx.state.appName=''; 或不设置`   
 
 ↓↓↓
 ```html
-<link href="/dist/static/css/main-app.[chunkhash].css" type="text/css" rel="stylesheet">
-<script web="main-app.js"></script>
+<link href="/dist/static/css/app.[chunkhash].css" type="text/css" rel="stylesheet">
+<script web="app.js"></script>
 ```
 
 **prod**
 ```html
-<link href="/dist/static/css/main-app.[chunkhash].css" type="text/css" rel="stylesheet">
-<script web="/dist/static/js/main-app.[chunkhash].js"></script>
+<link href="/dist/static/css/app.[chunkhash].css" type="text/css" rel="stylesheet">
+<script web="/dist/static/js/app.[chunkhash].js"></script>
 ```
 
-如果没有build过,dev模式不会加载main-app.css,只加载main-app.js.即使加载build过的css也不影响dev模式下的样式应用.
+如果没有build过,dev模式不会加载app.css,只加载app.js.即使加载build过的css也不影响dev模式下的样式应用.
 
 
 ### 4.新建应用页面
 
-* ```/web/pages/main-app/home.vue```
+* ```/web/pages/app/home.vue```
 
 ```javascript
 ...
@@ -191,7 +190,7 @@ module.exports.default = module.exports = {
             }
         },
         mounted(){
-            this.$http.post('/main/list').then(response => {
+            this.$http.post('/api/list').then(response => {
                 console.log(response);
                 this.list = response.data.list
             }, response => {
@@ -204,7 +203,7 @@ module.exports.default = module.exports = {
 ```
 ### 5.新建应用入口
 
-* ```/web/pages/main-app/index.js```
+* ```/web/pages/app/index.js```
 
 ```javascript
 import homeApp from './home.vue';
@@ -241,9 +240,8 @@ module.exports ={
 ```javascript
 module.exports ={
     entry: {
-        'main-app': './web/pages/main-app/index.js',
-        'other-app': './web/pages/other-app/index.js'
-    }
+        'app': './web/pages/app/index.js',
+    },
     //devtool: '#cheap-module-eval-source-map'
     ...
 };
@@ -253,16 +251,16 @@ module.exports ={
 
 ```javascript
 entry: {
-    'main-app': [
+    'app': [
         './web/entry/header.js', 
         './web/entry/footer.js' , 
-        './web/pages/main-app/index.js' , 
+        './web/pages/app/index.js' , 
         'webpack-hot-client/client'
     ],
-    'other-app': [
+    'app2': [
         './web/entry/header.js', 
         './web/entry/footer.js' , 
-        './web/pages/other-app/index.js' , 
+        './web/pages/app/index.js' , 
         'webpack-hot-client/client'
     ]
 }
@@ -277,7 +275,7 @@ entry: {
 module.exports ={
     ...
     new ManifestPlugin({
-        publicPath: 'http://localhost:3333/main-app'
+        publicPath: 'http://localhost:3333/app'
     })
     ...
 };
@@ -287,17 +285,18 @@ module.exports ={
 
 ```javascript
 entry: {
-    'main-app': ['./web/pages/main-app/index.js'],
-    'other-app': ['./web/pages/other-app/index.js'],
+    'app': ['./web/pages/app/index.js'],
+    'app2': ['./web/pages/app2/index.js'],
     header: ['./web/entry/header.js'],
     footer: ['./web/entry/footer.js']
 }
 ```
 
-`/web/pages/**/index.js` 都是app. 这里,`main-app`, `other-app` 2个app,甚至更多,即多页应用.
+`/web/pages/**/index.js` 都是app. 这里,`app`, `app2` 2个app,甚至更多,即多页应用.
 
-`main-app`, `other-app`,分别叫主app,其他app,还可以有另外app...等. 名字随你.
+`app`, `app2`,分别叫主app,其他app,还可以有另外app...等. 名字随你.
  
+ **项目只保留1个app,多app需另建.**
 
 ## 多语言方案(locales)
 
@@ -385,45 +384,42 @@ apiServer : 'http://localhost:3334'
 ...
 ```
 
-
-### 1.不拦截Ajax方式
-
-#### 1.1 编写/mock/**/.json文件.
-
-* ```/mock/main/list.json```
-
-现在请求 `/main/list`
-
 `isMockAPI:true`
-
-服务端返回 `/mock/main/list.json`.
-
-`isMockAPI:false`
-
-服务端返回 `http://localhost:3334/main/list`.
-
-### 2.拦截Ajax方式
-
-#### 2.1 编写/public/mock.js文件.
 
 #### 引用:
 
 * [mockjs](http://mockjs.com/)
 
-`isMockAPI:true`
-
-在页面渲染时紧接着`/header/index.js`前插入`/public/vender/mock-min.js`,`/public/mock.js`.
+在页面渲染时在`/header/index.js`前插入`/public/vender/mock-min.js`.
 
 ```javascript
-<script src="/public/vendor/mockjs/dist/mock-min.js"></script><script src="/public/mock.js"></script><script src="header.js"></script>
+<script src="/public/vendor/mockjs/dist/mock-min.js"></script><script src="header.js"></script>
 ```
 
-* ```/public/mock.js``` 
+### 1.服务端Mock
 
-**这是个全局受影响的mock文件.**
+#### 1.1 编写/server/mock/**/.json文件.
+
+* ```/server/mock/api/list.json```
+
+现在请求 `/api/list`
+
+`isMockAPI:true`
+
+服务端返回 `/server/mock/api/list.json`.
+
+`isMockAPI:false`
+
+服务端返回 `http://localhost:3334/api/list`.
+
+### 2.前端Mock
+
+#### 2.1 编写/web/mock/**/index.js文件.
+
+* ```/web/mock/index.js``` 
 
 ```javascript
-Mock.mock('/main/list', 'post', function () {
+Mock.mock('/api/list', 'post', function () {
     return Mock.mock({
         "list|1-10": [{
             'name': '@cname',
@@ -434,13 +430,7 @@ Mock.mock('/main/list', 'post', function () {
     });
 });
 ```
-
-如果注释该文件则以**不拦截AJAX方式**发出请求.
-
-`isMockAPI:false`
-
-不会插入`mock-min.js`,`mock.js.`
-
+**优先级:前端Mock文件>后端Mock文件.否则报500.**
 
 ## 打包
 
@@ -453,7 +443,7 @@ buildPath:
     # name entry路径
     # isIndexEntry 是否使用index.js作为webpack.entry.
     # isIndexEntry = true
-    # './web/pages/main-app/index.js'  --> /dist/static/js/main-app[chunkhash].js
+    # './web/pages/app/index.js'  --> /dist/static/js/app[chunkhash].js
     # 使用index.js上一级目录名作为打包文件名(example.js).
 
     # isIndexEntry = false
@@ -469,7 +459,7 @@ buildPath:
 
 一般情况每一个应用都建立在 `/web/pages/**/index.js`,以`index.js`作为打包入口.
 
-否则,如果有`/web/pages/main-app/index.js`,`/web/pages/main-app2/index.js`,`/web/pages/main-app3/index.js`.就会最终构建出以排序最后的`index.js`.
+否则,如果有`/web/pages/app/index.js`,`/web/pages/app2/index.js`,`/web/pages/app3/index.js`.就会最终构建出以排序最后的`index.js`.
 
 所以,`/web/pages/**`,只要目录不重名,并且以`index.js`作为入口.就不会冲突.
 
@@ -482,5 +472,5 @@ buildPath:
 **prod**
 
 从这些配置文件打包 `/webpack.base.conf` , ` /webpack.entry.conf.js` , `/webpack.prod.conf` , `/web/pages/**/index.js`    
-**主要从`/web/pages/**/index.js`打包所有js**
+**主要从`/web/pages/**/index.js`打包所有js.**
 
