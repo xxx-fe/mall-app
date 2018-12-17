@@ -76,7 +76,7 @@ npm run prod   # 启动生产模式(prod)
 * ```/server/router/app/index.js```
 
 ```javascript
-const mainCtrl = require('../casontroller/index');
+const mainCtrl = require('../controller/index');
 module.exports.default = module.exports = [
     {path: '', ctrl: mainCtrl.pageHome},
     {path: 'main', ctrl: mainCtrl.pageHome},
