@@ -3,7 +3,11 @@
 
 > vue koa 应用脚手架
 
-支持多语言,多页应用,多种MOCK     
+支持多语言,多页应用,多种MOCK
+
+## 定位
+
+轻量级
 
 ## Architecture
 
@@ -76,12 +80,13 @@ npm run prod   # 启动生产模式(prod)
 * ```/server/router/app/index.js```
 
 ```javascript
-const mainCtrl = require('../controller/index');
-module.exports.default = module.exports = [
-    {path: '', ctrl: mainCtrl.pageHome},
-    {path: 'main', ctrl: mainCtrl.pageHome},
-    {path: 'api/list', ctrl: mainCtrl.list, method: 'post'}
+const page = require('../controller/index');
+module.exports = [
+    {path: '', ctrl: page.home},
+    {path: 'main', ctrl: page.home},
+    {path: 'api/list', ctrl: page.list, method: 'post'}
 ];
+
 ```
 
 ### 2.新建应用控制器
@@ -90,53 +95,41 @@ module.exports.default = module.exports = [
 
 ```javascript
 const api = require('../api/index');
+class page {
+    async home(ctx, _next) {
+        let locals = {
+            title: 'home-page'
+        };
+        await ctx.render('pages/home', locals);
+    }
 
-const pageHome = async (ctx, _next) => {
-    let locals = {
-        title: 'home-page'
-    };
-    //appName开发模式下不会加载生产后的css,只有在路由对应的控制器设置
-    ctx.state.appName = 'app';
-    await ctx.render('pages/home', locals);
-};
-
-const list = async (ctx, _next) => {
-    //不需要设置ctx.state.appName
-    let locals = {
-        list: await api.getList(ctx)
-    };
-    ctx.body = locals;
-};
-
-module.exports.default = module.exports = {
-    pageHome,
-    list
-};
+    async list(ctx, _next) {
+        let locals = {
+            list: await api.getList(ctx)
+        };
+        ctx.body = locals;
+    }
+}
+module.exports = new page();
 ```
-
-**ctx.state.appName** 
-
-默认值:'',开发模式下不会加载生产后的css,**parseUrl**有解释.
-
-
 
 ### 3.新建应用视图
 
-- ```/server/view/pages/home.hbs```
+* ```/server/view/pages/home.hbs```
 
 ```handlebars
 {{#extend "layout-default"}}          # 使用layout-default布局
     {{#content "head"}}
-        {{{parseUrl 'app.css'}}} # app应用的css,直接引用
+        {{{parseUrl 'app.css'}}}      # app应用的css,直接引用
     {{/content}}                      # 不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
     {{#content "body"}}
         <div id="home-app"></div>
-        {{{parseUrl 'app.js'}}}  # app应用的js(相应webpack.entry)
+        {{{parseUrl 'app.js'}}}       # app应用的js(相应webpack.entry)
     {{/content}}
 {{/extend}}
 ```
 
-`/server/view/layout/**.hbs` 以文件名注册为`handlebars partial`.
+- `/server/view/layout/**.hbs` 以文件名注册为`handlebars partial`.
 
 #### 引用:
 
@@ -173,8 +166,9 @@ module.exports.default = module.exports = {
 <script web="/dist/static/js/app.[chunkhash].js"></script>
 ```
 
-如果没有build过,dev模式不会加载app.css,只加载app.js.即使加载build过的css也不影响dev模式下的样式应用.
+**有这种场景** 
 
+如果存在多个app如app1,app2.在控制器就需要设置ctx.state.appName ='app的名字'.否则读取样式会不正确.
 
 ### 4.新建应用页面
 
@@ -207,16 +201,49 @@ module.exports.default = module.exports = {
 
 ```javascript
 import homeApp from './home.vue';
-new Vue({
-    el: '#home-app',
-    template: '<homeApp/>',
-    components: {homeApp}
-});
+if(document.getElementById('home-app')) {
+    new Vue({
+        render: h => h(homeApp)
+    }).$mount('#home-app');
+}
 ```
 **浏览: http://localhost:3333/**
 
 
-## 配置文件
+## APPSTATE
+
+整个app的传递信息(ctx.state封装),都由* ```/config.yml```合成.
+
+* ```/server/view/layout/layout-default.hbs```
+```html
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{title}}</title>
+    {{{mountState}}}
+    {{{parseUrl 'header.css' 'header.js' }}}
+    {{#block "head"}}
+    {{/block}}
+</head>
+<body>
+{{#block "body"}}{{/block}}
+</body>
+</html>
+```
+
+```javascript
+{{{mountState}}}
+```
+↓↓↓
+```javascript
+<script type="text/javascript">window.APPSTATE = {"locale":"zh","publicServer":"","isMockAPI":true,"appName":"app"}</script>
+```
+
+查看页面源代码一般会看到以上代码.
+
+
+## webpack配置文件
 * ```/webpack.entry.conf.js```
 
 **任何模式都引用的配置文件**
@@ -297,80 +324,6 @@ entry: {
 `app`, `app2`,分别叫主app,其他app,还可以有另外app...等. 名字随你.
  
  **项目只保留1个app,多app需另建.**
-
-## 多语言方案(locales)
-
-### 1.配置参数
-* ```/config.yml```
-
-```yml
-...
-#多语言路由前缀
-locales: ['zh', 'en'[,.]]
-#webpack构建路径(entry)
-buildPath:
-     -
-       #多语言入口
-       name: './web/locale'
-...
-```
-
-**缺一不可**
-
-### 2.创建多语言文件
-* `/web/locale/zh.js`
-
-```javascript
-window.locale = {
-    'desc': 'vue koa 多页应用脚手架'
-};
-```
-
-* `/web/locale/en.js`
-
-```javascript
-window.locale = {
-    'desc': 'vue koa scaffold'
-};
-```
-
-多语言文件会在`header.js`之前插入.
-
-### 3.创建全局方法
-* `/web/utils/locale.js`
-
-```javascript
-/**
- * 获取locale对应的值 
- */
-window.getLocale = function (key) {
-    if (window.locale) {
-        return window.locale[key] || '';
-    }
-    else {
-        return key;
-    }
-};
-```
-
-### 4.调用全局方法
-
-```javascript
-...
-data() {
-    return {
-        list: '',
-        desc: getLocale('desc')
-    }
-}
-...
-```
-
-路由则支持
-
-*  http://localhost:3333/
-*  http://localhost:3333/zh/
-*  http://localhost:3333/en/
 
 ## mock
 
@@ -474,3 +427,76 @@ buildPath:
 从这些配置文件打包 `/webpack.base.conf` , ` /webpack.entry.conf.js` , `/webpack.prod.conf` , `/web/pages/**/index.js`    
 **主要从`/web/pages/**/index.js`打包所有js.**
 
+## 多语言方案(locales)
+
+### 1.配置参数
+* ```/config.yml```
+
+```yml
+...
+#多语言路由前缀
+locales: ['zh', 'en'[,.]]
+#webpack构建路径(entry)
+buildPath:
+     -
+       #多语言入口
+       name: './web/locale'
+...
+```
+
+**缺一不可**
+
+### 2.创建多语言文件
+* `/web/locale/zh.js`
+
+```javascript
+window.locale = {
+    'desc': 'vue koa 多页应用脚手架'
+};
+```
+
+* `/web/locale/en.js`
+
+```javascript
+window.locale = {
+    'desc': 'vue koa scaffold'
+};
+```
+
+多语言文件会在`header.js`之前插入.
+
+### 3.创建全局方法
+* `/web/utils/locale.js`
+
+```javascript
+/**
+ * 获取locale对应的值 
+ */
+window.getLocale = function (key) {
+    if (window.locale) {
+        return window.locale[key] || '';
+    }
+    else {
+        return key;
+    }
+};
+```
+
+### 4.调用全局方法
+
+```javascript
+...
+data() {
+    return {
+        list: '',
+        desc: getLocale('desc')
+    }
+}
+...
+```
+
+路由则支持
+
+*  http://localhost:3333/
+*  http://localhost:3333/zh/
+*  http://localhost:3333/en/
