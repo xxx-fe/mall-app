@@ -237,7 +237,9 @@ if(document.getElementById('home-app')) {
 ```
 ↓↓↓
 ```javascript
-<script type="text/javascript">window.APPSTATE = {"locale":"zh","publicServer":"","isMockAPI":true,"appName":"app"}</script>
+<script type="text/javascript">
+    window.APPSTATE = {"locale":"zh","publicServer":"","isMockAPI":true,"appName":"app"}
+</script>
 ```
 
 查看页面源代码一般会看到以上代码.
