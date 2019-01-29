@@ -1,4 +1,5 @@
 import homeApp from './home.vue';
+import '../../styles/index.scss';
 if(document.getElementById('home-app')) {
     new Vue({
         render: h => h(homeApp)

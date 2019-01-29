@@ -4,7 +4,7 @@ locales: []
 # 是否使用模拟数据api(prod模式无效)
 isMockAPI : true
 
-# 当前应用名称(如果多个app,需指定ctx.state.appName)
+# 当前应用名称(如果存在多个app如app1,app2.在控制器就需要设置ctx.state.appName ='app的名字'.否则读取样式会不正确.)
 appName: 'app'
 
 # development 开发模式
