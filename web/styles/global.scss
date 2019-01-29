@@ -1,3 +1,21 @@
+body {
+  min-width: 1200px;
+  font-size: 12px;
+  background: #f9f9f9;
+}
+
+.container {
+  width: 1200px;
+  *zoom: 1;
+  margin-right: auto;
+  margin-left: auto;
+  position: relative;
+}
+
+.text-center {
+  text-align: center;
+}
+
 .clearfix:after {
   content: "";
   display: block;

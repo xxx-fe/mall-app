@@ -5,10 +5,6 @@
 
 支持多语言,多页应用,多种MOCK
 
-## 定位
-
-轻量级
-
 ## Architecture
 
 ### 前端
@@ -17,7 +13,9 @@
 * `库管理`:npm,bower
 * `框架`:vue2.
 * `模板引擎`:handlebars4.
-* `打包`:webpack4
+* `打包`:webpack4.
+* `图标`:iconfont.
+* `组件库`:element-ui.
 
 ### 中台
 * `框架`:koa2, nodejs>=7

@@ -1,13 +1,5 @@
 <template>
-    <div id="home-app">
-        <header class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand hidden-sm" target="_blank"
-                       href="https://github.com/xxx-fe/mall-app">mall-app</a>
-                </div>
-            </div>
-        </header>
+    <div id="not-found-app">
         <div class="container">
             <div class="text-center page-header">
                 <h1>找不到页面</h1>
