@@ -4,6 +4,9 @@ locales: []
 # 是否使用模拟数据api(prod模式无效)
 isMockAPI : true
 
+# 当前应用名称(如果多个app,需指定ctx.state.appName)
+appName: 'app'
+
 # development 开发模式
 # production 生产模式
 # port server端口

@@ -1,6 +1,6 @@
-const mainCtrl = require('../controller/index');
+const page = require('../controller/index');
 module.exports.default = module.exports = [
-    {path: '', ctrl: mainCtrl.pageHome},
-    {path: 'main', ctrl: mainCtrl.pageHome},
-    {path: 'api/list', ctrl: mainCtrl.list, method: 'post'}
+    {path: '', ctrl: page.home},
+    {path: 'main', ctrl: page.home},
+    {path: 'api/list', ctrl: page.list, method: 'post'}
 ];

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>404</title>
-</head>
-<body>
-	<p>页面没找到</p>
-</body>
-</html>
+{{#extend "layout-default"}}
+    {{#content "head"}}
+        {{{parseUrl 'app.css'}}}
+    {{/content}}
+    {{#content "body"}}
+        <div id="not-found-app"></div>
+        {{{parseUrl 'app.js'}}}
+    {{/content}}
+{{/extend}}

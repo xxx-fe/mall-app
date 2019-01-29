@@ -12,7 +12,7 @@ module.exports.default = module.exports = async (app) => {
                 status = 500;
             }
             ctx.status = status;
-            ctx.state.error = {
+            let error = {
                 status: status,
                 url: ctx.path,
                 xhr: ctx.request.get('X-Requested-With') === 'XMLHttpRequest',
@@ -25,7 +25,7 @@ module.exports.default = module.exports = async (app) => {
                 throw err;
             }
             else {
-                ctx.logger.error(JSON.stringify(ctx.state.error));
+                ctx.logger.error(JSON.stringify(error));
             }
             if (status === 404) {
                 await ctx.render('pages/404');
