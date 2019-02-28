@@ -2,6 +2,7 @@ let path = require('path');
 let koaRouter = require('koa-router');
 let readDirSync = require('../utils/read-dirsync');
 let allPartRouter = [];
+const isEmpty = require('lodash/isEmpty');
 /**
  * 路由
  */
@@ -25,6 +26,20 @@ module.exports.default = module.exports = async (app) => {
     allPartRouter.forEach(function (item) {
         router[item.method || 'get'](`${app.context.urlLocalesRegExp}${item.path}`, item.ctrl);
     });
+
+    //保存所有非api路由
+    if (!isEmpty(allPartRouter)) {
+        app.context.router = allPartRouter.filter(function (item) {
+            if (item.path.indexOf('api') === -1)
+                return item.path;
+        });
+
+        app.context.router = app.context.router.map(function (item) {
+            return '/' + item.path;
+        });
+    }
+
+    app.context.router.push("/");
 
     app.context.logger.info(`app.context.urlLocalesRegExp: ${app.context.urlLocalesRegExp}`);
 
