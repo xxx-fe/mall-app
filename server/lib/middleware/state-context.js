@@ -6,9 +6,9 @@ const isEmpty = require('lodash/isEmpty');
 module.exports.default = module.exports = async (app) => {
     app.use(async (ctx, next) => {
         //只对当前非api路由执行一次
-        for (let i = 0; i < app.context.router.length - 1; i++) {
+        for (let i = 0; i < app.context.router.length; i++) {
             let item = app.context.router[i];
-            let matchPageRoute = isEmpty(pathToRegexp(item).exec(ctx.path));
+            let matchPageRoute = !isEmpty(pathToRegexp(item).exec(ctx.path));
             if (matchPageRoute) {
                 if (!ctx.state.locale) {
                     ctx.state.locale = 'zh';
