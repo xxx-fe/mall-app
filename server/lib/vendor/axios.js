@@ -3,7 +3,7 @@ const axios = require('axios');
 /**
  * axios 请求数据
  */
-module.exports.default = module.exports = async (ctx, options) => {
+module.exports.default = module.exports = async (ctx, options, isReturnFullResponse) => {
     let url = options.url;
     //读mock数据
     if (ctx.env === 'development' && ctx.isMockAPI) {
@@ -14,8 +14,7 @@ module.exports.default = module.exports = async (ctx, options) => {
             return new Promise((resolve, reject) => {
                 return resolve(JSON.parse(data));
             });
-        }
-        else {
+        } else {
             return {
                 error: 'no file'
             }
@@ -24,12 +23,18 @@ module.exports.default = module.exports = async (ctx, options) => {
     //请求url
     else {
         options.url = ctx.apiServer + options.url;
-        options.headers = {'content-type': 'application/json;charset=utf-8'};
+        options.headers = {
+            'content-type': 'application/json;charset=utf-8'
+        };
+        if (ctx.headers.cookie) {
+            options.headers.cookie = ctx.headers.cookie;
+        }
         return await axios(options).then(function (res) {
             showInfo(ctx, 'info', res, {
                 response: res.data
             });
-            return res.data;
+            //默认返回data
+            return isReturnFullResponse ? res : res.data;
         }).catch(function (res) {
             showInfo(ctx, 'error', res, {
                 response: res.response.data
@@ -47,8 +52,7 @@ function showInfo(ctx, type, res, option) {
     let options = JSON.stringify(Object.assign({}, defaults, option));
     if (type === 'info') {
         ctx.logger.info(options);
-    }
-    else if (type === 'error') {
+    } else if (type === 'error') {
         ctx.logger.error(options);
     }
 }
