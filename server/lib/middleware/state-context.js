@@ -5,15 +5,24 @@ const isEmpty = require('lodash/isEmpty');
  */
 module.exports.default = module.exports = async (app) => {
     app.use(async (ctx, next) => {
-        //只对当前非api路由执行一次
         for (let i = 0; i < app.context.router.length; i++) {
-            let item = app.context.router[i];
-            let matchPageRoute = !isEmpty(pathToRegexp(item).exec(ctx.path));
+            let routerItem = app.context.router[i];
+            let matchPageRoute = !isEmpty(pathToRegexp(routerItem.path).exec(ctx.path));
             if (matchPageRoute) {
+                //基础设定
                 if (!ctx.state.locale) {
                     ctx.state.locale = 'zh';
                     ctx.state.publicServer = ctx.publicServer || '';
                     ctx.state.appName = ctx.appName || '';
+                }
+
+                //用户设定
+
+                //路由权限判断
+                if (routerItem.isAuthenticated) {
+                    // if (!ctx.state.isLogin) {
+                    //     ctx.redirect('/login');
+                    // }
                 }
                 break;
             }

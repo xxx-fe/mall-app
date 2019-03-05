@@ -30,16 +30,15 @@ module.exports.default = module.exports = async (app) => {
     //保存所有非api路由
     if (!isEmpty(allPartRouter)) {
         app.context.router = allPartRouter.filter(function (item) {
-            if (item.path.indexOf('api') === -1)
-                return item.path;
+            if (item.path.indexOf('api') === -1 && !item.noContactToRoute)
+                return item;
         });
 
         app.context.router = app.context.router.map(function (item) {
-            return '/' + item.path;
+            item.path = '/' + item.path;
+            return item;
         });
     }
-
-    app.context.router.push("/");
 
     app.context.logger.info(`app.context.urlLocalesRegExp: ${app.context.urlLocalesRegExp}`);
 
