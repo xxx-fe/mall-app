@@ -9,12 +9,7 @@ module.exports.default = module.exports = async (app) => {
             let routerItem = app.context.router[i];
             let matchPageRoute = !isEmpty(pathToRegexp(routerItem.path).exec(ctx.path));
             if (matchPageRoute) {
-                //基础设定
-                if (!ctx.state.locale) {
-                    ctx.state.locale = 'zh';
-                    ctx.state.publicServer = ctx.publicServer || '';
-                    ctx.state.appName = ctx.appName || '';
-                }
+                app.context.setState(ctx);
 
                 //用户设定
 

@@ -21,6 +21,7 @@ module.exports.default = module.exports = async (app) => {
                     stack: err.stack || ''
                 }
             };
+            app.context.setState(ctx);
             if (status === 500) {
                 throw err;
             }
@@ -28,7 +29,10 @@ module.exports.default = module.exports = async (app) => {
                 ctx.logger.error(JSON.stringify(error));
             }
             if (status === 404) {
-                await ctx.render('pages/404');
+                let locals = {
+                    title: '找不到页面'
+                };
+                await ctx.render('pages/404', locals);
             }
         }
     });

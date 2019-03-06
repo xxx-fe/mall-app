@@ -6,13 +6,13 @@ const isEmpty = require('lodash/isEmpty');
 const axios = require('./vendor/axios');
 const logger = require('./vendor/log4js');
 const webpackEntryConf = require(path.resolve('./webapck.entry.conf'));
-
+const setState = require('./set-state');
 /**
  * 基础上下文配置(静态)
  */
 function appContextConfig(app) {
     let argv = process.argv.splice(2);
-    let env = process.env.NODE_ENV = argv[0] !== 'production' ? 'development' : 'production';
+    let env = process.env.NODE_ENV = argv[0] !== 'development' ? 'production' : 'development';
     let appConfig = Object.assign({},
         config,
         config[env],
@@ -57,17 +57,14 @@ function appContextConfig(app) {
     wrapCommonToContext(app);
 }
 
-
-
-
 /**
  * 包上通用内容到上下文(可变) 比如axios ,某些utils方法....
  */
 function wrapCommonToContext(app) {
     app.context.axios = axios;
     app.context.logger = logger;
+    app.context.setState= setState;
 }
-
 
 /**
  * 设置上下文
