@@ -210,7 +210,7 @@ if(document.getElementById('home-app')) {
 
 ## APPSTATE
 
-整个app的传递信息(ctx.state封装),都由 ```/config.yml```合成.
+整个app的传递信息(ctx.state封装),部分由 ```/config.yml```合成.
 
 * ```/server/view/layout/layout-default.hbs```
 ```html
@@ -231,7 +231,7 @@ if(document.getElementById('home-app')) {
 ```
 
 ```javascript
-{{{mountState}}}
+{{{mountState}}}   //将ctx.state挂载到window.APPSTATE
 ```
 ↓↓↓
 ```javascript
@@ -514,7 +514,7 @@ data() {
 
 ### ctx.setState
 
-设置state通用状态.
+设置ctx.state通用属性.
 
 ### ctx.router
 
