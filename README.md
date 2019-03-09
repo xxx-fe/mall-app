@@ -55,7 +55,21 @@
 │   config.yml                                  #     通用配置文件,整个脚手架很多功能都与它有关
 ```
 
-## 安装
+## 目录
+
+#####<a href="#az">安装</a>
+#####<a href="#ml">命令</a>
+#####<a href="#example">example</a>
+#####<a href="#appstate">APPSTATE</a>
+#####<a href="#pz">webpack配置文件</a>
+#####<a href="#mock">mock</a>
+#####<a href="#db">打包</a>
+#####<a href="#dyy">多语言</a>
+#####<a href="#ztzdy">中台自定义属性</a>
+#####<a href="#ly">路由</a>
+
+
+##<a name="az">安装</a>
 
 ``` bash
 npm install    # npm 安装
@@ -63,7 +77,7 @@ bower install  # bower 安装
 ```
 
 
-## 命令
+##<a name="ml">命令</a>
 
 ``` bash
 npm run dev    # 启动开发模式(dev)
@@ -71,7 +85,7 @@ npm run build  # 构建项目
 npm run prod   # 启动生产模式(prod)
 ```
 
-## example
+##<a name="example">example</a>
 
 ### 1.新建应用路由
 
@@ -207,8 +221,7 @@ if(document.getElementById('home-app')) {
 ```
 **浏览: http://localhost:3333/**
 
-
-## APPSTATE
+##<a name="appstate">APPSTATE</a>
 
 整个app的传递信息(ctx.state封装),都由 ```/config.yml```合成.
 
@@ -243,7 +256,7 @@ if(document.getElementById('home-app')) {
 查看页面源代码一般会看到以上代码.
 
 
-## webpack配置文件
+##<a name="pz">webpack配置文件</a>
 * ```/webpack.entry.conf.js```
 
 **任何模式都引用的配置文件**
@@ -325,7 +338,7 @@ entry: {
  
  **项目只保留1个app,多app需另建.**
 
-## mock
+##<a name="mock">mock</a>
 
 * ```/config.yml```
 ```yml
@@ -385,7 +398,7 @@ Mock.mock('/api/list', 'post', function () {
 ```
 **优先级:前端Mock文件>后端Mock文件.否则报500.**
 
-## 打包
+##<a name="db">打包</a>
 
 * ```/config.yml```
 
@@ -427,7 +440,7 @@ buildPath:
 从这些配置文件打包 `/webpack.base.conf` , ` /webpack.entry.conf.js` , `/webpack.prod.conf` , `/web/pages/**/index.js`    
 **主要从`/web/pages/**/index.js`打包所有js.**
 
-## 多语言方案(locales)
+##<a name="dyy">多语言方案(locales)</a>
 
 ### 1.配置参数
 * ```/config.yml```
@@ -501,8 +514,7 @@ data() {
 *  http://localhost:3333/zh/
 *  http://localhost:3333/en/
 
-## 中台自定义属性
-
+##<a name="ztzdy">中台自定义属性</a>
 
 ### ctx.axios
 
@@ -526,7 +538,7 @@ data() {
 根据开发环境合并所有config.yml的属性.
 
 
-## 路由
+##<a name="ly">路由</a>
 
 根据 * ```/server/router/**/**.js``` 配置生成路由. 
 
