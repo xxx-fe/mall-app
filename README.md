@@ -500,3 +500,42 @@ data() {
 *  http://localhost:3333/
 *  http://localhost:3333/zh/
 *  http://localhost:3333/en/
+
+## 中台自定义属性
+
+
+### ctx.axios
+
+发起请求方法.
+
+### ctx.logger
+
+日志方法.
+
+### ctx.setState
+
+设置state通用状态.
+
+### ctx.router
+
+全部路由.
+
+
+### ctx其他属性
+
+根据开发环境合并所有config.yml的属性.
+
+
+## 路由
+
+根据 * ```/server/router/**/**.js``` 配置生成路由. 
+
+*  obj.path 路由路径    
+*  obj.ctrl 路由控制器    
+*  obj.method 路由方法    
+*  obj.isAuthenticated 路由是否需要权限    
+   假设逻辑为真重定向到登录页面    
+*  obj.noContactToRoute 不合并到ctx.router  
+   每个请求都会经过```/server/middleware/state-context.js```中间件.但只会匹配不带/api的页面路由.    
+   noContactToRoute:true表示不经过这个中间件.因为```state-context```中间件根据ctx.router判断.
+   

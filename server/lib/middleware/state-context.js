@@ -7,6 +7,7 @@ module.exports.default = module.exports = async (app) => {
     app.use(async (ctx, next) => {
         for (let i = 0; i < app.context.router.length; i++) {
             let routerItem = app.context.router[i];
+            //匹配不带/api的页面路由
             let matchPageRoute = !isEmpty(pathToRegexp(routerItem.path).exec(ctx.path));
             if (matchPageRoute) {
                 app.context.setState(ctx);
