@@ -29,4 +29,4 @@ function urlParse(param1) {
         segments: anchor.pathname.replace(/^\//, '').split('/')
     };
 };
-Vue.prototype.urlParse = urlParse(document.URL);
+window.urlParse = urlParse(document.URL);

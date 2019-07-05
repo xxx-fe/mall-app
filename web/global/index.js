@@ -1,2 +1,10 @@
-import './request';
-import './url-parse';
+import './prototype/browser';
+
+import './window/url-parse'
+
+import './vendor/promise';
+import './vendor/axios';
+import './vendor/lazyload';
+import './vendor/element-ui';
+import '../../public/icon-font/iconfont';
+import './vendor/cookie';

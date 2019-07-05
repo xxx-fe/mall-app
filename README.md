@@ -48,7 +48,6 @@
 │    ├── mock                                   #     模拟数据
 │    ├── pages                                  #     页面                  
 │    ├── styles                                 #     样式
-│    ├── vendor                                 #     第三方插件
 │    ├── webpack.entry.conf.js                  #     入口配置文件
 │    ├── webpack.dev.conf.js                    #     开发模式配置文件
 │    └── webpack.pord.conf.js                   #     生产模式配置文件
@@ -538,4 +537,3 @@ data() {
 *  obj.noContactToRoute 不合并到ctx.router  
    每个请求都会经过```/server/middleware/state-context.js```中间件.但只会匹配不带/api的页面路由.    
    noContactToRoute:true表示不经过这个中间件.因为```state-context```中间件根据ctx.router判断.
-   

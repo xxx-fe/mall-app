@@ -26,7 +26,7 @@
     </div>
 </template>
 <script>
-    import backToTop from '../../components/back-to-top';
+    import backToTop from '../../../components/back-to-top';
 
     export default {
         data() {
@@ -36,7 +36,7 @@
         },
         methods: {},
         mounted() {
-            this.$http.post('/api/list').then(response => {
+            axios.post('/api/list').then(response => {
                 console.log(response);
                 this.list = response.data.list
             }, response => {

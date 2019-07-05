@@ -4,7 +4,6 @@ global.Vue = Vue;
 Vue.config.productionTip = false;
 
 require('../global');
-require('../vendor');
 
 import 'minireset.css';
 
