@@ -1,12 +1,13 @@
 const yaml = require('js-yaml');
 const fs = require('fs');
 const path = require('path');
-const config = yaml.safeLoad(fs.readFileSync(path.join(__dirname, '../../config.yml')));
+const config = yaml.safeLoad(fs.readFileSync(path.join(__dirname, '../../../config.yml')));
 const isEmpty = require('lodash/isEmpty');
-const axios = require('./vendor/axios');
-const logger = require('./vendor/log4js');
+const axios = require('../vendor/axios');
+const logger = require('../vendor/log4js');
 const webpackEntryConf = require(path.resolve('./webapck.entry.conf'));
-const setState = require('./set-state');
+const readDirSync = require('../utils/read-dirsync');
+
 /**
  * 基础上下文配置(静态)
  */
@@ -27,8 +28,7 @@ function appContextConfig(app) {
             let item = locales[i];
             if (i === locales.length - 1) {
                 regexp += `${item}`;
-            }
-            else {
+            } else {
                 regexp += `${item}|`;
             }
         }
@@ -61,9 +61,18 @@ function appContextConfig(app) {
  * 包上通用内容到上下文(可变) 比如axios ,某些utils方法....
  */
 function wrapCommonToContext(app) {
+    const basename = path.basename(module.filename);
     app.context.axios = axios;
     app.context.logger = logger;
-    app.context.setState= setState;
+    readDirSync(path.join(path.resolve('./server/lib/context')), function (fileName, isDirectory, dirPath) {
+        let isJsFile = (dirPath.indexOf('.') !== 0) && (fileName !== basename) && (dirPath.slice(-3) === '.js');
+        if (!isDirectory && isJsFile) {
+            if (fileName !== 'index.js') {
+                let fn = require(dirPath);
+                app.context[fn.name]  =fn;
+            }
+        }
+    });
 }
 
 /**

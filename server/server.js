@@ -1,9 +1,9 @@
 const Koa = require('koa');
 const middleware = require('./lib/middleware/index');
-const setContext = require('./lib/set-context');
+const context = require('./lib/context/index');
 const server = new Koa();
 
-setContext(server);
+context(server);
 
 middleware.logger(server);
 

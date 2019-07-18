@@ -31,8 +31,12 @@
 │    ├── api                                    #     接口
 │    ├── controller                             #     控制器
 │    ├── lib                                    #     库
+│    │    ├── context                           #       上下文(动态加载文件)
+│    │    ├── middleware                        #       中间件
+│    │    ├── utils                             #       通用方法
+│    │    └── vendor                            #       第三方插件
 │    ├── mock                                   #     模拟数据
-│    ├── router                                 #     路由(koa-router,或前端用vue-router)
+│    ├── router                                 #     路由(动态加载文件)
 │    ├── view                                   #     视图
 │    ├── server.js                              #     服务端入口
 ├── dist                                        # 生产目录
@@ -41,10 +45,10 @@
 │    └── vendor                                 #     第三方插件
 ├── web                                         # 前端(vue,js,css...)
 │    ├── components                             #     组件
-│    ├── directives                             #     指令
 │    ├── entry                                  #     入口
 │    ├── filters                                #     过滤
 │    ├── global                                 #     全局设置
+│    ├── mixins                                 #     混入
 │    ├── mock                                   #     模拟数据
 │    ├── pages                                  #     页面                  
 │    ├── styles                                 #     样式
@@ -499,6 +503,39 @@ data() {
 *  http://localhost:3333/
 *  http://localhost:3333/zh/
 *  http://localhost:3333/en/
+
+## 动态加载文件
+
+以下路径的文件根据原本代码逻辑,自动引用所有js,**无需手动引入**.
+
+* `/server/lib/context/**.js`
+
+* `/server/router/**.js`
+
+例如
+
+* `/test/a.js` 返回foo1方法.
+* `/test/b.js` 返回foo2方法.
+
+**动态加载文件,无需手动引入**
+* `/test/index.js` 
+```javascript
+module.exports = {
+    foo1:function(){},
+    foo2:function(){}
+};
+```
+
+**手动引入**
+* `/test/index.js` 
+```javascript
+let foo1 = require('./a');
+let foo2 = require('./b');
+module.exports = {
+    foo1: a,
+    foo2: b
+};
+```
 
 ## 中台自定义属性
 
