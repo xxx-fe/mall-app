@@ -219,7 +219,7 @@ context.keys().forEach(key => {
 //其他app定义....
 ```
 
-根据.vue
+根据相对路径搜索其子目录的**vue**文件并渲染.
 
 **浏览: http://localhost:3333/**
 
