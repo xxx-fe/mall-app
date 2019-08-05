@@ -6,6 +6,7 @@ Vue.config.productionTip = false;
 require('../global');
 
 import 'minireset.css';
+import '../styles/index.scss';
 
 if (APPSTATE.isMockAPI) {
     require('../mock');

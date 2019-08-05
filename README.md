@@ -173,12 +173,13 @@ module.exports = new page();
 
 ### 4.新建应用页面
 
-* ```/web/pages/app/home.vue```
+* ```/web/pages/app/home/index.vue```
 
 ```javascript
 ...
 <script>
     export default {
+        appId: 'home', //必填,入口根据此ID渲染
         data () {
             return {
                 list: ''
@@ -198,16 +199,28 @@ module.exports = new page();
 ```
 ### 5.新建应用入口
 
+**一个入口情况,一般不用改**
+
 * ```/web/pages/app/index.js```
 
 ```javascript
-import homeApp from './home.vue';
-if(document.getElementById('home-app')) {
-    new Vue({
-        render: h => h(homeApp)
-    }).$mount('#home-app');
-}
+//默认一个app入口
+const context = require.context('../app', true, /\.vue$/);
+context.keys().forEach(key => {
+    const fileModule = context(key).default;
+    let appId = fileModule.appId; //根据appId渲染app
+    if (document.getElementById(appId)) {
+        new Vue({
+            render: h => h(fileModule)
+        }).$mount('#' + appId);
+        return false;
+    }
+});
+//其他app定义....
 ```
+
+根据.vue
+
 **浏览: http://localhost:3333/**
 
 

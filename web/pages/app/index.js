@@ -1,13 +1,13 @@
-import homeApp from './home/index.vue';
-import '../../styles/index.scss';
-if(document.getElementById('home-app')) {
-    new Vue({
-        render: h => h(homeApp)
-    }).$mount('#home-app');
-}
-import notFound from './error/404';
-if(document.getElementById('not-found-app')) {
-    new Vue({
-        render: h => h(notFound)
-    }).$mount('#not-found-app');
-}
+//默认一个app入口
+const context = require.context('../app', true, /\.vue$/);
+context.keys().forEach(key => {
+    const fileModule = context(key).default;
+    let appId = fileModule.appId;
+    if (document.getElementById(appId)) {
+        new Vue({
+            render: h => h(fileModule)
+        }).$mount('#' + appId);
+        return false;
+    }
+});
+//其他app定义....

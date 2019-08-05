@@ -1,26 +1,23 @@
 <template>
-    <div id="home-app">
-        <div class="container">
-            <div class="text-center page-header">
-                <h1 class="mall-app">mall-app -- vue koa 应用脚手架</h1>
-                <p class="text-center">
-                    <img src="/public/img/logo.gif" style="width: 300px; display: inline-block">
-                </p>
-            </div>
-            <div class="img-box clearfix">
-                <div class="item" v-if="list" v-for="item in list">
-                    <img v-lazy="item.imageUrl"
-                         width="300" height="150">
-                    <div class="caption">
-                        <h3>
-                            <a href="javascript:void(0)"
-                               title="webpack" target="_blank">{{item.name}}
-                            </a>
-                        </h3>
-                    </div>
+    <div class="container" id="home">
+        <div class="text-center page-header">
+            <h1 class="mall-app">mall-app -- vue koa 应用脚手架</h1>
+            <p class="text-center">
+                <img src="/public/img/logo.gif" style="width: 300px; display: inline-block">
+            </p>
+        </div>
+        <div class="img-box clearfix">
+            <div class="item" v-if="list" v-for="item in list">
+                <img v-lazy="item.imageUrl"
+                     width="300" height="150">
+                <div class="caption">
+                    <h3>
+                        <a href="javascript:void(0)"
+                           title="webpack" target="_blank">{{item.name}}
+                        </a>
+                    </h3>
                 </div>
             </div>
-
         </div>
         <back-to-top></back-to-top>
     </div>
@@ -29,6 +26,7 @@
     import backToTop from '../../../components/back-to-top';
 
     export default {
+        appId: 'home',
         data() {
             return {
                 list: ''
