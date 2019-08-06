@@ -3,7 +3,7 @@
 
 > vue koa 应用脚手架
 
-支持多语言,多页应用,多种MOCK
+支持多语言,多页应用,Mock,babel7
 
 ## Architecture
 

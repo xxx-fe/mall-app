@@ -8,7 +8,7 @@
         </div>
         <div class="img-box clearfix">
             <div class="item" v-if="list" v-for="item in list">
-                <img v-lazy="item.imageUrl"
+                <img :src="item.imageUrl"
                      width="300" height="150">
                 <div class="caption">
                     <h3>
