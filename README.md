@@ -552,6 +552,13 @@ module.exports = {
 
 ## 中台自定义属性
 
+### ctx.appId
+
+必填,入口根据此ID渲染vue页面.否则全流程需要手动配置.
+
+### ctx.appName
+
+区分多入口app,避免读取样式不正确.一个app不需要设置.
 
 ### ctx.axios
 
