@@ -3,7 +3,7 @@
 
 > vue koa 应用脚手架
 
-支持多语言,多页应用,Mock,babel7
+支持多语言,多页应用,Mock,babel7,动态按需加载.
 
 ## Architecture
 
@@ -101,6 +101,8 @@ class page {
         let locals = {
             title: 'home-page'
         };
+        //按需加载下必填,否则可忽略.
+        ctx.state.appKey = 'home/index';
         await ctx.render('pages/home', locals);
     }
 
@@ -197,34 +199,62 @@ module.exports = new page();
 </script>
 ...
 ```
-### 5.新建应用入口
+## 应用入口
 
-**一个入口情况,一般不用改**
+默认按需加载,如不需要按需加载注释/删除相关代码,那么ctx.state.appKey可忽略.
 
 * ```/web/pages/app/index.js```
 
 ```javascript
-//默认一个app入口
-const context = require.context('../app', true, /\.vue$/);
-context.keys().forEach(key => {
-    const fileModule = context(key).default;
-    let appId = fileModule.appId; //根据appId渲染app
-    if (document.getElementById(appId)) {
-        new Vue({
-            render: h => h(fileModule)
-        }).$mount('#' + appId);
-        return false;
+const context = require.context('../app', true, /\.vue$/, 'lazy');
+//按需加载模式
+let keys = context.keys().map(key => {
+    return key.replace(/\.vue/, '').replace('\./', '');
+});
+
+keys.map(function (item) {
+    if (item === APPSTATE.appKey) {
+        context(`./${item}.vue`).then(file => {
+            let fileModule = file.default;
+            if (document.getElementById(fileModule.appId)) {
+                new Vue({
+                    render: h => h(fileModule)
+                }).$mount('#' + fileModule.appId);
+            }
+        });
     }
 });
-//其他app定义....
+
+//不按需加载模式
+// context.keys().forEach(key => {
+//     const fileModule = context(key).default;
+//     import(fileModule);
+//     let appId = fileModule.appId;
+//     if (document.getElementById(appId)) {
+//         new Vue({
+//             render: h => h(fileModule)
+//         }).$mount('#' + appId);
+//         return false;
+//     }
+//     context(key).then(file => {
+//         const fileModule = file.default;
+//         if (document.getElementById(fileModule.appId)) {
+//             new Vue({
+//                 render: h => h(fileModule)
+//             }).$mount('#' + fileModule.appId);
+//         }
+//     });
+// });
+
+
 ```
 
-根据相对路径搜索其子目录的**vue**文件并渲染.
+默认按需加载.ctx.appKey填上相关vue的路径即可.
 
 **浏览: http://localhost:3333/**
 
 
-## APPSTATE
+## APPSTATE(浏览器端)
 
 整个app的传递信息(ctx.state封装),部分由 ```/config.yml```合成.
 
@@ -338,6 +368,8 @@ entry: {
 `/web/pages/**/index.js` 都是app. 这里,`app`, `app2` 2个app,甚至更多,即多页应用.
 
 `app`, `app2`,分别叫主app,其他app,还可以有另外app...等. 名字随你.
+
+目前项目默认是按需加载,能满足大多数app开发,app这个入口一般一个即可.
  
  **项目只保留1个app,多app需另建.**
 
@@ -551,6 +583,10 @@ module.exports = {
 ```
 
 ## 中台自定义属性
+
+### ctx.appKey
+
+按需加载下必填,否则可忽略.
 
 ### ctx.appId
 

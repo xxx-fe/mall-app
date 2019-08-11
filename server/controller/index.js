@@ -4,6 +4,8 @@ class page {
         let locals = {
             title: 'home-page'
         };
+        //按需加载下必填,否则可忽略.
+        ctx.state.appKey = 'home/index';
         await ctx.render('pages/home', locals);
     }
 
