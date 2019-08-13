@@ -1,14 +1,13 @@
 <template>
-    <div id="not-found-app">
-        <div class="container">
-            <div class="text-center page-header">
-                <h1>找不到页面</h1>
-            </div>
+    <div class="container" id="not-found">
+        <div class="text-center page-header">
+            <h1>找不到页面</h1>
         </div>
     </div>
 </template>
 <script>
     export default {
+        appId: 'not-found',
         data() {
             return {}
         },

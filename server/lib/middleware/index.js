@@ -11,6 +11,7 @@ const bodyParser = require('./body-parser');
 const logger = require('./logger');
 const helmet = require('./helmet');
 const stateContext = require('./state-context');
+const compress = require('./compress');
 module.exports.default = module.exports = {
     session,
     catchError,
@@ -24,5 +25,6 @@ module.exports.default = module.exports = {
     bodyParser,
     logger,
     helmet,
-    stateContext
+    stateContext,
+    compress
 };

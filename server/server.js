@@ -29,4 +29,6 @@ middleware.webpack(server);
 
 middleware.proxy(server);
 
+middleware.compress(server);
+
 middleware.listen(server);
