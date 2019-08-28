@@ -10,7 +10,7 @@
 ### 前端
 
 * `样式`:scss.
-* `库管理`:npm,bower
+* `库管理`:npm
 * `框架`:vue2.
 * `模板引擎`:handlebars4.
 * `打包`:webpack4.
@@ -62,7 +62,6 @@
 
 ``` bash
 npm install    # npm 安装
-bower install  # bower 安装
 ```
 
 
