@@ -31,15 +31,41 @@ module.exports.default = module.exports = async (ctx, options, isReturnFullRespo
         }
         return await axios(options).then(function (res) {
             showInfo(ctx, 'info', res, {
+                params: ctx.params,
                 response: res.data
             });
-            //默认返回data
-            return isReturnFullResponse ? res : res.data;
+            if (isReturnFullResponse) {
+                let setCookie = res.headers["set-cookie"];
+                if (setCookie) {
+                    ctx.res.setHeader('Set-Cookie', setCookie);
+                }
+                return res;
+            } else {
+                return res.data;
+            }
         }).catch(function (res) {
-            showInfo(ctx, 'error', res, {
-                response: res.response.data
-            });
-            return {status: res.response.status, error: res.response.data};
+            //服务器错误
+            if (res.response) {
+                showInfo(ctx, 'error', res, {
+                    params: ctx.params,
+                    response: res.response.data,
+                });
+                if (res.response.status === 500) {
+                    ctx.throw(500);
+                } else if (res.response.status === 401) {
+                    ctx.throw(401);
+                } else {
+                    return {status: res.response.status, error: res.response.data};
+                }
+                //可能网络错误
+            } else {
+                showInfo(ctx, 'error', res, {
+                    params: ctx.params,
+                    code: res.code,
+                    stack: res.stack
+                });
+                return {code: res.code, stack: res.stack, params: ctx.params};
+            }
         });
     }
 };

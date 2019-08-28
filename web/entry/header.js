@@ -9,6 +9,7 @@ import 'minireset.css';
 import '../styles/index.scss';
 
 if (APPSTATE.isMockAPI) {
+    reuiqre('mock');
     require('../mock');
 }
 import * as filters from '../filters'

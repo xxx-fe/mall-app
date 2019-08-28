@@ -4,7 +4,7 @@ const context = require.context('../app', true, /\.vue$/, 'lazy');
  */
 
 let keys = context.keys().map(key => {
-    //美化路径如 ./home/index.vue -> home/index 对应的 ctx.state.appKey = '/home/index'
+    //美化路径如 ./home/index.vue -> home/index 对应的 ctx.state.appKey = 'home/index'
     return key.replace(/\.vue/, '').replace('\./', '');
 });
 
