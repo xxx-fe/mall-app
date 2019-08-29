@@ -390,8 +390,6 @@ apiServer : 'http://localhost:3334'
 
 * [mockjs](http://mockjs.com/)
 
-```
-
 ### 1.服务端Mock
 
 #### 1.1 编写/server/mock/**/.json文件.
