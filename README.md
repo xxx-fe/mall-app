@@ -3,7 +3,7 @@
 
 > vue koa 应用脚手架
 
-支持多语言,多页应用,Mock,babel7,动态按需加载.
+支持多语言路由,多页应用,Mock,babel7,动态按需加载.
 
 ## Architecture
 
@@ -386,14 +386,10 @@ apiServer : 'http://localhost:3334'
 
 `isMockAPI:true`
 
-#### 引用:
+#### 入口会动态引用:
 
 * [mockjs](http://mockjs.com/)
 
-在页面渲染时在`/header/index.js`前插入`/public/vender/mock-min.js`.
-
-```javascript
-<script src="/public/vendor/mockjs/dist/mock-min.js"></script><script src="header.js"></script>
 ```
 
 ### 1.服务端Mock
@@ -474,7 +470,7 @@ buildPath:
 从这些配置文件打包 `/webpack.base.conf` , ` /webpack.entry.conf.js` , `/webpack.prod.conf` , `/web/pages/**/index.js`    
 **主要从`/web/pages/**/index.js`打包所有js.**
 
-## 多语言方案(locales)
+## 多语言
 
 ### 1.配置参数
 * ```/config.yml```
@@ -581,51 +577,144 @@ module.exports = {
 };
 ```
 
-## 中台自定义属性
+## 中台自定义属性/方法
 
-### ctx.appKey
+### 属性
 
-按需加载下必填,否则可忽略.
+#### ctx.appKey
 
-### ctx.appId
+*  类型: **String**
+*  默认值: **''** 
+*  用法:
+ 
+```javascript
+ctx.appKey = 'home/index'
+```
+按需加载模式的页面路由.require.context根据appKey渲染vue页面.
 
-必填,入口根据此ID渲染vue页面.否则全流程需要手动配置.
+#### ctx.appId
 
-### ctx.appName
+*  类型: **String**
+*  默认值: **''** 
+*  用法:
+
+```javascript
+let locals = {
+    appId: 'home',
+    ...
+};
+await ctx.render('pages/common', locals);
+```
+
+handlebar模版引擎根据appId返回页面.
+
+#### ctx.appName
+
+*  类型: **String**
+*  默认值: **''** 
+*  用法:
+
+```javascript
+ctx.appName = 'app'
+```
 
 区分多入口app,避免读取样式不正确.一个app不需要设置.
 
-### ctx.axios
+#### ctx.router
 
-发起请求方法.
+*  类型: **Array\<object\>**
+*  示例:
 
-### ctx.logger
+```javascript
+ctx.logger.info(ctx.router);
+```
 
-日志方法.
+当前ctx全部匹配的路由.
 
-### ctx.setState
+### 方法
 
-设置ctx.state通用属性.
+#### ctx.axios(ctx, options[,isReturnFullResponse])
 
-### ctx.router
+*  参数
+    * {Object} ctx
+    * {Object} options
+    * {Boolean} isReturnFullResponse 是否返回全部参数, 默认res.data 
+*  示例:
 
-全部路由.
+```javascript
+ctx.axios(ctx, {
+    url: '/api/xxx',
+    method: 'post',
+    data: ctx.request.body
+});
+```
+
+引用封装 [axios](https://www.npmjs.com/package/axios) 的发起请求方法.
+
+#### ctx.logger
+
+引用 [log4js](https://www.npmjs.com/package/log4js) 的日志方法.
+
+*  示例:
+
+```javascript
+ctx.logger.info('示例');
+```
+
+#### ctx.setState
+
+*  示例:
+
+```javascript
+ctx.setState(ctx);
+```
+
+设置ctx.state自定义通用属性.
 
 
-### ctx其他属性
+## 路由属性/方法
 
-根据开发环境合并所有config.yml的属性.
+路由根据 * ```/server/router/**/**.js``` 配置生成路由. 
 
+### path
+*  类型: **String**
+*  默认值: **''** 
 
-## 路由
+路由路径. 
 
-根据 * ```/server/router/**/**.js``` 配置生成路由. 
+### ctrl
+*  类型: **async Function**
+*  默认值: undefined
 
-*  obj.path 路由路径    
-*  obj.ctrl 路由控制器    
-*  obj.method 路由方法    
-*  obj.isAuthenticated 路由是否需要权限    
-   假设逻辑为真重定向到登录页面    
-*  obj.noContactToRoute 不合并到ctx.router  
-   每个请求都会经过```/server/middleware/state-context.js```中间件.但只会匹配不带/api的页面路由.    
-   noContactToRoute:true表示不经过这个中间件.因为```state-context```中间件根据ctx.router判断.
+路由控制器.
+   
+### method
+*  类型: **String**
+*  默认值: **get** 
+
+路由方法.
+
+### isAuthenticated
+*  类型: **Boolean**
+*  默认值: **undefined** 
+*  示例:
+
+```javascript
+{path: 'user/profile', ctrl: page.profile, method: 'post', isAuthenticated: true}
+```
+
+路由是否需要权限. isAuthenticated:true, **重定向到登录页面(自定义).**
+
+### noContactToRoute
+*  类型: **Boolean**
+*  默认值: **undefined** 
+*  示例:
+
+```javascript
+{path: 'captcha', ctrl: page.captcha, noContactToRoute: true} //普通验证码不需要权限验证
+```
+
+不合并到ctx.router.
+
+每个请求都会经过```/server/middleware/state-context.js```中间件.但只会匹配不带/api的页面路由.    
+noContactToRoute:true表示不经过这个中间件.因为```state-context```中间件根据ctx.router判断.
