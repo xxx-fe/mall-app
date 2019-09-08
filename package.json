@@ -65,6 +65,7 @@
     "sass-loader": "^7.1.0",
     "semver": "^6.3.0",
     "shelljs": "^0.8.3",
+    "svg-sprite-loader": "^4.1.6",
     "url-loader": "^2.1.0",
     "vue-loader": "^14.2.1",
     "vue-style-loader": "^4.0.2",

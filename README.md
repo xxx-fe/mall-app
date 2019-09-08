@@ -1,7 +1,7 @@
 # mall-app
 
 
-> vue koa 应用脚手架
+> vue koa 应用脚手架, 3步建立应用页面
 
 支持多语言,多页应用,Mock,babel7,动态按需加载.
 
@@ -14,7 +14,7 @@
 * `框架`:vue2.
 * `模板引擎`:handlebars4.
 * `打包`:webpack4.
-* `图标`:iconfont.
+* `图标`:iconfont,svg-sprite-loader.
 * `组件库`:element-ui.
 
 ### 中台
@@ -99,6 +99,7 @@ const api = require('../api/index');
 class page {
     async home(ctx, _next) {
         let locals = {
+            appId: 'home',
             title: 'home-page'
         };
         //按需加载下必填,否则可忽略.
@@ -116,9 +117,9 @@ class page {
 module.exports = new page();
 ```
 
-### 3.新建应用视图
+#### 应用视图
 
-* ```/server/view/pages/home.hbs```
+* ```/server/view/pages/common.hbs``` 通用视图
 
 ```handlebars
 {{#extend "layout-default"}}          # 使用layout-default布局
@@ -126,7 +127,7 @@ module.exports = new page();
         {{{parseUrl 'app.css'}}}      # app应用的css,直接引用
     {{/content}}                      # 不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
     {{#content "body"}}
-        <div id="home-app"></div>
+        <div id="{{appId}}"></div>
         {{{parseUrl 'app.js'}}}       # app应用的js(相应webpack.entry)
     {{/content}}
 {{/extend}}
@@ -173,7 +174,7 @@ module.exports = new page();
 
 如果存在多个app如app1,app2.在控制器就需要设置ctx.state.appName ='app的名字'.否则读取样式会不正确.
 
-### 4.新建应用页面
+### 3.新建应用页面
 
 * ```/web/pages/app/home/index.vue```
 

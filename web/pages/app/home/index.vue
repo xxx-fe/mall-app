@@ -19,11 +19,19 @@
                 </div>
             </div>
         </div>
+
+        <div class="icon-box">
+            <svg-icon icon-class="home"/>
+            <svg-icon icon-class="my"/>
+            <svg-icon icon-class="home-active"/>
+            <svg-icon icon-class="my-active"/>
+        </div>
+
         <back-to-top></back-to-top>
     </div>
 </template>
 <script>
-    import backToTop from '../../../components/back-to-top';
+    import backToTop from '../../../components/back-to-top/index';
 
     export default {
         appId: 'home',
@@ -47,9 +55,10 @@
     }
 </script>
 <style lang="scss" scoped>
-    .row{
+    .row {
         margin: 20px 0px;
     }
+
     .page-header {
         margin: 80px 0 20px;
     }
@@ -63,32 +72,47 @@
 
     .img-box {
         margin: 0px 140px;
+
         .item {
             width: 300px;
             height: 150px;
             position: relative;
             float: left;
             margin-right: 10px;
+
             .caption {
                 position: absolute;
                 bottom: 0;
                 width: 100%;
                 text-align: center;
                 background: #fff;
-                h3{
+
+                h3 {
                     font-size: 20px;
                 }
             }
+
             &:nth-child(3n) {
                 margin-right: 0;
             }
+
             &:nth-child(n+4) {
                 margin-top: 50px;
             }
+
             img {
                 width: 300px;
                 height: 150px;
             }
+        }
+    }
+
+    .icon-box {
+
+        margin: 20px 140px 0px 140px;
+        svg {
+            height: 54px;
+            width: 54px;
         }
     }
 </style>

@@ -3,6 +3,8 @@ import Vue from 'vue';
 global.Vue = Vue;
 Vue.config.productionTip = false;
 
+import '../icons'
+
 require('../global');
 
 import 'minireset.css';
