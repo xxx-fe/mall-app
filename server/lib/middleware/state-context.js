@@ -11,8 +11,14 @@ module.exports.default = module.exports = async (app) => {
             let matchPageRoute = !isEmpty(pathToRegexp(routerItem.path).exec(ctx.path));
             if (matchPageRoute) {
                 app.context.setState(ctx);
-
                 //用户设定
+                ctx.state.user = ctx.session.user || '';
+                ctx.state.isLogin = false;
+                if (isEmpty(ctx.session.user)) {
+                    //用户信息接口逻辑
+                } else {
+                    ctx.state.isLogin = true;
+                }
 
                 //路由权限判断
                 if (routerItem.isAuthenticated) {

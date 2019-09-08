@@ -43,7 +43,7 @@
         methods: {},
         mounted() {
             axios.post('/api/list').then(response => {
-                console.log(response);
+                console.log(response.data);
                 this.list = response.data.list
             }, response => {
                 console.log(response);

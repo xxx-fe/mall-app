@@ -30,10 +30,6 @@ const appendFileForDev = (ctx, url) => {
                     html.push(`<script src="${localeJS}"></script>`);
                 }
             }
-            //插入mockjs
-            if (ctx.app.context.isMockAPI) {
-                html.push(`<script src="/public/vendor/mockjs/dist/mock-min.js"></script>`);
-            }
             //不插入全局entry
             if (!ctx.globalEntry.includes(url)) {
                 html.push(`<script src="${url}"></script>`);
