@@ -30,18 +30,21 @@ const appendFileForDev = (ctx, url) => {
                     html.push(`<script src="${localeJS}"></script>`);
                 }
             }
+            //插入mockjs
+            if (ctx.app.context.isMockAPI) {
+                html.push(`<script src="/public/vendor/mock-min.js"></script>`);
+                html.push(`<script src="/web/mock/index.js"></script>`);
+            }
             //不插入全局entry
             if (!ctx.globalEntry.includes(url)) {
                 html.push(`<script src="${url}"></script>`);
             }
             return html.join('');
-        }
-        else {
+        } else {
             if (!ctx.globalEntry.includes(url) && url.indexOf('/') === -1) {
                 if (ctx.originalUrl.match(new RegExp('\/', 'g')).length > 0) {
                     return `<script src="/${url}"></script>`;
-                }
-                else {
+                } else {
                     return `<script src="${url}"></script>`;
                 }
             }
@@ -67,8 +70,7 @@ const appendFileForProd = (ctx, url) => {
         if (cssUrl) {
             html.push(`<link href="${cssUrl}" type="text/css" rel="stylesheet"/>`);
         }
-    }
-    else if (url.indexOf('.js') > -1) {
+    } else if (url.indexOf('.js') > -1) {
         let jsUrl = manifest[url];
         //头部插入通用chunks
         if (url === 'header.js') {

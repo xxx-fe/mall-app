@@ -1,5 +1,3 @@
-import './prototype/browser';
-
 import './window/url-parse'
 
 import './vendor/promise';

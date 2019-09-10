@@ -25,15 +25,6 @@ keys.map(function (item) {
  * 不按需加载模式
  */
 // context.keys().forEach(key => {
-//     const fileModule = context(key).default;
-//     import(fileModule);
-//     let appId = fileModule.appId;
-//     if (document.getElementById(appId)) {
-//         new Vue({
-//             render: h => h(fileModule)
-//         }).$mount('#' + appId);
-//         return false;
-//     }
 //     context(key).then(file => {
 //         const fileModule = file.default;
 //         if (document.getElementById(fileModule.appId)) {

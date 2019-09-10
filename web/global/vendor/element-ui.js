@@ -52,7 +52,7 @@ Vue.use(Dropdown);
 Vue.use(DropdownMenu);
 Vue.use(DropdownItem);
 Vue.use(Upload);
-global.$message = Vue.prototype.$message = Message;
 Vue.use(Loading.directive);
 
 Vue.prototype.$loading = Loading.service;
+Vue.prototype.$message = Message;

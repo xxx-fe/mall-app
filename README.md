@@ -40,9 +40,7 @@
 │    ├── view                                   #     视图
 │    ├── server.js                              #     服务端入口
 ├── dist                                        # 生产目录
-├── public                                      # 公共资源(例如访问http://localhost:3333/public/img/bg.jpg)
-│    ├── img                                    #     图片
-│    └── vendor                                 #     第三方插件
+├── public                                      # 公共资源
 ├── web                                         # 前端(vue,js,css...)
 │    ├── components                             #     组件
 │    ├── entry                                  #     入口
@@ -73,7 +71,7 @@ npm run build  # 构建项目
 npm run prod   # 启动生产模式(prod)
 ```
 
-## example
+## 例子
 
 ### 1.新建应用路由
 
@@ -103,7 +101,8 @@ class page {
         };
         //按需加载下必填,否则可忽略.
         ctx.state.appKey = 'home/index';
-        await ctx.render('pages/home', locals);
+        //使用common通用视图
+        await ctx.render('pages/common', locals);
     }
 
     async list(ctx, _next) {
@@ -116,9 +115,9 @@ class page {
 module.exports = new page();
 ```
 
-#### 应用视图
+#### 通用视图
 
-* ```/server/view/pages/common.hbs``` 通用视图
+* ```/server/view/pages/common.hbs```
 
 ```handlebars
 {{#extend "layout-default"}}          # 使用layout-default布局
@@ -126,7 +125,7 @@ module.exports = new page();
         {{{parseUrl 'app.css'}}}      # app应用的css,直接引用
     {{/content}}                      # 不需要新建,build时会抽取vue的style成独立的文件.否则生产模式看不到样式.
     {{#content "body"}}
-        <div id="{{appId}}"></div>
+        <div id="{{appId}}"></div>    # 控制器带过来的ctx.appId
         {{{parseUrl 'app.js'}}}       # app应用的js(相应webpack.entry)
     {{/content}}
 {{/extend}}
@@ -142,7 +141,7 @@ module.exports = new page();
 
 #### parseUrl
 
-解析url, handlebars自定义helpers.结合ctx.state.appName,根据当前开发环境返回正确的url.
+解析url,handlebars自定义helpers.根据当前开发环境返回正确的url.
 
 **dev**
 
@@ -236,14 +235,6 @@ keys.map(function (item) {
 //         }).$mount('#' + appId);
 //         return false;
 //     }
-//     context(key).then(file => {
-//         const fileModule = file.default;
-//         if (document.getElementById(fileModule.appId)) {
-//             new Vue({
-//                 render: h => h(fileModule)
-//             }).$mount('#' + fileModule.appId);
-//         }
-//     });
 // });
 
 
@@ -391,6 +382,14 @@ apiServer : 'http://localhost:3334'
 
 * [mockjs](http://mockjs.com/)
 
+```javascript
+{{{parseUrl 'header.css' 'header.js'}}}
+```
+↓↓↓
+```html
+<script src="/public/vendor/mockjs/dist/mock-min.js"></script>
+```
+
 ### 1.服务端Mock
 
 #### 1.1 编写/server/mock/**/.json文件.
@@ -416,14 +415,15 @@ apiServer : 'http://localhost:3334'
 ```javascript
 Mock.mock('/api/list', 'post', function () {
     return Mock.mock({
-        "list|1-10": [{
+        "list|5-10": [{
             'name': '@cname',
-            'imageUrl': 'https://placeholdit.imgix.net/~text?txtsize=50&bg=323232&txtclr=ffffff&txt=150%C3%97300&w=300&h=150',
+            'imageUrl': 'http://placehold.it/300x150/f69/fff',
             'description': '@cname'
         }
         ]
     });
 });
+
 ```
 **优先级:前端Mock文件>后端Mock文件.否则报500.**
 
@@ -476,9 +476,9 @@ buildPath:
 
 ```yml
 ...
-#多语言路由前缀
+# 多语言路由前缀
 locales: ['zh', 'en'[,.]]
-#webpack构建路径(entry)
+# webpack构建路径(entry)
 buildPath:
      -
        #多语言入口
@@ -548,6 +548,7 @@ data() {
 以下路径的文件根据原本代码逻辑,自动引用所有js,**无需手动引入**.
 
 * `/server/lib/context/**.js`
+
 
 * `/server/router/**.js`
 
