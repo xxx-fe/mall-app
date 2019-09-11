@@ -1,1 +1,1 @@
-window.footer = 'mallapp-footer';
+window.footer = 'mall-app-footer';

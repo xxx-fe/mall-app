@@ -1,11 +1,12 @@
 # mall-app
 
 
-> vue koa 应用脚手架, 3步建立应用页面
+> vue,koa应用脚手架,3步建立应用页面
 
 支持多语言路由,多页应用,Mock,babel7,动态按需加载.
 
-## Architecture
+
+## 架构
 
 ### 前端
 
@@ -18,8 +19,7 @@
 * `组件库`:element-ui.
 
 ### 中台
-* `框架`:koa2, nodejs>=7
-
+* `框架`:koa2, nodejs>=7.6.0
 
 ## 目录结构
 
@@ -35,7 +35,7 @@
 │    │    ├── middleware                        #       中间件
 │    │    ├── utils                             #       通用方法
 │    │    └── vendor                            #       第三方插件
-│    ├── mock                                   #     模拟数据
+│    ├── mock                                   #     中台Mock
 │    ├── router                                 #     路由(动态加载文件)
 │    ├── view                                   #     视图
 │    ├── server.js                              #     服务端入口
@@ -47,13 +47,14 @@
 │    ├── filters                                #     过滤
 │    ├── global                                 #     全局设置
 │    ├── mixins                                 #     混入
-│    ├── mock                                   #     模拟数据
-│    ├── pages                                  #     页面                  
+│    ├── mock                                   #     前台Mock
+│    ├── pages                                  #     页面
+│    │     └── /**/index.js                     #     app入口 
 │    ├── styles                                 #     样式
-│    ├── webpack.entry.conf.js                  #     入口配置文件
-│    ├── webpack.dev.conf.js                    #     开发模式配置文件
-│    └── webpack.pord.conf.js                   #     生产模式配置文件
-│   config.yml                                  #     通用配置文件,整个脚手架很多功能都与它有关
+│    ├── webpack.entry.conf.js                  #     通用入口配置
+│    ├── webpack.dev.conf.js                    #     app入口配置
+│    └── webpack.pord.conf.js                   #     其他配置
+└── config.yml                                  #     通用配置文件,整个脚手架很多功能都与它有关
 ```
 
 ## 安装
@@ -61,7 +62,6 @@
 ``` bash
 npm install    # npm 安装
 ```
-
 
 ## 命令
 
@@ -71,7 +71,7 @@ npm run build  # 构建项目
 npm run prod   # 启动生产模式(prod)
 ```
 
-## 例子
+## 3步建立应用页面
 
 ### 1.新建应用路由
 
@@ -115,7 +115,142 @@ class page {
 module.exports = new page();
 ```
 
-#### 通用视图
+### 3.新建应用页面
+
+* ```/web/pages/app/home/index.vue```
+
+```javascript
+...
+<script>
+    export default {
+        appId: 'home', //必填,入口根据此ID渲染
+        data () {
+            return {
+                list: ''
+            }
+        },
+        mounted(){
+            this.$http.post('/api/list').then(response => {
+                console.log(response);
+                this.list = response.data.list
+            }, response => {
+                console.log(response);
+            })
+        }
+    }
+</script>
+...
+```
+
+## 重点流程说明
+
+1.访问页面    
+2.Node路由中间件    
+3.使用handlebars模板引擎    
+4.Node其他中间件    
+5.显示页面(APPSTATE存在)    
+
+## 入口配置
+
+* ```/webpack.entry.conf.js ```
+
+**任何模式都有效,通用入口配置.**
+
+**,处在不同位置.在开发,生产模式webapck构建时自动合并引入webpack.entry.(不做其他属性合并).一般情况不作其他属性修改.**
+```javascript
+module.exports ={
+    header: './web/entry/header.js', //全局头部通用文件(引用vue,全局样式...)
+    // footer: './web/entry/footer.js', //全局底部通用文件(比如统计数据...)
+};
+```
+
+`header.js`:不支持删除,在生产模式时,紧接着插入manifest.js,vendor.js.
+
+`footer.js`:支持删除.
+
+* ```/webpack.dev.conf.js```
+
+**开发模式有效,app入口配置.构建会合并所有属性.**
+
+**所有的app入口都在`webpack.dev.conf.js`配置. 默认是按需加载.**
+
+```javascript
+module.exports ={
+    entry: {
+        'app': './web/pages/app/index.js',
+        'app2': './web/pages/app2/index.js',
+    },
+    //devtool: '#cheap-module-eval-source-map'
+    ...
+};
+```
+
+
+
+合并后的实际入口
+
+```javascript
+entry: {
+    'app': [
+        './web/entry/header.js', 
+        './web/entry/footer.js' , 
+        './web/pages/app/index.js' , 
+        'webpack-hot-client/client'
+    ],
+    'app2': [
+        './web/entry/header.js', 
+        './web/entry/footer.js' , 
+        './web/pages/app/index.js' , 
+        'webpack-hot-client/client'
+    ]
+}
+```
+`webpack-hot-client/client(热加载)`: 开发模式时每个入口自动加入.
+
+* ```/webpack.prod.conf.js```
+
+**生产模式有效,其他配置.构建会合并所有属性.**
+
+```javascript
+module.exports ={
+    ...
+   new ManifestPlugin({
+       publicPath: '/dist/'
+   })
+    ...
+};
+```
+
+合并后的实际入口
+
+```javascript
+entry: {
+    'app': ['./web/pages/app/index.js'],
+    'app2': ['./web/pages/app2/index.js'],
+    header: ['./web/entry/header.js'],
+    footer: ['./web/entry/footer.js']
+}
+```
+
+`/web/pages/**/index.js` 都是app. 这里,`app`, `app2` 2个app,甚至更多,即多页应用.
+
+`app`, `app2`,分别叫主app,其他app,还可以有另外app...等. 名字随你.
+
+脚手架默认按需加载,能满足大多数app开发,app这个入口一般一个即可.
+ 
+ **项目只保留1个app,多app需另建.**
+
+## 视图
+
+#### 引用
+
+[handlebars(模板引擎)](https://github.com/wycats/handlebars.js)
+
+[handlebars-layouts(模板引擎布局helpers)](https://github.com/shannonmoeller/handlebars-layouts)
+
+`/server/view/layout/**.hbs` 以文件名注册为`handlebars partial.`
+
+### 通用视图
 
 * ```/server/view/pages/common.hbs```
 
@@ -131,15 +266,7 @@ module.exports = new page();
 {{/extend}}
 ```
 
-- `/server/view/layout/**.hbs` 以文件名注册为`handlebars partial`.
-
-#### 引用:
-
-* [handlebars(模板引擎)](https://github.com/wycats/handlebars.js)
-
-* [handlebars-layouts(模板引擎布局helpers)](https://github.com/shannonmoeller/handlebars-layouts)
-
-#### parseUrl
+### parseUrl
 
 解析url,handlebars自定义helpers.根据当前开发环境返回正确的url.
 
@@ -172,82 +299,14 @@ module.exports = new page();
 
 如果存在多个app如app1,app2.在控制器就需要设置ctx.state.appName ='app的名字'.否则读取样式会不正确.
 
-### 3.新建应用页面
-
-* ```/web/pages/app/home/index.vue```
-
-```javascript
-...
-<script>
-    export default {
-        appId: 'home', //必填,入口根据此ID渲染
-        data () {
-            return {
-                list: ''
-            }
-        },
-        mounted(){
-            this.$http.post('/api/list').then(response => {
-                console.log(response);
-                this.list = response.data.list
-            }, response => {
-                console.log(response);
-            })
-        }
-    }
-</script>
-...
-```
-## 应用入口
-
-默认按需加载,如不需要按需加载注释/删除相关代码,那么ctx.state.appKey可忽略.
-
-* ```/web/pages/app/index.js```
-
-```javascript
-const context = require.context('../app', true, /\.vue$/, 'lazy');
-//按需加载模式
-let keys = context.keys().map(key => {
-    return key.replace(/\.vue/, '').replace('\./', '');
-});
-
-keys.map(function (item) {
-    if (item === APPSTATE.appKey) {
-        context(`./${item}.vue`).then(file => {
-            let fileModule = file.default;
-            if (document.getElementById(fileModule.appId)) {
-                new Vue({
-                    render: h => h(fileModule)
-                }).$mount('#' + fileModule.appId);
-            }
-        });
-    }
-});
-
-//不按需加载模式
-// context.keys().forEach(key => {
-//     const fileModule = context(key).default;
-//     import(fileModule);
-//     let appId = fileModule.appId;
-//     if (document.getElementById(appId)) {
-//         new Vue({
-//             render: h => h(fileModule)
-//         }).$mount('#' + appId);
-//         return false;
-//     }
-// });
-
-
-```
-
 默认按需加载.ctx.appKey填上相关vue的路径即可.
 
 **浏览: http://localhost:3333/**
 
 
-## APPSTATE(浏览器端)
+## APPSTATE
 
-整个app的传递信息(ctx.state封装),部分由 ```/config.yml```合成.
+**浏览器端**, 整个app的传递信息(ctx.state封装),部分由 ```/config.yml```合成.
 
 * ```/server/view/layout/layout-default.hbs```
 ```html
@@ -273,98 +332,20 @@ keys.map(function (item) {
 ↓↓↓
 ```javascript
 <script type="text/javascript">
-    window.APPSTATE = {"locale":"zh","publicServer":"","isMockAPI":true,"appName":"app"}
+window.APPSTATE = {
+    locale:'zh',
+    publicServer:'',
+    appName:'app'
+}
 </script>
 ```
 
 查看页面源代码一般会看到以上代码.
 
-
-## webpack配置文件
-* ```/webpack.entry.conf.js```
-
-**任何模式都引用的配置文件**
-
-**作为全局通用的入口文件,处在不同位置.在开发,生产模式webapck构建时自动合并引入webpack.entry.(不做其他属性合并).一般情况不作修改.**
-```javascript
-module.exports ={
-    header: './web/entry/header.js', //全局头部通用文件(引用vue,全局样式...)
-    footer: './web/entry/footer.js', //全局底部通用文件(比如统计数据...)
-};
-```
-
-`header.js`:不支持删除,在生产模式时,紧接着插入manifest.js,vendor.js.
-
-`footer.js`:支持删除.
-
-* ```/webpack.dev.conf.js```
-
-**开发模式时所引用的配置文件,构建会合并所有属性.**
-
-```javascript
-module.exports ={
-    entry: {
-        'app': './web/pages/app/index.js',
-    },
-    //devtool: '#cheap-module-eval-source-map'
-    ...
-};
-```
-
-合并后的实际入口(多入口)
-
-```javascript
-entry: {
-    'app': [
-        './web/entry/header.js', 
-        './web/entry/footer.js' , 
-        './web/pages/app/index.js' , 
-        'webpack-hot-client/client'
-    ],
-    'app2': [
-        './web/entry/header.js', 
-        './web/entry/footer.js' , 
-        './web/pages/app/index.js' , 
-        'webpack-hot-client/client'
-    ]
-}
-```
-`webpack-hot-client/client(hot-reload)`: 开发模式时每个入口自动加入.
-
-* ```/webpack.prod.conf.js```
-
-**生产模式时所引用的配置文件,构建会合并所有属性.**
-
-```javascript
-module.exports ={
-    ...
-    new ManifestPlugin({
-        publicPath: 'http://localhost:3333/app'
-    })
-    ...
-};
-```
-
-合并后的实际入口(多入口)
-
-```javascript
-entry: {
-    'app': ['./web/pages/app/index.js'],
-    'app2': ['./web/pages/app2/index.js'],
-    header: ['./web/entry/header.js'],
-    footer: ['./web/entry/footer.js']
-}
-```
-
-`/web/pages/**/index.js` 都是app. 这里,`app`, `app2` 2个app,甚至更多,即多页应用.
-
-`app`, `app2`,分别叫主app,其他app,还可以有另外app...等. 名字随你.
-
-目前项目默认是按需加载,能满足大多数app开发,app这个入口一般一个即可.
- 
- **项目只保留1个app,多app需另建.**
-
 ## mock
+
+#### 动态引用
+[mockjs](http://mockjs.com/)
 
 * ```/config.yml```
 ```yml
@@ -377,10 +358,6 @@ apiServer : 'http://localhost:3334'
 ```
 
 `isMockAPI:true`
-
-#### 入口会动态引用:
-
-* [mockjs](http://mockjs.com/)
 
 ```javascript
 {{{parseUrl 'header.css' 'header.js'}}}
@@ -419,8 +396,7 @@ Mock.mock('/api/list', 'post', function () {
             'name': '@cname',
             'imageUrl': 'http://placehold.it/300x150/f69/fff',
             'description': '@cname'
-        }
-        ]
+        }]
     });
 });
 
@@ -461,12 +437,12 @@ buildPath:
 
 **dev**
 
-从这些配置文件打包 `/webpack.base.conf` , `/webpack.entry.conf.js` , `/webpack.dev.conf.js`    
+从这些配置文件打包 `/build/webpack.base.conf` , `/webpack.entry.conf.js` , `/webpack.dev.conf.js`    
 **主要从`/webpack.dev.conf.js`配置打包开发需要的entry.**
 
 **prod**
 
-从这些配置文件打包 `/webpack.base.conf` , ` /webpack.entry.conf.js` , `/webpack.prod.conf` , `/web/pages/**/index.js`    
+从这些配置文件打包 `/build/webpack.base.conf` , ` /webpack.entry.conf.js` , `/webpack.prod.conf` , `/web/pages/**/index.js`    
 **主要从`/web/pages/**/index.js`打包所有js.**
 
 ## 多语言
@@ -554,21 +530,23 @@ data() {
 
 例如
 
-* `/test/a.js` 返回foo1方法.
-* `/test/b.js` 返回foo2方法.
+`/test/a.js` 返回foo1方法.
+`/test/b.js` 返回foo2方法.
 
-**动态加载文件,无需手动引入**
 * `/test/index.js` 
+
 ```javascript
+//动态加载文件,无需手动引入
 module.exports = {
     foo1:function(){},
     foo2:function(){}
 };
 ```
 
-**手动引入**
 * `/test/index.js` 
+
 ```javascript
+//手动引入
 let foo1 = require('./a');
 let foo2 = require('./b');
 module.exports = {
