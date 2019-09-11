@@ -5,72 +5,6 @@
 
 支持多语言路由,多页应用,Mock,babel7,动态按需加载.
 
-
-## 架构
-
-### 前端
-
-* `样式`:scss.
-* `库管理`:npm
-* `框架`:vue2.
-* `模板引擎`:handlebars4.
-* `打包`:webpack4.
-* `图标`:iconfont,svg-sprite-loader.
-* `组件库`:element-ui.
-
-### 中台
-* `框架`:koa2, nodejs>=7.6.0
-
-## 目录结构
-
-```text
-.
-├── build                                       # 使用 vue-cli 2.9.3(有修改)
-├── config                                      # 使用 vue-cli 2.9.3(有修改)
-├── server                                      # 服务端(koa,nodejs)
-│    ├── api                                    #     接口
-│    ├── controller                             #     控制器
-│    ├── lib                                    #     库
-│    │    ├── context                           #       上下文(动态加载文件)
-│    │    ├── middleware                        #       中间件
-│    │    ├── utils                             #       通用方法
-│    │    └── vendor                            #       第三方插件
-│    ├── mock                                   #     中台Mock
-│    ├── router                                 #     路由(动态加载文件)
-│    ├── view                                   #     视图
-│    ├── server.js                              #     服务端入口
-├── dist                                        # 生产目录
-├── public                                      # 公共资源
-├── web                                         # 前端(vue,js,css...)
-│    ├── components                             #     组件
-│    ├── entry                                  #     入口
-│    ├── filters                                #     过滤
-│    ├── global                                 #     全局设置
-│    ├── mixins                                 #     混入
-│    ├── mock                                   #     前台Mock
-│    ├── pages                                  #     页面
-│    │     └── /**/index.js                     #     app入口 
-│    ├── styles                                 #     样式
-│    ├── webpack.entry.conf.js                  #     通用入口配置
-│    ├── webpack.dev.conf.js                    #     app入口配置
-│    └── webpack.pord.conf.js                   #     其他配置
-└── config.yml                                  #     通用配置文件,整个脚手架很多功能都与它有关
-```
-
-## 安装
-
-``` bash
-npm install    # npm 安装
-```
-
-## 命令
-
-``` bash
-npm run dev    # 启动开发模式(dev)
-npm run build  # 构建项目
-npm run prod   # 启动生产模式(prod)
-```
-
 ## 3步建立应用页面
 
 ### 1.新建应用路由
@@ -142,13 +76,70 @@ module.exports = new page();
 ...
 ```
 
-## 重点流程说明
+## 架构
 
-1.访问页面    
-2.Node路由中间件    
-3.使用handlebars模板引擎    
-4.Node其他中间件    
-5.显示页面(APPSTATE存在)    
+### 前端
+
+* `样式`:scss.
+* `库管理`:npm
+* `框架`:vue2.
+* `模板引擎`:handlebars4.
+* `打包`:webpack4.
+* `图标`:iconfont,svg-sprite-loader.
+* `组件库`:element-ui.
+
+### 中台
+* `框架`:koa2, nodejs>=7.6.0
+
+## 目录结构
+
+```text
+.
+├── build                                       # 使用 vue-cli 2.9.3(有修改)
+├── config                                      # 使用 vue-cli 2.9.3(有修改)
+├── server                                      # 服务端(koa,nodejs)
+│    ├── api                                    #     接口
+│    ├── controller                             #     控制器
+│    ├── lib                                    #     库
+│    │    ├── context                           #       上下文(动态加载文件)
+│    │    ├── middleware                        #       中间件
+│    │    ├── utils                             #       通用方法
+│    │    └── vendor                            #       第三方插件
+│    ├── mock                                   #     中台Mock
+│    ├── router                                 #     路由(动态加载文件)
+│    ├── view                                   #     视图
+│    ├── server.js                              #     服务端入口
+├── dist                                        # 生产目录
+├── public                                      # 公共资源
+├── web                                         # 前端(vue,js,css...)
+│    ├── components                             #     组件
+│    ├── entry                                  #     入口
+│    ├── filters                                #     过滤
+│    ├── global                                 #     全局设置
+│    ├── mixins                                 #     混入
+│    ├── mock                                   #     前台Mock
+│    ├── pages                                  #     页面
+│    │     └── /**/index.js                     #     app入口 
+│    ├── styles                                 #     样式
+│    ├── webpack.entry.conf.js                  #     通用入口配置
+│    ├── webpack.dev.conf.js                    #     app入口配置
+│    └── webpack.pord.conf.js                   #     其他配置
+└── config.yml                                  #     通用配置文件,整个脚手架很多功能都与它有关
+```
+
+## 安装
+
+``` bash
+npm install    # npm 安装
+```
+
+## 命令
+
+``` bash
+npm run dev    # 启动开发模式(dev)
+npm run build  # 构建项目
+npm run prod   # 启动生产模式(prod)
+```
 
 ## 入口配置
 
@@ -184,8 +175,6 @@ module.exports ={
     ...
 };
 ```
-
-
 
 合并后的实际入口
 
