@@ -1,6 +1,10 @@
 const mixins = {
-    methods: {
-    }
+    data() {
+        return {
+            appState: APPSTATE
+        }
+    },
+    methods: {}
 };
 
 export {mixins}
