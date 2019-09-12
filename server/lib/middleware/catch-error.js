@@ -22,37 +22,23 @@ module.exports.default = module.exports = async (app) => {
                     stack: err.stack || ''
                 }
             };
-            if (status === 500) {
-                if (error.xhr) {
-                    return false;
-                }
-                let message = '出错啦!';
-                let locals = {
-                    title: message
-                };
-                ctx.state.message = message;
-                ctx.state.appKey = 'error/404';
-                await ctx.render('pages/404', locals);
-                //throw err;
+
+            //xhr错误直接返回,其他返回页面
+            if (error.xhr) {
+                ctx.body = error;
             } else {
-                ctx.logger.error(JSON.stringify(error));
-            }
-            if (status === 404) {
-                if (error.xhr) {
-                    return false;
+                if (status === 500) {
+                    await ctx.app.context.render404(ctx, {
+                        title: '出错啦'
+                    });
                 } else {
-                    let locals = {
-                        title: '找不到页面'
-                    };
-                    ctx.state.appKey = 'error/404';
-                    await ctx.render('pages/404', locals);
+                    ctx.logger.error(JSON.stringify(error));
                 }
-            }
-            if (status === 401) {
-                if (error.xhr) {
-                    return false;
-                } else {
-                    await ctx.checkAuth({}, ctx);
+                if (status === 404) {
+                    await ctx.app.context.render404(ctx);
+                }
+                if (status === 401) {
+                    await ctx.checkAuth(ctx);
                 }
             }
         }

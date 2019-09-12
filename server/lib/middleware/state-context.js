@@ -7,13 +7,13 @@ module.exports.default = module.exports = async (app) => {
     app.use(async (ctx, next) => {
         for (let i = 0; i < app.context.router.length; i++) {
             let routerItem = app.context.router[i];
-            //匹配不带/api的页面路由
-            let matchPageRoute = !isEmpty(pathToRegexp(routerItem.path).exec(ctx.path));
+            let route = pathToRegexp(routerItem.path).exec(ctx.path);
+            let matchPageRoute = !isEmpty(route);
             if (matchPageRoute) {
                 app.context.setState(ctx);
                 //用户设定
-                ctx.state.user = ctx.session.user || '';
                 ctx.state.isLogin = false;
+                ctx.state.user = ctx.session.user || '';
                 if (isEmpty(ctx.session.user)) {
                     //用户信息接口逻辑
                 } else {

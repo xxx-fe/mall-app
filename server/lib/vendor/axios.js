@@ -34,11 +34,11 @@ module.exports.default = module.exports = async (ctx, options, isReturnFullRespo
                 params: ctx.params,
                 response: res.data
             });
+            let setCookie = res.headers["set-cookie"];
+            if (setCookie) {
+                ctx.res.setHeader('Set-Cookie', setCookie);
+            }
             if (isReturnFullResponse) {
-                let setCookie = res.headers["set-cookie"];
-                if (setCookie) {
-                    ctx.res.setHeader('Set-Cookie', setCookie);
-                }
                 return res;
             } else {
                 return res.data;
@@ -57,14 +57,9 @@ module.exports.default = module.exports = async (ctx, options, isReturnFullRespo
                 } else {
                     return {status: res.response.status, error: res.response.data};
                 }
-                //可能网络错误
+                //其他错误
             } else {
-                showInfo(ctx, 'error', res, {
-                    params: ctx.params,
-                    code: res.code,
-                    stack: res.stack
-                });
-                return {code: res.code, stack: res.stack, params: ctx.params};
+                ctx.throw(500);
             }
         });
     }
