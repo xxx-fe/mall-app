@@ -116,6 +116,7 @@ module.exports = new page();
 │    ├── entry                                  #     入口
 │    ├── filters                                #     过滤
 │    ├── global                                 #     全局设置
+│    ├── icons                                  #     svg图标
 │    ├── mixins                                 #     混入
 │    ├── mock                                   #     前台Mock
 │    ├── pages                                  #     页面
