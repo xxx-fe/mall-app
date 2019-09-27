@@ -26,7 +26,7 @@
             <svg-icon icon-class="home-active"/>
             <svg-icon icon-class="my-active"/>
         </div>
-
+        <test></test>
         <back-to-top></back-to-top>
     </div>
 </template>
