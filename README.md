@@ -3,14 +3,7 @@
 
 > vue,koa应用脚手架,3步建立应用页面
 
-支持多语言路由,多页应用,Mock,babel7,动态按需加载.
-
-## 应用范围
-
-**适合PC,H5,开发.**
-    
-如果是移动端,请替换组件库,比如使用[vant](https://youzan.github.io/vant/#/zh-CN/intro).    
-如果是SPA,建议使用vue-cli创建再作调整.
+支持多语言路由,多页应用,Mock,babel7,动态按需加载.适合pc,h5开发.
 
 ## 3步建立应用页面
 
@@ -95,9 +88,10 @@ module.exports = new page();
 * `图标`:iconfont,svg-sprite-loader.
 * `组件库`:element-ui.
 
+如果是移动端,请替换UI框架,比如[vant](https://youzan.github.io/vant/#/zh-CN/intro).
+
 ### 中台
 * `框架`:koa2, nodejs>=7.6.0
-
 
 ## 目录结构
 
