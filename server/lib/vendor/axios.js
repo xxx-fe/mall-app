@@ -72,6 +72,8 @@ function showInfo(ctx, type, res, option) {
     };
     let options = JSON.stringify(Object.assign({}, defaults, option));
     if (type === 'info') {
+        //输出过多时截取
+        //ctx.logger.info(options.substr(0, 300));
         ctx.logger.info(options);
     } else if (type === 'error') {
         ctx.logger.error(options);
