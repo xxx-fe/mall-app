@@ -3,7 +3,7 @@
 
 > vue,koa应用脚手架,3步建立应用页面
 
-支持多语言路由,多页应用,Mock,babel7,动态按需加载.
+支持多语言路由,多页应用,Mock,babel7,动态按需加载.适合pc,h5开发.
 
 ## 3步建立应用页面
 
@@ -88,6 +88,8 @@ module.exports = new page();
 * `图标`:iconfont,svg-sprite-loader.
 * `组件库`:element-ui.
 
+如果是移动端,请替换UI框架,比如[vant](https://youzan.github.io/vant/#/zh-CN/intro).
+
 ### 中台
 * `框架`:koa2, nodejs>=7.6.0
 
@@ -148,7 +150,7 @@ npm run prod   # 启动生产模式(prod)
 
 **任何模式都有效,通用入口配置.**
 
-**,处在不同位置.在开发,生产模式webapck构建时自动合并引入webpack.entry.(不做其他属性合并).一般情况不作其他属性修改.**
+**处在不同位置.在开发,生产模式webapck构建时自动合并引入webpack.entry.(不做其他属性合并).一般情况不作其他属性修改.**
 ```javascript
 module.exports ={
     header: './web/entry/header.js', //全局头部通用文件(引用vue,全局样式...)
