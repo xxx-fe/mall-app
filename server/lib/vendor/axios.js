@@ -59,6 +59,7 @@ module.exports.default = module.exports = async (ctx, options, isReturnFullRespo
                 }
                 //其他错误
             } else {
+                ctx.logger.error(res);
                 ctx.throw(500);
             }
         });
