@@ -8,3 +8,4 @@ import './vendor/cookie';
 
 import '../../public/icon-font/iconfont';
 
+global.$query

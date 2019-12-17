@@ -3,19 +3,24 @@ class page {
     async home(ctx, _next) {
         let locals = {
             appId: 'home',
-            title: 'home-page'
+            title: '首页'
         };
         //按需加载下必填,否则可忽略.
         ctx.state.appKey = 'home/index';
+        //中台获取数据
+        let data = await api.getList(ctx);
+        ctx.state.list = data;
         //使用common通用视图
         await ctx.render('pages/common', locals);
     }
 
-    async list(ctx, _next) {
+    async test(ctx, _next) {
         let locals = {
-            list: await api.getList(ctx)
+            appId: 'test',
+            title: '测试页面'
         };
-        ctx.body = locals;
+        ctx.state.appKey = 'test/index';
+        await ctx.render('pages/common', locals);
     }
 }
 
