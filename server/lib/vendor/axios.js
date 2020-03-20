@@ -32,6 +32,7 @@ module.exports.default = module.exports = async (ctx, options, isReturnFullRespo
         return await axios(options).then(function (res) {
             showInfo(ctx, 'info', res, {
                 params: ctx.params,
+                query: ctx.query,
                 response: res.data
             });
             let setCookie = res.headers["set-cookie"];
@@ -48,6 +49,7 @@ module.exports.default = module.exports = async (ctx, options, isReturnFullRespo
             if (res.response) {
                 showInfo(ctx, 'error', res, {
                     params: ctx.params,
+                    query: ctx.query,
                     response: res.response.data,
                 });
                 if (res.response.status === 500) {

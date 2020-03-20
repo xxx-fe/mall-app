@@ -27,6 +27,7 @@ module.exports.default = module.exports = async (app) => {
             if (error.xhr) {
                 ctx.body = error;
             } else {
+                ctx.logger.error(JSON.stringify(error));
                 if (status === 500) {
                     await ctx.app.context.render404(ctx, {
                         title: '出错啦'
