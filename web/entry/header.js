@@ -3,7 +3,7 @@ import Vue from 'vue';
 global.Vue = Vue;
 Vue.config.productionTip = false;
 
-global.$ = window.jQuery = require('jquery');
+// global.$ = window.jQuery = require('jquery');
 
 import '../icons';
 
