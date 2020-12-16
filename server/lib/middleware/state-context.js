@@ -5,6 +5,8 @@ const isEmpty = require('lodash/isEmpty');
  */
 module.exports.default = module.exports = async (app) => {
     app.use(async (ctx, next) => {
+        //是否继续下一个中间件
+        let isNext = true;
         for (let i = 0; i < app.context.router.length; i++) {
             let routerItem = app.context.router[i];
             let route = pathToRegexp(routerItem.path).exec(ctx.path);
@@ -20,16 +22,20 @@ module.exports.default = module.exports = async (app) => {
                     ctx.state.isLogin = true;
                 }
 
+                app.context.logger.info('用户信息:' + (!isEmpty(ctx.state.user) ? JSON.stringify(ctx.state.user) : '没登录'));
+
                 //路由权限判断
                 if (routerItem.isAuthenticated) {
-                    // if (!ctx.state.isLogin) {
-                    //     ctx.redirect('/login');
-                    // }
+                    if (isEmpty(ctx.session.user)) {
+                        isNext = false;
+                        await ctx.redirectToLogin(ctx);
+                    }
                 }
                 break;
             }
         }
-        await next();
+        if (isNext)
+            await next();
     });
     app.context.logger.info('state-context initialized');
 };
