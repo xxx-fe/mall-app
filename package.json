@@ -41,7 +41,7 @@
         "koa-views": "^6.2.0",
         "koa-webpack": "^5.2.4",
         "lodash": "^4.17.15",
-        "log4js": "^4.5.1",
+        "log4js": "^6.4.0",
         "mini-css-extract-plugin": "^0.8.0",
         "minireset.css": "^0.0.5",
         "optimize-css-assets-webpack-plugin": "^5.0.3",
