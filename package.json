@@ -67,7 +67,7 @@
         "friendly-errors-webpack-plugin": "^1.7.0",
         "husky": "^4.3.6",
         "lint-staged": "^10.5.3",
-        "node-sass": "^4.12.0",
+        "node-sass": "^7.0.0",
         "nodemon": "^1.19.1",
         "ora": "^3.4.0",
         "postcss-import": "^12.0.1",
